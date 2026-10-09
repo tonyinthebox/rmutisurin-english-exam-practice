@@ -317,12 +317,12 @@
               "prompt": "Where can you go to send e-mail?",
               "options": [
                 "Terminal 3",
-                "Terminal 4",
+                "Terminal 2",
                 "Terminal 5",
                 "Terminal 6"
               ],
-              "answer": 1,
-              "explanation": "Business Center ใน Terminal 4 มี Internet access ระวัง: Terminal 6 (Worldwide Cafe) ก็มีอินเทอร์เน็ตสำหรับแล็ปท็อปของตัวเอง ข้อนี้จึงตอบได้ 2 แบบ"
+              "answer": 3,
+              "explanation": "The Worldwide Cafe ใน Terminal 6 มี Internet connection จึงส่งอีเมลได้ ข้อ A Terminal 3 มีแค่ร้านอาหาร ข้อ B และ C ไม่มีบริการอินเทอร์เน็ต (Business Center ที่มีอินเทอร์เน็ตอยู่ใน Terminal 1, 4 และ 7)"
             },
             {
               "id": "R74",
@@ -345,11 +345,11 @@
                 "Transportation",
                 "Maps"
               ],
-              "answer": 1,
-              "explanation": "ใกล้เคียงที่สุดคือ Food (มีทุกอาคารยกเว้น Terminal 5) ส่วน Business Center มีแค่ Terminal 1, 4, 7 หมายเหตุ: ตามบทอ่าน ไม่มีสิ่งใดมีครบทุกอาคาร"
+              "answer": 3,
+              "explanation": "ข้อความสุดท้ายบอกว่า Information desks in all terminals offer free maps ข้อ B ผิดเพราะร้านอาหารมีทุกอาคาร ยกเว้น Terminal 5 (every terminal but Terminal 5) ข้อ A มีแค่ Terminal 1, 4, 7"
             }
           ],
-          "passage": "INTERNATIONAL AIRPORT — AIRPORT SERVICES\n\n• Business Centers can be found in Terminals 1, 4, and 7. Postage and mailboxes, photocopy machines, Internet access, conference rooms, pay phones, and a hotel hotline are available in all centers.\n\n• A variety of food stands can be found in every terminal but Terminal 5. In addition, you can enjoy fine dining at the Runway View Restaurant in Terminal 3. The Worldwide Cafe in Terminal 6 serves sandwiches, desserts, and coffee, and provides Internet connection for your laptop computer."
+          "passage": "INTERNATIONAL AIRPORT — AIRPORT SERVICES\n\n• Business Centers can be found in Terminals 1, 4, and 7. Postage and mailboxes, photocopy machines, Internet access, conference rooms, pay phones, and a hotel hotline are available in all centers.\n\n• A variety of food stands can be found in every terminal but Terminal 5. In addition, you can enjoy fine dining at the Runway View Restaurant in Terminal 3. The Worldwide Cafe in Terminal 6 serves sandwiches, desserts, and coffee, and provides Internet connection for your laptop computer.\n\n• Information desks in all terminals offer free maps of the airport and the city."
         },
         {
           "id": "lanes",
