@@ -55,6 +55,7 @@
       this.plays = 0;
       this.playing = false;
       this.mode = "file";           // "file" | "speech"
+      this.rate = 1;
       this.onChange = onChange || (() => {});
       this.audio = new Audio();
       this.audio.preload = "metadata";
@@ -77,11 +78,16 @@
       ListeningPlayer.current = this;
       if (this.mode === "file") {
         this.audio.currentTime = 0;
+        this.audio.playbackRate = this.rate;
         this.audio.play().catch(() => { this.mode = "speech"; this.playSpeech(); });
       } else {
         this.playSpeech();
       }
       this.onChange();
+    }
+    setRate(r) {
+      this.rate = r;
+      this.audio.playbackRate = r;
     }
     stop() {
       this.audio.pause();
@@ -105,7 +111,7 @@
         const v = pick(line.speaker);
         if (v) u.voice = v;
         u.lang = v ? v.lang : "en-US";
-        u.rate = 0.92;
+        u.rate = 0.92 * this.rate;
         // vary pitch per speaker so dialogues stay distinguishable on single-voice devices
         u.pitch = 0.85 + (speakers.indexOf(line.speaker) % 3) * 0.2;
         u.onend = () => { i++; this.speechProgress = i / this.script.length; this.onChange(); setTimeout(next, 600); };
@@ -177,17 +183,21 @@
             ${t.timeLimitMinutes ? `<li>${t.timeLimitMinutes} นาที</li>` : ""}
             ${best != null ? `<li class="best">คะแนนสูงสุด ${best}/${n}</li>` : ""}
           </ul>
-          <button class="btn primary">เริ่มทำข้อสอบ</button>
+          <div class="mode-buttons">
+            <button class="btn" data-mode="practice" title="ฟังได้ไม่จำกัด เห็นตัวเลือก เฉลยทันที">โหมดฝึก</button>
+            <button class="btn primary" data-mode="test" title="จับเวลา ฟังได้จำกัด เหมือนสอบจริง">โหมดสอบ</button>
+          </div>
+          <p class="mode-hint small muted">โหมดฝึก: ฟังซ้ำได้ เห็นตัวเลือก เฉลยทันที · โหมดสอบ: จับเวลาเหมือนจริง</p>
         </article>`);
-      card.querySelector("button").addEventListener("click", () => {
+      card.querySelectorAll("[data-mode]").forEach((btn) => btn.addEventListener("click", () => {
         const st = store.get("student", { name: "", sid: "" });
         if (CFG.requireStudentInfo && (!st.name || !st.sid)) {
           alert("กรุณากรอกชื่อและรหัสนักศึกษาก่อนเริ่มทำข้อสอบ");
           form.querySelector(st.name ? "#st-sid" : "#st-name").focus();
           return;
         }
-        location.hash = `#/test/${encodeURIComponent(t.id)}`;
-      });
+        location.hash = `#/${btn.dataset.mode}/${encodeURIComponent(t.id)}`;
+      }));
       list.append(card);
     });
     app.append(list);
@@ -196,17 +206,18 @@
   // live attempt state
   let attempt = null;
 
-  async function viewTest(id) {
+  async function viewTest(id, mode = "exam") {
     clearTimer();
     ListeningPlayer.stopAll();
     let test;
     try { test = await getTest(id); } catch (e) { return showError("ไม่พบข้อสอบชุดนี้", e); }
 
-    attempt = { test, answers: {}, startedAt: Date.now(), sectionIdx: 0, players: {}, submitted: false };
+    const practice = mode === "practice";
+    attempt = { test, mode, answers: {}, startedAt: Date.now(), sectionIdx: 0, players: {}, submitted: false };
     const total = allQuestions(test).length;
 
     // timer
-    if (test.timeLimitMinutes) {
+    if (test.timeLimitMinutes && !practice) {
       const endAt = attempt.startedAt + test.timeLimitMinutes * 60000;
       topbarExtra.innerHTML = `<span class="timer" id="timer"></span>`;
       const tick = () => {
@@ -226,7 +237,8 @@
     const shell = el(`
       <div class="exam">
         <div class="exam-head">
-          <h1>${esc(test.title)}</h1>
+          <h1>${esc(test.title)} <span class="mode-badge ${practice ? "practice" : "exam"}">${practice ? "โหมดฝึก" : "โหมดสอบ"}</span></h1>
+          ${practice ? '<p class="small muted practice-note">ฟังซ้ำได้ไม่จำกัด เลือกคำตอบแล้วเห็นเฉลยทันที ไม่จับเวลา</p>' : ""}
           <div class="progress"><div class="bar"><span id="prog-bar"></span></div><span id="prog-text" class="small muted"></span></div>
           <nav class="tabs" role="tablist"></nav>
         </div>
@@ -234,7 +246,7 @@
         <div class="exam-foot">
           <button class="btn" id="prev-sec">← ส่วนก่อนหน้า</button>
           <button class="btn" id="next-sec">ส่วนถัดไป →</button>
-          <button class="btn primary" id="submit">ส่งคำตอบ</button>
+          <button class="btn primary" id="submit">${practice ? "ดูสรุปผล" : "ส่งคำตอบ"}</button>
         </div>
       </div>`);
     app.append(shell);
@@ -272,7 +284,7 @@
       shell.querySelector("#next-sec").disabled = i === test.sections.length - 1;
       const body = shell.querySelector("#section-body");
       body.innerHTML = "";
-      body.append(renderSection(test, test.sections[i], { mode: "exam", onAnswer: updateProgress }));
+      body.append(renderSection(test, test.sections[i], { mode: practice ? "practice" : "exam", onAnswer: updateProgress }));
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -282,12 +294,17 @@
 
   function renderSection(test, section, { mode, onAnswer }) {
     const review = mode === "review";
+    const practice = mode === "practice";
     const wrap = el(`<section class="section"></section>`);
-    if (!review && section.instructions) wrap.append(el(`<p class="instructions">${esc(section.instructions)}</p>`));
+    if (!review && section.instructions) {
+      // in practice mode, the "listen only / N plays" exam rules don't apply
+      const text = practice && section.groups.some((g) => g.script)
+        ? "ฟังซ้ำได้ไม่จำกัด ปรับความเร็วเสียงได้ เปิดดูบทพูดได้ เลือกคำตอบแล้วจะเห็นเฉลยทันที"
+        : section.instructions;
+      wrap.append(el(`<p class="instructions">${esc(text)}</p>`));
+    }
     if (review) wrap.append(el(`<h2 class="review-sec">${esc(section.title)}</h2>`));
 
-    let qNum = 0;
-    // global numbering
     const order = allQuestions(test).map((x) => x.q.id);
 
     section.groups.forEach((g) => {
@@ -296,18 +313,18 @@
       if (g.label) block.append(el(`<div class="group-label">${esc(g.label)}</div>`));
 
       const inner = el(`<div class="group-inner"></div>`);
-      if (g.script) inner.append(renderPlayer(test, g, review));
+      if (g.script) inner.append(renderPlayer(test, g, mode));
       if (hasPassage) inner.append(el(`<div class="passage">${esc(g.passage).replace(/\n/g, "<br>")}</div>`));
 
       const qs = el(`<div class="questions"></div>`);
       g.questions.forEach((q) => {
-        qNum = order.indexOf(q.id) + 1;
-        qs.append(renderQuestion(q, qNum, { review, onAnswer }));
+        const num = order.indexOf(q.id) + 1;
+        qs.append(renderQuestion(q, num, g, { mode, onAnswer }));
       });
       inner.append(qs);
 
-      if (review && g.script) {
-        const tr = el(`<details class="transcript"><summary>บทพูด (Transcript)</summary></details>`);
+      if ((review || practice) && g.script) {
+        const tr = el(`<details class="transcript"><summary>${practice ? "แสดงบทพูด (Transcript)" : "บทพูด (Transcript)"}</summary></details>`);
         g.script.forEach((l) => tr.append(el(`<p><b>${esc(l.speaker)}:</b> ${esc(l.text)}</p>`)));
         inner.append(tr);
       }
@@ -317,9 +334,10 @@
     return wrap;
   }
 
-  function renderPlayer(test, g, review) {
-    const key = g.id;
-    const limit = review ? null : (g.playLimit ?? null);
+  function renderPlayer(test, g, mode) {
+    const free = mode !== "exam";               // practice & review: unlimited plays
+    const key = `${g.id}:${mode}`;
+    const limit = free ? null : (g.playLimit ?? null);
     const box = el(`
       <div class="player">
         <button class="play" aria-label="เล่นเสียง"><span class="icon">▶</span></button>
@@ -327,8 +345,12 @@
           <div class="pbar"><span></span></div>
           <div class="pinfo small muted"></div>
         </div>
+        ${free ? `<div class="speed" role="group" aria-label="ความเร็วเสียง">
+          <button type="button" data-rate="0.75">0.75x</button>
+          <button type="button" data-rate="1">1x</button>
+        </div>` : ""}
       </div>`);
-    let player = attempt.players[key + (review ? ":r" : "")];
+    let player = attempt.players[key];
     const render = () => {
       const p = player;
       box.querySelector(".pbar span").style.width = `${(p.progress || 0) * 100}%`;
@@ -337,54 +359,70 @@
       btn.disabled = !p.playing && p.remaining <= 0;
       const parts = [];
       if (p.limit != null) parts.push(p.remaining > 0 ? `เล่นได้อีก ${p.remaining} ครั้ง` : "ครบจำนวนครั้งที่ฟังได้แล้ว");
+      else if (mode === "practice" && p.plays) parts.push(`ฟังแล้ว ${p.plays} ครั้ง`);
       if (p.mode === "speech") parts.push("ใช้เสียงสำรองจากเบราว์เซอร์");
       box.querySelector(".pinfo").textContent = parts.join(" · ");
+      box.querySelectorAll("[data-rate]").forEach((b) => b.classList.toggle("on", Number(b.dataset.rate) === p.rate));
     };
     if (!player) {
       player = new ListeningPlayer(test, g, { limit, onChange: () => render() });
-      attempt.players[key + (review ? ":r" : "")] = player;
+      attempt.players[key] = player;
     } else {
       player.onChange = render;
     }
     box.querySelector(".play").addEventListener("click", () => {
-      if (player.playing) {
-        // in exam mode, stopping still uses up the play — like a real test
-        player.stop();
-      } else player.play();
+      // in exam mode, stopping still uses up the play — like a real test
+      if (player.playing) player.stop(); else player.play();
     });
+    box.querySelectorAll("[data-rate]").forEach((b) => b.addEventListener("click", () => {
+      player.setRate(Number(b.dataset.rate));
+      render();
+    }));
     render();
     return box;
   }
 
-  function renderQuestion(q, num, { review, onAnswer }) {
+  // For Question–Response items the options are spoken ("A. ...") — recover their text from the script
+  function spokenOption(g, letter) {
+    const line = (g.script || []).find((l) => l.text.trim().startsWith(`${letter}. `));
+    return line ? line.text.trim().slice(3) : "";
+  }
+
+  function renderQuestion(q, num, g, { mode, onAnswer }) {
     const chosen = attempt.answers[q.id];
+    const practice = mode === "practice";
+    // practice: reveal right after answering; review: always revealed
+    const revealed = mode === "review" || (practice && chosen != null);
     const card = el(`
-      <fieldset class="question ${review ? (chosen === q.answer ? "correct" : "wrong") : ""}">
+      <fieldset class="question ${revealed ? (chosen === q.answer ? "correct" : "wrong") : ""}">
         <legend><span class="qnum">${num}</span><span class="qtext">${esc(q.prompt)}</span></legend>
         <div class="options"></div>
       </fieldset>`);
     const opts = card.querySelector(".options");
+    const showSpoken = mode !== "exam";
     q.options.forEach((o, i) => {
       const letter = LETTERS[i];
-      const isLetterOnly = o.trim() === letter; // listening Q–R items
+      let text = o.trim() === letter ? "" : o;          // letter-only = listening Q–R item
+      if (!text && showSpoken) text = spokenOption(g, letter);
       const lab = el(`
         <label class="option">
-          <input type="radio" name="${esc(q.id)}" value="${i}" ${chosen === i ? "checked" : ""} ${review ? "disabled" : ""}>
+          <input type="radio" name="${esc(q.id)}" value="${i}" ${chosen === i ? "checked" : ""} ${revealed ? "disabled" : ""}>
           <span class="letter">${letter}</span>
-          ${isLetterOnly ? "" : `<span class="otext">${esc(o)}</span>`}
+          ${text ? `<span class="otext">${esc(text)}</span>` : ""}
         </label>`);
-      if (review) {
+      if (revealed) {
         if (i === q.answer) lab.classList.add("is-answer");
         else if (i === chosen) lab.classList.add("is-wrong");
       } else {
         lab.querySelector("input").addEventListener("change", () => {
           attempt.answers[q.id] = i;
           onAnswer && onAnswer();
+          if (practice) card.replaceWith(renderQuestion(q, num, g, { mode, onAnswer }));
         });
       }
       opts.append(lab);
     });
-    if (review && CFG.showAnswersAfterSubmit) {
+    if (revealed && CFG.showAnswersAfterSubmit) {
       const verdict = chosen == null ? "ไม่ได้ตอบ" : chosen === q.answer ? "ถูกต้อง" : `คุณตอบ ${LETTERS[chosen]}`;
       card.append(el(`
         <div class="explain">
@@ -401,8 +439,9 @@
     const { test } = attempt;
     const total = allQuestions(test).length;
     const answered = Object.keys(attempt.answers).length;
+    const practice = attempt.mode === "practice";
     if (!timeUp && answered < total &&
-      !confirm(`ยังไม่ได้ตอบ ${total - answered} ข้อ ต้องการส่งคำตอบเลยหรือไม่?`)) return;
+      !confirm(`ยังไม่ได้ตอบ ${total - answered} ข้อ ต้องการ${practice ? "ดูสรุปผล" : "ส่งคำตอบ"}เลยหรือไม่?`)) return;
 
     attempt.submitted = true;
     attempt.finishedAt = Date.now();
@@ -420,9 +459,9 @@
     // local history
     const history = store.get("history", {});
     const h = history[test.id] || { attempts: [] };
-    h.attempts.push({ at: attempt.finishedAt, score, total });
+    h.attempts.push({ at: attempt.finishedAt, score, total, mode: attempt.mode });
     h.attempts = h.attempts.slice(-20);
-    h.best = Math.max(h.best ?? 0, score);
+    if (!practice) h.best = Math.max(h.best ?? 0, score);   // best score counts exam mode only
     history[test.id] = h;
     store.set("history", history);
 
@@ -436,7 +475,7 @@
     const payload = {
       timestamp: new Date(a.finishedAt).toISOString(),
       name: st.name, studentId: st.sid,
-      testId: test.id, testTitle: test.title,
+      testId: test.id, testTitle: test.title, mode: a.mode === "practice" ? "practice" : "exam",
       score: a.result.score, total: a.result.total,
       sections: Object.fromEntries(a.result.bySection.map((s) => [s.title, `${s.score}/${s.total}`])),
       minutes: Math.round((a.finishedAt - a.startedAt) / 6000) / 10,
@@ -467,7 +506,7 @@
     app.innerHTML = "";
     app.append(el(`
       <section class="card result">
-        <p class="small muted">${esc(test.title)}${result.timeUp ? " · หมดเวลา ส่งคำตอบอัตโนมัติ" : ""}</p>
+        <p class="small muted">${esc(test.title)} · ${attempt.mode === "practice" ? "โหมดฝึก" : "โหมดสอบ"}${result.timeUp ? " · หมดเวลา ส่งคำตอบอัตโนมัติ" : ""}</p>
         <div class="score"><span class="big">${result.score}</span><span class="of">/ ${result.total}</span><span class="pct">${pct}%</span></div>
         <div class="sec-scores">
           ${result.bySection.map((s) => `
@@ -480,7 +519,8 @@
         <p class="small muted">ใช้เวลา ${mins} นาที <span id="sheet-note"></span></p>
         <div class="actions">
           <a class="btn" href="#/">กลับหน้าแรก</a>
-          <a class="btn primary" href="#/test/${encodeURIComponent(test.id)}">ทำอีกครั้ง</a>
+          <a class="btn" href="#/${attempt.mode === "practice" ? "practice" : "test"}/${encodeURIComponent(test.id)}">ทำอีกครั้ง</a>
+          ${attempt.mode === "practice" ? `<a class="btn primary" href="#/test/${encodeURIComponent(test.id)}">ลองโหมดสอบ</a>` : ""}
         </div>
       </section>`));
     updateSheetNote();
@@ -500,11 +540,12 @@
   // ---------- router ----------
   function route() {
     const [view, id] = location.hash.replace(/^#\/?/, "").split("/");
-    if (attempt && !attempt.submitted && view !== "test") {
+    if (attempt && !attempt.submitted && view !== "test" && view !== "practice") {
       // leaving an unfinished test
       attempt = null;
     }
-    if (view === "test" && id) return viewTest(decodeURIComponent(id));
+    if (view === "test" && id) return viewTest(decodeURIComponent(id), "exam");
+    if (view === "practice" && id) return viewTest(decodeURIComponent(id), "practice");
     if (view === "result" && id) return viewResult(decodeURIComponent(id));
     return viewHome();
   }

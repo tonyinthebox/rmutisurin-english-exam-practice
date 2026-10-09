@@ -232,3 +232,23 @@ input:focus-visible, .btn:focus-visible, .option:focus-within { outline: 2px sol
   .exam-foot #submit { flex-basis: 100%; }
   .sec-score { grid-template-columns: 72px 1fr 44px; }
 }
+
+/* ---------- practice mode ---------- */
+.mode-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
+.test-card .mode-buttons .btn { margin-top: 0; }
+.mode-hint { margin: 6px 0 0; }
+.mode-badge {
+  display: inline-block; vertical-align: middle; margin-left: 8px;
+  font-size: .8rem; font-weight: 600; padding: 2px 10px; border-radius: 999px;
+}
+.mode-badge.practice { background: var(--ok-bg); color: var(--ok); }
+.mode-badge.exam { background: var(--surface-2); color: var(--accent); }
+.practice-note { margin: -4px 0 10px; }
+.speed { display: flex; flex: none; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.speed button {
+  font: inherit; font-size: .8rem; padding: 4px 8px; border: 0; cursor: pointer;
+  background: var(--surface); color: var(--muted);
+}
+.speed button + button { border-left: 1px solid var(--line); }
+.speed button.on { background: var(--brand); color: var(--brand-ink); }
+.transcript summary { color: var(--brand); }

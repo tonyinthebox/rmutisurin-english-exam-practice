@@ -15,7 +15,7 @@ function doPost(e) {
 
     const sectionNames = Object.keys(data.sections || {});
     const answerIds = Object.keys(data.answers || {});
-    const header = ["Timestamp", "Name", "Student ID", "Test ID", "Test", "Score", "Total", "Percent", "Minutes"]
+    const header = ["Timestamp", "Name", "Student ID", "Test ID", "Test", "Mode", "Score", "Total", "Percent", "Minutes"]
       .concat(sectionNames)
       .concat(answerIds);
 
@@ -40,6 +40,7 @@ function doPost(e) {
       "Student ID": data.studentId,
       "Test ID": data.testId,
       "Test": data.testTitle,
+      "Mode": data.mode === "practice" ? "ฝึก" : "สอบ",
       "Score": data.score,
       "Total": data.total,
       "Percent": data.total ? Math.round((data.score / data.total) * 100) : "",
