@@ -252,3 +252,11 @@ input:focus-visible, .btn:focus-visible, .option:focus-within { outline: 2px sol
 .speed button + button { border-left: 1px solid var(--line); }
 .speed button.on { background: var(--brand); color: var(--brand-ink); }
 .transcript summary { color: var(--brand); }
+
+/* combined test: part totals */
+.part-scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.part-score { background: var(--surface-2); border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: baseline; }
+.part-score b { font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+.part-score small { font-size: .9rem; color: var(--muted); font-weight: 500; }
+.sec-score { grid-template-columns: 170px 1fr 50px; }
+@media (max-width: 600px) { .sec-score { grid-template-columns: 120px 1fr 44px; font-size: .9rem; } }

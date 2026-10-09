@@ -1,0 +1,572 @@
+{
+  "id": "telp-reading",
+  "title": "TELP – Reading Part",
+  "description": "ข้อสอบ Reading 40 ข้อ (ข้อ 51–90): Incomplete Sentences 14 ข้อ, Text Completion 8 ข้อ, Reading Comprehension 18 ข้อ",
+  "level": "A2–B1",
+  "timeLimitMinutes": 45,
+  "numberOffset": 50,
+  "sections": [
+    {
+      "id": "incomplete",
+      "title": "Incomplete Sentences",
+      "instructions": "เลือกคำหรือวลีที่เติมในช่องว่างแล้วได้ประโยคที่ถูกต้องที่สุด",
+      "groups": [
+        {
+          "id": "sentences",
+          "questions": [
+            {
+              "id": "R51",
+              "prompt": "Because of security concerns, all job applicants are carefully _______ before interviews are granted.",
+              "options": [
+                "screamed",
+                "screened",
+                "scrawled",
+                "scraped"
+              ],
+              "answer": 1,
+              "explanation": "screen (v.) = คัดกรอง ตรวจสอบประวัติ ใช้กับผู้สมัครงาน ตัวเลือกอื่นเป็นคำหน้าตาคล้ายกัน: scream = กรีดร้อง, scrawl = เขียนหวัด, scrape = ขูด"
+            },
+            {
+              "id": "R52",
+              "prompt": "The use of e-mail has caused an _______ leap in business communications throughout the world.",
+              "options": [
+                "unacceptable",
+                "implacable",
+                "inadvertent",
+                "unimaginable"
+              ],
+              "answer": 3,
+              "explanation": "ต้องการ adjective ความหมายบวกขยาย leap (ก้าวกระโดด) unimaginable = เกินจินตนาการ unacceptable = ยอมรับไม่ได้ (ความหมายลบ) implacable = ไม่ยอมลดละ inadvertent = โดยไม่ตั้งใจ"
+            },
+            {
+              "id": "R53",
+              "prompt": "Because of renovations to our offices, future social _______ will be held in the cafeteria.",
+              "options": [
+                "events",
+                "reunions",
+                "councils",
+                "invocations"
+              ],
+              "answer": 0,
+              "explanation": "social events = งานสังสรรค์/กิจกรรมทางสังคม เป็นคู่คำ (collocation) ที่ใช้บ่อย reunion = งานคืนสู่เหย้า council = สภา invocation = การสวดอ้อนวอน"
+            },
+            {
+              "id": "R54",
+              "prompt": "The last company blood drive was _______ a success that we plan on having one every two months.",
+              "options": [
+                "such",
+                "so",
+                "too",
+                "much"
+              ],
+              "answer": 0,
+              "explanation": "โครงสร้าง such + (a/an) + adj + noun + that ช่องว่างตามด้วย a success (นาม) จึงใช้ such ส่วน so ใช้กับ adjective/adverb เช่น so successful that"
+            },
+            {
+              "id": "R55",
+              "prompt": "Consumers are spending less these days _______ reports that the economy is steadily improving.",
+              "options": [
+                "in spite",
+                "because of",
+                "although",
+                "despite"
+              ],
+              "answer": 3,
+              "explanation": "สองส่วนขัดแย้งกัน (ใช้จ่ายน้อยลง ทั้งที่เศรษฐกิจดีขึ้น) และตามด้วยคำนาม reports จึงใช้ despite + noun ข้อ A ขาด of (ต้องเป็น in spite of) ข้อ B ความหมายเป็นเหตุผล ข้อ C although ต้องตามด้วยประโยค"
+            },
+            {
+              "id": "R56",
+              "prompt": "I'm surprised _______ how fast customers get served in this restaurant.",
+              "options": [
+                "on",
+                "at",
+                "in",
+                "for"
+              ],
+              "answer": 1,
+              "explanation": "surprised at = แปลกใจเรื่อง... เป็นคู่ adjective + preposition ที่ต้องจำ (ใช้ surprised by ได้ด้วย)"
+            },
+            {
+              "id": "R57",
+              "prompt": "In order to get a _______, you must bring in the defective product with a valid receipt.",
+              "options": [
+                "reimbursement",
+                "premium",
+                "duplication",
+                "refund"
+              ],
+              "answer": 3,
+              "explanation": "นำสินค้ามีตำหนิ (defective) พร้อมใบเสร็จมาเพื่อขอ refund = เงินคืน reimbursement = การเบิกเงินคืนค่าใช้จ่ายที่จ่ายไปก่อน (เช่น ค่าเดินทาง) premium = เบี้ยประกัน duplication = การทำซ้ำ"
+            },
+            {
+              "id": "R58",
+              "prompt": "Ms. Kim is learning Russian _______ she can communicate with her new father-in-law.",
+              "options": [
+                "so that",
+                "because",
+                "although",
+                "then"
+              ],
+              "answer": 0,
+              "explanation": "so that = เพื่อที่จะ บอกจุดประสงค์ (เรียนภาษารัสเซียเพื่อจะได้คุยกับพ่อสามี) because บอกเหตุผล ไม่เข้ากับ can ที่บอกเป้าหมาย"
+            },
+            {
+              "id": "R59",
+              "prompt": "Making decisions about layoffs isn't _______ our supervisor's job description.",
+              "options": [
+                "within",
+                "into",
+                "about",
+                "inside"
+              ],
+              "answer": 0,
+              "explanation": "within one's job description = อยู่ในขอบเขตหน้าที่ inside ใช้กับพื้นที่ทางกายภาพ ไม่ใช่ขอบเขตหน้าที่"
+            },
+            {
+              "id": "R60",
+              "prompt": "All branch managers must _______ a semi-annual report for the main office by the end of May.",
+              "options": [
+                "compensate",
+                "deliver",
+                "apply",
+                "prepare"
+              ],
+              "answer": 3,
+              "explanation": "prepare a report for = จัดทำรายงานให้... ข้อ B ถ้าใช้ deliver มักตามด้วย to (deliver a report to) compensate = ชดเชย apply = สมัคร/ประยุกต์ใช้"
+            },
+            {
+              "id": "R61",
+              "prompt": "We have just received a troubling _______ on the expected rise in health care costs.",
+              "options": [
+                "accounting",
+                "documentation",
+                "report",
+                "observance"
+              ],
+              "answer": 2,
+              "explanation": "a report on... = รายงานเกี่ยวกับ... ต้องเป็นนามนับได้เพราะมี a ข้างหน้า accounting และ documentation เป็นนามนับไม่ได้ observance = การปฏิบัติตาม (กฎ/ประเพณี)"
+            },
+            {
+              "id": "R62",
+              "prompt": "Could you please elaborate _______ your claim that housekeeping didn't keep your room clean?",
+              "options": [
+                "on",
+                "over",
+                "for",
+                "into"
+              ],
+              "answer": 0,
+              "explanation": "elaborate on = อธิบายเพิ่มเติมในรายละเอียด เป็นคู่ verb + preposition ตายตัว"
+            },
+            {
+              "id": "R63",
+              "prompt": "Our _______ cost-cutting measures will ensure greater profits for the company in the next fiscal year.",
+              "options": [
+                "outrageous",
+                "lucrative",
+                "aggressive",
+                "astounding"
+              ],
+              "answer": 2,
+              "explanation": "aggressive cost-cutting = การลดต้นทุนอย่างจริงจัง/เข้มข้น เป็น collocation ทางธุรกิจ lucrative = ทำกำไรดี (ใช้กับธุรกิจ/งาน ไม่ใช่มาตรการลดต้นทุน) outrageous = อุกอาจ astounding = น่าตะลึง"
+            },
+            {
+              "id": "R64",
+              "prompt": "Shopping on the Internet is for those consumers for _______ going to malls has become a nightmare.",
+              "options": [
+                "who",
+                "whom",
+                "which",
+                "that"
+              ],
+              "answer": 1,
+              "explanation": "หลัง preposition (for) ที่อ้างถึงคน ต้องใช้ whom (for whom) ห้ามใช้ who หรือ that ตามหลัง preposition ส่วน which ใช้กับสิ่งของ"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "text-completion",
+      "title": "Text Completion",
+      "instructions": "อ่านข้อความแล้วเลือกคำที่เหมาะสมที่สุดเติมในช่องว่างที่มีหมายเลขกำกับ",
+      "groups": [
+        {
+          "id": "bank",
+          "label": "Announcement",
+          "questions": [
+            {
+              "id": "R65",
+              "prompt": "Choose the best option for blank (65).",
+              "options": [
+                "has been",
+                "will be",
+                "being",
+                "was"
+              ],
+              "answer": 1,
+              "explanation": "สาขายังไม่เปิด (ประกาศเชิญมางานเปิดวันที่ 22 พฤษภาคม) จึงใช้อนาคต will be ข้อ C being ไม่ใช่กริยาแท้"
+            },
+            {
+              "id": "R66",
+              "prompt": "Choose the best option for blank (66).",
+              "options": [
+                "entertain",
+                "entertainer",
+                "entertaining",
+                "entertainment"
+              ],
+              "answer": 3,
+              "explanation": "ช่องว่างอยู่ในรายการคำนาม refreshments, live ___ and prizes จึงต้องเป็นนาม live entertainment = การแสดงสด ข้อ B entertainer เป็นนามนับได้ ต้องมี a หรือเติม -s"
+            },
+            {
+              "id": "R67",
+              "prompt": "Choose the best option for blank (67).",
+              "options": [
+                "vault",
+                "ledger",
+                "account",
+                "entrance"
+              ],
+              "answer": 2,
+              "explanation": "open a new account = เปิดบัญชีใหม่ vault = ห้องนิรภัย ledger = สมุดบัญชีแยกประเภท"
+            },
+            {
+              "id": "R68",
+              "prompt": "Choose the best option for blank (68).",
+              "options": [
+                "psychological",
+                "professional",
+                "educational",
+                "financial"
+              ],
+              "answer": 3,
+              "explanation": "ธนาคารเป็นหุ้นส่วนด้าน financial needs (ความต้องการทางการเงิน) ข้อ B ซ้ำกับ business needs ที่กล่าวไว้แล้ว"
+            }
+          ],
+          "passage": "Bournesville Bank is pleased to announce the opening of a new branch at 1109 South Boulevard in the Green Lake section of town.\n\nThis __(65)__ a full-service branch where you can be sure of receiving the professional, prompt, and friendly service that you are accustomed to at all Bournesville Bank branches.\n\nPlease join us for the grand opening of our new branch on Monday, May 22, during our regular business hours, 9:00 A.M. to 3:00 P.M. There will be refreshments, live __(66)__, and prizes.\n\nBank staff will be on hand to explain all the services available to our customers. Everyone who opens a new __(67)__ during the Grand Opening will receive a special bonus gift. This gift is our way of saying \"Thank you\" for doing business with us.\n\nBournesville Bank, your partner in all your business and personal __(68)__ needs."
+        },
+        {
+          "id": "profits",
+          "label": "News Article",
+          "questions": [
+            {
+              "id": "R69",
+              "prompt": "Choose the best option for blank (69).",
+              "options": [
+                "Transportation",
+                "Agriculture",
+                "Technology",
+                "Finance"
+              ],
+              "answer": 2,
+              "explanation": "ทั้งสามบริษัทเป็นบริษัทคอมพิวเตอร์ ซอฟต์แวร์ และสื่อสารไร้สาย จึงเป็นข่าวภาค Technology ข้อ D หลอกด้วยคำว่า financial software"
+            },
+            {
+              "id": "R70",
+              "prompt": "Choose the best option for blank (70).",
+              "options": [
+                "to",
+                "of",
+                "by",
+                "at"
+              ],
+              "answer": 0,
+              "explanation": "compared to/with = เมื่อเทียบกับ"
+            },
+            {
+              "id": "R71",
+              "prompt": "Choose the best option for blank (71).",
+              "options": [
+                "debts",
+                "products",
+                "factories",
+                "earnings"
+              ],
+              "answer": 3,
+              "explanation": "บริษัทหวังจะเพิ่ม earnings (รายได้/กำไร) โดยขยายตลาดต่างประเทศ ซึ่งสอดคล้องกับหัวข้อข่าวเรื่องกำไร"
+            },
+            {
+              "id": "R72",
+              "prompt": "Choose the best option for blank (72).",
+              "options": [
+                "cost",
+                "costly",
+                "coasted",
+                "costing"
+              ],
+              "answer": 1,
+              "explanation": "less ___ ขยายคำนาม wireless service จึงต้องเป็น adjective costly = ราคาแพง (more efficient and less costly) ข้อ C coasted เป็นคำหลอกที่เสียงคล้าย"
+            }
+          ],
+          "passage": "PROFITS UP IN __(69)__ SECTOR\n\nGalaxy Systems reported a fourth quarter profit of $250,000, compared __(70)__ a loss of nearly $2 million during the same period last year. This was the first quarter with a profit for the computer company, which began operations five years ago.\n\nAccording to the year-end report from Goldsboro, Inc., the company's profits rose 20%, or $2.5 million, since the end of last year. This is good news for the financial software company, which had been suffering losses during the past several years. The rise in profits is attributed to the introduction of a new software system for personal finance accounting. The company hopes to further increase its __(71)__ next year by expanding its markets overseas.\n\nProfits for Providence Communications Company were up only 5% at the end of the fourth quarter. This is a much smaller increase than the company has reported for several years running. Providence has been losing a significant portion of its market share to competitors, but the company is optimistic about the future.\n\n\"We're confident that our plans for bringing more efficient and less __(72)__ wireless service to our customers will result in increased market share and greater profits than the company has ever enjoyed in the past,\" said Thomas P. Witherspoon, CEO."
+        }
+      ]
+    },
+    {
+      "id": "comprehension",
+      "title": "Reading Comprehension",
+      "instructions": "อ่านข้อความแล้วตอบคำถาม",
+      "groups": [
+        {
+          "id": "airport",
+          "label": "Notice",
+          "questions": [
+            {
+              "id": "R73",
+              "prompt": "Where can you go to send e-mail?",
+              "options": [
+                "Terminal 3",
+                "Terminal 4",
+                "Terminal 5",
+                "Terminal 6"
+              ],
+              "answer": 1,
+              "explanation": "Business Center ใน Terminal 4 มี Internet access ระวัง: Terminal 6 (Worldwide Cafe) ก็มีอินเทอร์เน็ตสำหรับแล็ปท็อปของตัวเอง ข้อนี้จึงตอบได้ 2 แบบ"
+            },
+            {
+              "id": "R74",
+              "prompt": "What is one thing you cannot do at a Business Center?",
+              "options": [
+                "Buy stamps",
+                "Send a fax",
+                "Make hotel reservations",
+                "Have a meeting"
+              ],
+              "answer": 1,
+              "explanation": "คำถาม NOT: postage = ซื้อแสตมป์ได้, hotel hotline = จองโรงแรมได้, conference rooms = ประชุมได้ ไม่มีการกล่าวถึงเครื่องแฟกซ์"
+            },
+            {
+              "id": "R75",
+              "prompt": "What is available in all the terminals?",
+              "options": [
+                "Business Centers",
+                "Food",
+                "Transportation",
+                "Maps"
+              ],
+              "answer": 1,
+              "explanation": "ใกล้เคียงที่สุดคือ Food (มีทุกอาคารยกเว้น Terminal 5) ส่วน Business Center มีแค่ Terminal 1, 4, 7 หมายเหตุ: ตามบทอ่าน ไม่มีสิ่งใดมีครบทุกอาคาร"
+            }
+          ],
+          "passage": "INTERNATIONAL AIRPORT — AIRPORT SERVICES\n\n• Business Centers can be found in Terminals 1, 4, and 7. Postage and mailboxes, photocopy machines, Internet access, conference rooms, pay phones, and a hotel hotline are available in all centers.\n\n• A variety of food stands can be found in every terminal but Terminal 5. In addition, you can enjoy fine dining at the Runway View Restaurant in Terminal 3. The Worldwide Cafe in Terminal 6 serves sandwiches, desserts, and coffee, and provides Internet connection for your laptop computer."
+        },
+        {
+          "id": "lanes",
+          "label": "Public Notice",
+          "questions": [
+            {
+              "id": "R76",
+              "prompt": "Which part of the highway will have lane closures?",
+              "options": [
+                "All north side lanes",
+                "One lane on each side",
+                "The two left lanes on each side",
+                "The two left lanes on the north side"
+              ],
+              "answer": 3,
+              "explanation": "the two left lanes on the north side ตรงตามประกาศ ข้อ C หลอกด้วย each side"
+            },
+            {
+              "id": "R77",
+              "prompt": "Who is authorizing the lane closures?",
+              "options": [
+                "The city",
+                "The county",
+                "The state",
+                "The district"
+              ],
+              "answer": 1,
+              "explanation": "ผู้ประกาศคือ Miami-Dade County Transit Authority = หน่วยงานระดับเทศมณฑล (county)"
+            },
+            {
+              "id": "R78",
+              "prompt": "Which of the following exits will NOT be in the affected area?",
+              "options": [
+                "NE 125th Street",
+                "NE 95th Street",
+                "NE 151st Street",
+                "NE 82nd Street"
+              ],
+              "answer": 2,
+              "explanation": "ช่วงที่ปิดคือ NE 79th ถึง NE 135th ถนน 151st อยู่นอกช่วง ข้ออื่นอยู่ในช่วงทั้งหมด"
+            }
+          ],
+          "passage": "MIAMI-DADE COUNTY TRANSIT AUTHORITY\nLANE CLOSURES\n\nDue to continued construction on Interstate 95, the two left lanes on the north side will be closed from NE 79th St. to NE 135th St. between the hours of midnight and 6:00 A.M., Monday to Friday, and 10:00 P.M. to 7:00 A.M. weekends.\n\nLane closures are scheduled to begin on October 16 and continue until November 6.\n\nWe regret any inconvenience to motorists."
+        },
+        {
+          "id": "magazine",
+          "label": "Article",
+          "questions": [
+            {
+              "id": "R79",
+              "prompt": "What is this article about?",
+              "options": [
+                "The literary value of Movie Goer Magazine",
+                "How George Boulis became a very rich man",
+                "The monetary value of old issues of Movie Goer Magazine",
+                "The monetary value of old covers of Movie Goer Magazine"
+              ],
+              "answer": 2,
+              "explanation": "บทความพูดถึงมูลค่าเป็นเงิน (monetary value) ของนิตยสารฉบับเก่า ข้อ A literary = คุณค่าทางวรรณกรรม ข้อ D ปก (covers) เป็นแค่รายละเอียดบางส่วน"
+            },
+            {
+              "id": "R80",
+              "prompt": "Where does the writer assume the readers may have old issues of this magazine?",
+              "options": [
+                "In the attic",
+                "In the basement",
+                "Under their beds",
+                "In their garages"
+              ],
+              "answer": 1,
+              "explanation": "ประโยคแรก: Those old Movie Goer magazines in the basement..."
+            },
+            {
+              "id": "R81",
+              "prompt": "Which is the most valuable issue of this magazine?",
+              "options": [
+                "The premier issue",
+                "The ultimate issue",
+                "The one with Lucille Ball",
+                "The one with Clark Gable"
+              ],
+              "answer": 0,
+              "explanation": "The first one = ฉบับปฐมฤกษ์ = premier issue (paraphrase) ข้อ B ultimate = ฉบับสุดท้าย"
+            }
+          ],
+          "passage": "Those old Movie Goer magazines in the basement may be worth more than you would imagine. A 1952 copy featuring Clark Gable can be worth over $750, and an old Lucille Ball is valued at $900. But it's not just the oldies that are worth so much money. A collection of twenty-five Lost in Space covers from June 2001 sells for more than $450 online. \"The Internet has been great for collecting and has made it a lot easier to find things,\" says George Boulis, 58, a Boston-based collector who has all the Movie Goer Magazine covers.\n\nThey're worth about $28,000. And what do you think is the most valuable issue? The first one, of course: A mint-condition copy goes for more than $1,850."
+        },
+        {
+          "id": "obrien",
+          "label": "News Report",
+          "questions": [
+            {
+              "id": "R82",
+              "prompt": "Who decided that Michael O'Brien should be released from prison?",
+              "options": [
+                "The Queen",
+                "A group of judges",
+                "A government agency",
+                "Popular opinion"
+              ],
+              "answer": 1,
+              "explanation": "freed by a Court of Appeal = ศาลอุทธรณ์ ซึ่งคือคณะผู้พิพากษา ข้อ C หลอกด้วย Home Office ที่เป็นผู้ตัดสินเรื่องค่าชดเชย ไม่ใช่การปล่อยตัว"
+            },
+            {
+              "id": "R83",
+              "prompt": "What had Mr. O'Brien been convicted of?",
+              "options": [
+                "Robbing a bank",
+                "Forging documents",
+                "Spying on other companies",
+                "Embezzling thousands from his company"
+              ],
+              "answer": 2,
+              "explanation": "industrial espionage = การจารกรรมทางอุตสาหกรรม = spying on other companies"
+            },
+            {
+              "id": "R84",
+              "prompt": "What is upsetting Mr. O'Brien?",
+              "options": [
+                "He has to pay back money to the prison.",
+                "He has to pay money to the Home Office.",
+                "He will have more money than he ever dreamed of.",
+                "The authorities never caught the real spy."
+              ],
+              "answer": 0,
+              "explanation": "เขาต้อง reimburse the prison (จ่ายคืนเรือนจำ) ค่าที่พักและอาหาร 23,000 ดอลลาร์ ทั้งที่ไม่ได้ทำผิด"
+            }
+          ],
+          "passage": "LONDON — In May, Great Britain's Home Office, deciding on compensation for a man who served four years in prison for industrial espionage that he did not commit, ruled that he was entitled to about $1.1 million. They said, however, that he would have to reimburse the prison about $23,000 for four years' room and board. The outraged Michael O'Brien, age 34, was freed by a Court of Appeal. He said, \"They don't charge guilty people for bed and board. They only charge innocent people!\""
+        },
+        {
+          "id": "phone",
+          "label": "Instructions",
+          "questions": [
+            {
+              "id": "R85",
+              "prompt": "What device are these instructions for?",
+              "options": [
+                "A portable phone",
+                "A palm pilot",
+                "A cell phone",
+                "A laptop computer"
+              ],
+              "answer": 2,
+              "explanation": "ประโยคแรกระบุ your cellular phone = cell phone"
+            },
+            {
+              "id": "R86",
+              "prompt": "What should you do if the battery is NOT charging?",
+              "options": [
+                "Check that the battery is connected to the charger",
+                "Call the factory",
+                "Call your dealer immediately",
+                "Check the normal operating time"
+              ],
+              "answer": 0,
+              "explanation": "If your phone displays Not charging... Check that the battery is connected to an approved charging device ข้อ C ทำเมื่อ \"ยังชาร์จไม่ได้\" หลังลองแล้ว ไม่ใช่ทันที (immediately)"
+            },
+            {
+              "id": "R87",
+              "prompt": "What should you do if the device fails to charge properly?",
+              "options": [
+                "Return it to the company",
+                "Get in touch with the place you bought it from",
+                "Send it back to the factory",
+                "Throw it away and buy another one"
+              ],
+              "answer": 1,
+              "explanation": "If charging still fails, contact your dealer = ติดต่อร้านที่ซื้อมา (paraphrase)"
+            }
+          ],
+          "passage": "Connect the lead from the charger to the bottom of your cellular phone or to a charging stand. Then plug the charger into a standard wall outlet. When the battery is charging, the battery strength indicator on the right side of the display scrolls. Note: When you charge the battery for the first time, the battery strength indicator will not scroll the entire time; this is normal.\n\nIf your phone displays Not charging, charging is suspended. Check that the battery is connected to an approved charging device. If the battery is very hot or cold, wait for a while; charging will automatically resume after the battery is restored to its normal operating state. If charging still fails, contact your dealer."
+        },
+        {
+          "id": "memo",
+          "label": "Memorandum",
+          "questions": [
+            {
+              "id": "R88",
+              "prompt": "Why must employees give up two days' pay at this time?",
+              "options": [
+                "To pay back money they were overpaid",
+                "To contribute to a company charity",
+                "To end a budget crisis in this fiscal year",
+                "The bylaws state they have to."
+              ],
+              "answer": 2,
+              "explanation": "in order to put an end to the budget crisis ข้อ D หลอก: bylaws กำหนดให้งบสมดุล ไม่ได้กำหนดให้หักเงินพนักงาน"
+            },
+            {
+              "id": "R89",
+              "prompt": "What is causing this budget crisis?",
+              "options": [
+                "There is a surplus of $13 million.",
+                "There is a shortage of $13 million.",
+                "The CFO did not plan out the operating budget properly.",
+                "Nobody can pinpoint the reasons for this budget crisis."
+              ],
+              "answer": 1,
+              "explanation": "The budget is short by about $13 million = ขาดดุล (shortage) surplus = เกินดุล ความหมายตรงข้าม"
+            },
+            {
+              "id": "R90",
+              "prompt": "How will the days be taken off?",
+              "options": [
+                "Employees will arrange days off with their supervisors.",
+                "All employees are to stay home starting June 30.",
+                "A specific plan has not been worked out yet.",
+                "Employees can arrange to take two days off this or next fiscal year."
+              ],
+              "answer": 0,
+              "explanation": "Employees are to speak to their supervisors regarding scheduling the two days"
+            }
+          ],
+          "passage": "MEMORANDUM\n\nTO: All Atlantis Corporation Employees\nFROM: Myrtle Sternbridge, Chief Financial Officer\nDATE: June 3\nRE: Two-day unpaid leave\n\nIt is my unhappy duty to inform you that the Board of Directors has voted to impose a two-day layoff for all employees in order to avoid an operating budget shortfall. The company is facing a serious crisis due to poor profits over the past two quarters. The budget is short by about $13 million and, according to our bylaws, the budget must be balanced by June 30, the end of this fiscal year.\n\nIt is necessary for all employees to give up two days' pay in order to put an end to the budget crisis. Employees are to speak to their supervisors regarding scheduling the two days that they are not to report to work.\n\nAccording to the agreement reached between Atlantis Corp. and the union, employees will be reimbursed for the days they lose during the first six months of the next fiscal year if profits improve.\n\nI sincerely regret the need to take such drastic measures to end the current budget crisis, but with your cooperation, we can see this through."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "telp-full",
+  "title": "TELP – Full Test",
+  "description": "ข้อสอบเต็มชุด 90 ข้อ: Listening (ข้อ 1–50) และ Reading (ข้อ 51–90) จับเวลารวม",
+  "level": "A2–B1",
+  "timeLimitMinutes": 90,
+  "includes": [
+    "telp-listening",
+    "telp-reading"
+  ]
+}

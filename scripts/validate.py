@@ -40,6 +40,11 @@ for name in sorted(files):
 
     if test.get("id") != name:
         err(path.name, f'"id" ต้องตรงกับชื่อไฟล์ ({name})')
+    if "includes" in test:   # combined test made from other test files
+        for inc in test["includes"]:
+            if inc not in files:
+                err(path.name, f'"includes" อ้างถึง {inc} แต่ไม่พบไฟล์ data/tests/{inc}.json')
+        continue
     for field in ("title", "sections"):
         if field not in test:
             err(path.name, f'ไม่มี "{field}"')

@@ -1,6 +1,8 @@
 {
   "tests": [
+    "telp-full",
     "telp-listening",
+    "telp-reading",
     "practice-01"
   ]
 }

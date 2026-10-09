@@ -40,7 +40,20 @@
     return res.json();
   }
   async function getTest(id) {
-    if (!testCache[id]) testCache[id] = await loadJSON(`data/tests/${encodeURIComponent(id)}.json`);
+    if (!testCache[id]) {
+      const t = await loadJSON(`data/tests/${encodeURIComponent(id)}.json`);
+      if (Array.isArray(t.includes)) {
+        // combined test: stitch the sections of other test files together, in order
+        const parts = await Promise.all(t.includes.map(getTest));
+        t.sections = parts.flatMap((p) => p.sections.map((s) => ({
+          ...s,
+          part: (p.title || p.id).replace(/^.*[–-]\s*/, "").replace(/\s*Part$/i, ""),
+          groups: s.groups.map((g) => ({ ...g, audioTest: g.audioTest || p.id }))
+        })));
+        t.numberOffset = 0;
+      }
+      testCache[id] = t;
+    }
     return testCache[id];
   }
   const allQuestions = (test) => test.sections.flatMap((s) =>
@@ -49,7 +62,7 @@
   // ---------- audio: MP3 file, falling back to browser speech ----------
   class ListeningPlayer {
     constructor(test, group, { limit, onChange }) {
-      this.src = `audio/${test.id}/${group.id}.mp3`;
+      this.src = `audio/${group.audioTest || test.id}/${group.id}.mp3`;
       this.script = group.script || [];
       this.limit = limit;           // null = unlimited
       this.plays = 0;
@@ -318,7 +331,7 @@
 
       const qs = el(`<div class="questions"></div>`);
       g.questions.forEach((q) => {
-        const num = order.indexOf(q.id) + 1;
+        const num = order.indexOf(q.id) + 1 + (test.numberOffset || 0);
         qs.append(renderQuestion(q, num, g, { mode, onAnswer }));
       });
       inner.append(qs);
@@ -454,7 +467,15 @@
       return { id: s.id, title: s.title, score, total: qs.length };
     });
     const score = bySection.reduce((a, b) => a + b.score, 0);
-    attempt.result = { score, total, bySection, timeUp };
+    // combined tests: also total each part (e.g. Listening / Reading)
+    const byPart = [];
+    test.sections.forEach((s, i) => {
+      if (!s.part) return;
+      let p = byPart.find((x) => x.title === s.part);
+      if (!p) byPart.push(p = { title: s.part, score: 0, total: 0 });
+      p.score += bySection[i].score; p.total += bySection[i].total;
+    });
+    attempt.result = { score, total, bySection, byPart, timeUp };
 
     // local history
     const history = store.get("history", {});
@@ -477,7 +498,7 @@
       name: st.name, studentId: st.sid,
       testId: test.id, testTitle: test.title, mode: a.mode === "practice" ? "practice" : "exam",
       score: a.result.score, total: a.result.total,
-      sections: Object.fromEntries(a.result.bySection.map((s) => [s.title, `${s.score}/${s.total}`])),
+      sections: Object.fromEntries([...a.result.byPart, ...a.result.bySection].map((s) => [s.title, `${s.score}/${s.total}`])),
       minutes: Math.round((a.finishedAt - a.startedAt) / 6000) / 10,
       answers: Object.fromEntries(allQuestions(test).map(({ q }) =>
         [q.id, a.answers[q.id] == null ? "" : LETTERS[a.answers[q.id]]]))
@@ -508,6 +529,8 @@
       <section class="card result">
         <p class="small muted">${esc(test.title)} · ${attempt.mode === "practice" ? "โหมดฝึก" : "โหมดสอบ"}${result.timeUp ? " · หมดเวลา ส่งคำตอบอัตโนมัติ" : ""}</p>
         <div class="score"><span class="big">${result.score}</span><span class="of">/ ${result.total}</span><span class="pct">${pct}%</span></div>
+        ${result.byPart.length ? `<div class="part-scores">${result.byPart.map((p) => `
+          <div class="part-score"><span>${esc(p.title)}</span><b>${p.score}<small>/${p.total}</small></b></div>`).join("")}</div>` : ""}
         <div class="sec-scores">
           ${result.bySection.map((s) => `
             <div class="sec-score">
