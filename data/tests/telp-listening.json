@@ -1,0 +1,1264 @@
+{
+  "id": "telp-listening",
+  "title": "TELP – Listening Part",
+  "description": "ข้อสอบ Listening 50 ข้อ: Question–Response 17 ข้อ, Conversations 18 ข้อ, Talks 15 ข้อ",
+  "level": "A2–B1",
+  "timeLimitMinutes": 45,
+  "voices": {
+    "M": "en-US-GuyNeural",
+    "W": "en-GB-SoniaNeural",
+    "M2": "en-AU-WilliamNeural",
+    "W2": "en-CA-ClaraNeural",
+    "N": "en-US-JennyNeural"
+  },
+  "sections": [
+    {
+      "id": "part1",
+      "title": "Question–Response",
+      "instructions": "ฟังคำถามหรือข้อความ แล้วเลือกคำตอบที่เหมาะสมที่สุด (A, B หรือ C) ตัวเลือกจะไม่แสดงบนหน้าจอ ต้องฟังเท่านั้น แต่ละข้อฟังได้ 2 ครั้ง",
+      "groups": [
+        {
+          "id": "qr-01",
+          "label": "Question–Response · Track 1",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M",
+              "text": "What is her profession?"
+            },
+            {
+              "speaker": "W",
+              "text": "A. The professor is not here now."
+            },
+            {
+              "speaker": "W",
+              "text": "B. She's a marketing specialist."
+            },
+            {
+              "speaker": "W",
+              "text": "C. All of them are professionals."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L1",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 1,
+              "explanation": "ถามอาชีพ (profession) ข้อ B บอกอาชีพตรง ๆ ข้อ A และ C เป็นกับดักเสียงคล้าย professor / professionals"
+            }
+          ]
+        },
+        {
+          "id": "qr-02",
+          "label": "Question–Response · Track 2",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W",
+              "text": "I understand you have a new business partner this year."
+            },
+            {
+              "speaker": "M2",
+              "text": "A. Yes, his name is Chris Burn."
+            },
+            {
+              "speaker": "M2",
+              "text": "B. We've been married for ten years."
+            },
+            {
+              "speaker": "M2",
+              "text": "C. I can explain it again if you like."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L2",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 0,
+              "explanation": "ประโยคบอกเล่าเรื่องหุ้นส่วนธุรกิจคนใหม่ ข้อ A ตอบรับและให้ข้อมูลเพิ่ม ข้อ B หลอกด้วยความหมายอีกอย่างของ partner (คู่ครอง) ข้อ C หลอกด้วย understand → explain"
+            }
+          ]
+        },
+        {
+          "id": "qr-03",
+          "label": "Question–Response · Track 3",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M2",
+              "text": "Where were you this morning?"
+            },
+            {
+              "speaker": "W2",
+              "text": "A. I'll come back tomorrow morning."
+            },
+            {
+              "speaker": "W2",
+              "text": "B. You looked best in the morning."
+            },
+            {
+              "speaker": "W2",
+              "text": "C. I was in the meeting all morning."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L3",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 2,
+              "explanation": "ถาม Where + อดีต (were) ข้อ C บอกสถานที่และใช้อดีตตรงกัน ข้อ A เป็นอนาคต ข้อ B ไม่ได้ตอบเรื่องสถานที่"
+            }
+          ]
+        },
+        {
+          "id": "qr-04",
+          "label": "Question–Response · Track 4",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W2",
+              "text": "We are going to start billing on the first day of the month."
+            },
+            {
+              "speaker": "M",
+              "text": "A. They sent an invoice on the 30th."
+            },
+            {
+              "speaker": "M",
+              "text": "B. I prefer January or February."
+            },
+            {
+              "speaker": "M",
+              "text": "C. Okay, I'll notify our clients."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L4",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 2,
+              "explanation": "เป็นการแจ้งนโยบายเรียกเก็บเงิน ข้อ C ตอบรับและบอกสิ่งที่จะทำต่อ ข้อ A หลอกด้วยคำเกี่ยวกับบิล (invoice) ข้อ B หลอกด้วยคำว่า month → ชื่อเดือน"
+            }
+          ]
+        },
+        {
+          "id": "qr-05",
+          "label": "Question–Response · Track 5",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M",
+              "text": "Where is the news stand?"
+            },
+            {
+              "speaker": "W2",
+              "text": "A. The news never changes."
+            },
+            {
+              "speaker": "W2",
+              "text": "B. There's one in the lobby."
+            },
+            {
+              "speaker": "W2",
+              "text": "C. I'll stand here."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L5",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 1,
+              "explanation": "ถาม Where ต้องตอบสถานที่ ข้อ B ถูก ข้อ A และ C ใช้คำซ้ำ news / stand แต่ไม่ได้ตอบคำถาม"
+            }
+          ]
+        },
+        {
+          "id": "qr-06",
+          "label": "Question–Response · Track 6",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W",
+              "text": "Who's at the door?"
+            },
+            {
+              "speaker": "M",
+              "text": "A. The guests have just arrived."
+            },
+            {
+              "speaker": "M",
+              "text": "B. The doorman is retired."
+            },
+            {
+              "speaker": "M",
+              "text": "C. The door is green."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L6",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 0,
+              "explanation": "ถาม Who ข้อ A บอกว่าเป็นแขกที่เพิ่งมาถึง ข้อ B หลอกด้วย doorman (เสียงคล้าย door) ข้อ C พูดถึงประตู ไม่ใช่คน"
+            }
+          ]
+        },
+        {
+          "id": "qr-07",
+          "label": "Question–Response · Track 7",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M",
+              "text": "What do you need from the store?"
+            },
+            {
+              "speaker": "W",
+              "text": "A. Just some milk and bread."
+            },
+            {
+              "speaker": "W",
+              "text": "B. The store is open until nine."
+            },
+            {
+              "speaker": "W",
+              "text": "C. He needs a stall for his bicycle."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L7",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 0,
+              "explanation": "ถามว่าต้องการอะไรจากร้าน ข้อ A ตอบสิ่งของ ข้อ B ตอบเวลาเปิดร้าน ข้อ C หลอกด้วย needs และเสียง store/stall"
+            }
+          ]
+        },
+        {
+          "id": "qr-08",
+          "label": "Question–Response · Track 8",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W",
+              "text": "Why did your broker call you?"
+            },
+            {
+              "speaker": "M2",
+              "text": "A. He suggested I sell my stock."
+            },
+            {
+              "speaker": "M2",
+              "text": "B. He was broke."
+            },
+            {
+              "speaker": "M2",
+              "text": "C. I telephoned my brother."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L8",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 0,
+              "explanation": "ถาม Why ข้อ A ให้เหตุผลที่โบรกเกอร์โทรมา ข้อ B หลอกเสียง broker/broke (broke = ถังแตก ไม่มีเงิน) ข้อ C หลอกเสียง broker/brother และ call/telephoned"
+            }
+          ]
+        },
+        {
+          "id": "qr-09",
+          "label": "Question–Response · Track 9",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M2",
+              "text": "When do you want to eat?"
+            },
+            {
+              "speaker": "W2",
+              "text": "A. As soon as we finish lunch."
+            },
+            {
+              "speaker": "W2",
+              "text": "B. Yes, I eat meat."
+            },
+            {
+              "speaker": "W2",
+              "text": "C. Whenever you're hungry."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L9",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 2,
+              "explanation": "ถาม When ข้อ C ตอบเรื่องเวลาอย่างเป็นธรรมชาติ ข้อ A ขัดกันเอง (จะกินหลังกินข้าวเที่ยงเสร็จ) ข้อ B ตอบ Yes ซึ่งใช้กับคำถาม Wh- ไม่ได้"
+            }
+          ]
+        },
+        {
+          "id": "qr-10",
+          "label": "Question–Response · Track 10",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W2",
+              "text": "Who received an extra paycheck?"
+            },
+            {
+              "speaker": "M",
+              "text": "A. The customer paid the check."
+            },
+            {
+              "speaker": "M",
+              "text": "B. I received two paychecks."
+            },
+            {
+              "speaker": "M",
+              "text": "C. She reviewed the accounts payable."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L10",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 1,
+              "explanation": "ถาม Who ได้เช็คเงินเดือนเพิ่ม ข้อ B ตอบว่า \"ฉันเอง\" (ได้มาสองใบ) ข้อ A และ C หลอกด้วยคำ check / payable ที่เสียงคล้าย"
+            }
+          ]
+        },
+        {
+          "id": "qr-11",
+          "label": "Question–Response · Track 11",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M",
+              "text": "I don't have anything to wear for the retirement party."
+            },
+            {
+              "speaker": "W2",
+              "text": "A. It's in the lobby of the office building."
+            },
+            {
+              "speaker": "W2",
+              "text": "B. You don't have to wear anything fancy."
+            },
+            {
+              "speaker": "W2",
+              "text": "C. He hasn't been in the company that long."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L11",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 1,
+              "explanation": "เป็นการบ่นว่าไม่มีชุดใส่ไปงาน ข้อ B ตอบสนองตรงประเด็น (ไม่ต้องแต่งหรูก็ได้) ข้อ A ตอบสถานที่ ข้อ C พูดถึงคนเกษียณ ไม่เกี่ยวกับชุด"
+            }
+          ]
+        },
+        {
+          "id": "qr-12",
+          "label": "Question–Response · Track 12",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W",
+              "text": "Who's on the phone?"
+            },
+            {
+              "speaker": "M",
+              "text": "A. She's just reinstalled the new phone system."
+            },
+            {
+              "speaker": "M",
+              "text": "B. We have a new telephone."
+            },
+            {
+              "speaker": "M",
+              "text": "C. The receptionist is talking to a customer."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L12",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 2,
+              "explanation": "ถาม Who กำลังคุยโทรศัพท์ ข้อ C ระบุบุคคล ข้อ A และ B หลอกด้วยคำว่า phone / telephone"
+            }
+          ]
+        },
+        {
+          "id": "qr-13",
+          "label": "Question–Response · Track 13",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M",
+              "text": "When did they complete the project?"
+            },
+            {
+              "speaker": "W",
+              "text": "A. They bought the complete edition."
+            },
+            {
+              "speaker": "W",
+              "text": "B. It will take two more years."
+            },
+            {
+              "speaker": "W",
+              "text": "C. They finished it last night."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L13",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 2,
+              "explanation": "ถาม When + อดีต (did) ข้อ C ตอบเวลาในอดีต ข้อ A ใช้คำซ้ำ complete ในความหมายอื่น ข้อ B เป็นอนาคต ขัดกับคำถามที่บอกว่าเสร็จแล้ว"
+            }
+          ]
+        },
+        {
+          "id": "qr-14",
+          "label": "Question–Response · Track 14",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W",
+              "text": "Why is he leaving the company?"
+            },
+            {
+              "speaker": "M2",
+              "text": "A. He was fired."
+            },
+            {
+              "speaker": "M2",
+              "text": "B. The guest has to leave early."
+            },
+            {
+              "speaker": "M2",
+              "text": "C. He lives near the company."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L14",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 0,
+              "explanation": "ถาม Why ข้อ A ให้เหตุผล (ถูกไล่ออก) ข้อ B พูดถึงคนอื่น ข้อ C หลอกเสียง leaving/lives"
+            }
+          ]
+        },
+        {
+          "id": "qr-15",
+          "label": "Question–Response · Track 15",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M2",
+              "text": "Is this the last bus?"
+            },
+            {
+              "speaker": "W2",
+              "text": "A. No, there's one more after this."
+            },
+            {
+              "speaker": "W2",
+              "text": "B. Yes, it lasts three hours."
+            },
+            {
+              "speaker": "W2",
+              "text": "C. Yes, the bus goes to the station."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L15",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 0,
+              "explanation": "คำถาม Yes/No ข้อ A ตอบตรงคำถาม ข้อ B หลอกด้วย last (สุดท้าย) / lasts (ใช้เวลา) ข้อ C ตอบ Yes แต่ข้อมูลไม่เกี่ยวกับคำถาม"
+            }
+          ]
+        },
+        {
+          "id": "qr-16",
+          "label": "Question–Response · Track 16",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W2",
+              "text": "Who are you expecting?"
+            },
+            {
+              "speaker": "M",
+              "text": "A. I expected the rain."
+            },
+            {
+              "speaker": "M",
+              "text": "B. A package for the office supply store."
+            },
+            {
+              "speaker": "M",
+              "text": "C. The computer saleswoman is coming up at one."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L16",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 2,
+              "explanation": "ถาม Who กำลังรอใคร ข้อ C ระบุบุคคล ข้อ A หลอกด้วย expected (ในที่นี้แปลว่า \"คิดว่าฝนจะตก\") ข้อ B เป็นสิ่งของ ไม่ใช่คน"
+            }
+          ]
+        },
+        {
+          "id": "qr-17",
+          "label": "Question–Response · Track 17",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M",
+              "text": "Who's that man over there?"
+            },
+            {
+              "speaker": "W2",
+              "text": "A. He's my supervisor."
+            },
+            {
+              "speaker": "W2",
+              "text": "B. Yes, he's standing over there."
+            },
+            {
+              "speaker": "W2",
+              "text": "C. The man usually goes there for lunch."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L17",
+              "prompt": "Choose the best response.",
+              "options": [
+                "A",
+                "B",
+                "C"
+              ],
+              "answer": 0,
+              "explanation": "ถาม Who ข้อ A บอกว่าเป็นใคร ข้อ B ตอบ Yes กับคำถาม Wh- ไม่ได้ ข้อ C ใช้คำซ้ำ man / there"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "part2",
+      "title": "Conversations",
+      "instructions": "ฟังบทสนทนาสั้น ๆ แล้วตอบคำถาม 3 ข้อ แนะนำให้อ่านคำถามก่อนกดฟัง",
+      "groups": [
+        {
+          "id": "conv-18",
+          "label": "Conversation · Track 18",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M",
+              "text": "Mr. Kim wasn't at this morning's meeting. I hope he isn't sick."
+            },
+            {
+              "speaker": "W",
+              "text": "No, he's out of town till next week on a business trip."
+            },
+            {
+              "speaker": "M",
+              "text": "The meeting didn't go well at all. It started late, and very few people showed up. In fact, out of fifteen people, only seven showed."
+            },
+            {
+              "speaker": "W",
+              "text": "I hope things go better at next month's meeting."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L18",
+              "prompt": "Why wasn't Mr. Kim at the meeting?",
+              "options": [
+                "He is sick.",
+                "He went downtown.",
+                "He arrived too late.",
+                "He is away on a trip."
+              ],
+              "answer": 3,
+              "explanation": "ผู้หญิงบอกว่า he's out of town ... on a business trip ข้อ A ผู้ชายแค่ \"หวังว่า\" เขาไม่ป่วย ข้อ B หลอกเสียง out of town / downtown"
+            },
+            {
+              "id": "L19",
+              "prompt": "How many people were at the meeting?",
+              "options": [
+                "Two.",
+                "Seven.",
+                "Eleven.",
+                "Fifteen."
+              ],
+              "answer": 1,
+              "explanation": "out of fifteen people, only seven showed = มาแค่ 7 คน ข้อ D (15) คือจำนวนคนที่ควรมา"
+            },
+            {
+              "id": "L20",
+              "prompt": "When is the next meeting?",
+              "options": [
+                "Tomorrow morning.",
+                "In two days.",
+                "Next week.",
+                "Next month."
+              ],
+              "answer": 3,
+              "explanation": "ประโยคสุดท้าย next month's meeting ข้อ C หลอกด้วย next week ที่หมายถึงวันที่คุณ Kim กลับมา"
+            }
+          ]
+        },
+        {
+          "id": "conv-19",
+          "label": "Conversation · Track 19",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W2",
+              "text": "One new pair of shoes comes to seventeen seventy-five."
+            },
+            {
+              "speaker": "M",
+              "text": "I don't have any cash, but here's my checkbook. Will you take a personal check?"
+            },
+            {
+              "speaker": "W2",
+              "text": "Yes, but I'll need to see a credit card for identification. I'm afraid it's a store policy."
+            },
+            {
+              "speaker": "M",
+              "text": "Really? Then I'll just go ahead and pay with the credit card."
+            },
+            {
+              "speaker": "W2",
+              "text": "Whichever is easier for you, sir. We accept all major credit cards with a valid expiration date."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L21",
+              "prompt": "What is the man buying?",
+              "options": [
+                "Shoes.",
+                "Pears.",
+                "A book.",
+                "A newspaper."
+              ],
+              "answer": 0,
+              "explanation": "one new pair of shoes ข้อ B หลอกเสียง pair / pears ข้อ C หลอกด้วย checkbook"
+            },
+            {
+              "id": "L22",
+              "prompt": "How much does he have to pay?",
+              "options": [
+                "$7.75.",
+                "$17.75.",
+                "$70.75.",
+                "$75."
+              ],
+              "answer": 1,
+              "explanation": "seventeen seventy-five = $17.75 ระวังเสียง seventeen กับ seventy"
+            },
+            {
+              "id": "L23",
+              "prompt": "How will he pay?",
+              "options": [
+                "With cash.",
+                "With a credit card.",
+                "With a traveler's check.",
+                "With a personal check."
+              ],
+              "answer": 1,
+              "explanation": "ตอนแรกจะจ่ายเช็ค แต่สุดท้ายบอกว่า I'll just go ahead and pay with the credit card ฟังการเปลี่ยนใจตอนท้ายให้ดี"
+            }
+          ]
+        },
+        {
+          "id": "conv-20",
+          "label": "Conversation · Track 20",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M2",
+              "text": "How long will it take this package to arrive in China?"
+            },
+            {
+              "speaker": "W",
+              "text": "Six days by first class and twelve days by second class."
+            },
+            {
+              "speaker": "M2",
+              "text": "Mail it first class and insure it for a thousand dollars. It contains jewelry."
+            },
+            {
+              "speaker": "W",
+              "text": "That will be nine dollars for postage and six dollars for the insurance, so your total is fifteen dollars."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L24",
+              "prompt": "How long will it take for the package to arrive?",
+              "options": [
+                "Six days.",
+                "Eight days.",
+                "Ten days.",
+                "Twelve days."
+              ],
+              "answer": 0,
+              "explanation": "ผู้ชายเลือกส่ง first class ซึ่งใช้ 6 วัน ข้อ D (12 วัน) คือ second class"
+            },
+            {
+              "id": "L25",
+              "prompt": "What is inside the package?",
+              "options": [
+                "China.",
+                "Checks.",
+                "Jewelry.",
+                "Class work."
+              ],
+              "answer": 2,
+              "explanation": "It contains jewelry ข้อ A หลอกด้วย China (ประเทศจีน / เครื่องกระเบื้อง) ข้อ D หลอกด้วย class"
+            },
+            {
+              "id": "L26",
+              "prompt": "How much will the man pay?",
+              "options": [
+                "$6.00.",
+                "$9.00.",
+                "$15.00.",
+                "$1,000.00."
+              ],
+              "answer": 2,
+              "explanation": "ค่าส่ง $9 + ค่าประกัน $6 = $15 ข้อ A, B เป็นแค่บางส่วน ข้อ D คือวงเงินประกัน"
+            }
+          ]
+        },
+        {
+          "id": "conv-21",
+          "label": "Conversation · Track 21",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W",
+              "text": "The copy machine broke again this morning. That's the fourth time this month."
+            },
+            {
+              "speaker": "M",
+              "text": "Don't worry. The repairman will be here tomorrow. He was supposed to come today, but there was a problem with the company truck. He's getting a rental car in the morning, and he hopes to be in first thing in the afternoon to fix the machine."
+            },
+            {
+              "speaker": "W",
+              "text": "But I need these reports copied before the meeting tomorrow. I guess I'll have to go to the photocopy store on the first floor."
+            },
+            {
+              "speaker": "M",
+              "text": "It's not there anymore. But there's one across the street. You could go there."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L27",
+              "prompt": "When will the repairperson come?",
+              "options": [
+                "This morning.",
+                "Tomorrow.",
+                "At 4:00.",
+                "In four days."
+              ],
+              "answer": 1,
+              "explanation": "The repairman will be here tomorrow ข้อ A คือเวลาที่เครื่องเสีย ข้อ C, D หลอกด้วย fourth time"
+            },
+            {
+              "id": "L28",
+              "prompt": "What does the woman have to copy?",
+              "options": [
+                "Reports.",
+                "Photographs.",
+                "A repair bill.",
+                "A meeting agenda."
+              ],
+              "answer": 0,
+              "explanation": "I need these reports copied ข้อ D หลอกด้วย meeting"
+            },
+            {
+              "id": "L29",
+              "prompt": "Where is the photocopy store?",
+              "options": [
+                "On the first floor.",
+                "On the fourth floor.",
+                "Across the street.",
+                "Next door."
+              ],
+              "answer": 2,
+              "explanation": "ร้านชั้นหนึ่งไม่มีแล้ว (It's not there anymore) มีร้านใหม่ across the street ข้อ A เป็นกับดักข้อมูลเก่า"
+            }
+          ]
+        },
+        {
+          "id": "conv-22",
+          "label": "Conversation · Track 22",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M",
+              "text": "It feels like I've been waiting forever. I hope the bus gets here soon."
+            },
+            {
+              "speaker": "W2",
+              "text": "Me too. I'm far from home and it looks like it might rain."
+            },
+            {
+              "speaker": "M",
+              "text": "Yes, it's very cloudy, but at least it's not cold. I've been waiting fifteen minutes already, so the bus should be here any time now."
+            },
+            {
+              "speaker": "W2",
+              "text": "Well, you can never count on this transit system. I wish I lived closer to work so I could just walk home instead."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L30",
+              "prompt": "What are the speakers waiting for?",
+              "options": [
+                "A car.",
+                "A bus.",
+                "A train.",
+                "A plane."
+              ],
+              "answer": 1,
+              "explanation": "I hope the bus gets here soon"
+            },
+            {
+              "id": "L31",
+              "prompt": "What is the weather like?",
+              "options": [
+                "It's raining.",
+                "It's cloudy.",
+                "It's cold.",
+                "It's hot."
+              ],
+              "answer": 1,
+              "explanation": "it's very cloudy ข้อ A ผิดเพราะแค่ might rain (อาจจะตก) ข้อ C ผิดเพราะ it's not cold"
+            },
+            {
+              "id": "L32",
+              "prompt": "How long has the man been waiting?",
+              "options": [
+                "15 minutes.",
+                "16 minutes.",
+                "50 minutes.",
+                "60 minutes."
+              ],
+              "answer": 0,
+              "explanation": "waiting fifteen minutes ระวังเสียง fifteen (15) กับ fifty (50)"
+            }
+          ]
+        },
+        {
+          "id": "conv-23",
+          "label": "Conversation · Track 23",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M2",
+              "text": "Your vacation starts Tuesday, doesn't it? I envy you. Will you be gone a week this time?"
+            },
+            {
+              "speaker": "W",
+              "text": "Two weeks, actually. Can you believe it? We're going to New York."
+            },
+            {
+              "speaker": "M2",
+              "text": "Really? I thought you liked quiet places like the mountains."
+            },
+            {
+              "speaker": "W",
+              "text": "Actually, we usually go to the beach, but we decided to take a different kind of trip this time."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L33",
+              "prompt": "When does the woman's vacation begin?",
+              "options": [
+                "On Monday.",
+                "On Tuesday.",
+                "On Wednesday.",
+                "On Thursday."
+              ],
+              "answer": 1,
+              "explanation": "Your vacation starts Tuesday"
+            },
+            {
+              "id": "L34",
+              "prompt": "How long will her vacation last?",
+              "options": [
+                "Two days.",
+                "One week.",
+                "Eight days.",
+                "Two weeks."
+              ],
+              "answer": 3,
+              "explanation": "ผู้ชายเดาว่าหนึ่งสัปดาห์ แต่ผู้หญิงแก้ว่า Two weeks, actually ข้อ B เป็นกับดัก"
+            },
+            {
+              "id": "L35",
+              "prompt": "Where will she spend her vacation?",
+              "options": [
+                "At a lake.",
+                "At the beach.",
+                "In the mountains.",
+                "In New York."
+              ],
+              "answer": 3,
+              "explanation": "We're going to New York ข้อ B คือที่ที่ปกติไป ข้อ C คือที่ผู้ชายคิดว่าเธอชอบ"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "part3",
+      "title": "Talks",
+      "instructions": "ฟังการพูดของผู้พูดคนเดียว (ประกาศ โฆษณา ข่าว) แล้วตอบคำถาม 3 ข้อ",
+      "groups": [
+        {
+          "id": "talk-24",
+          "label": "Talk · Track 24 (Announcement)",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "N",
+              "text": "Today, the officers of the company are announcing revisions on long-standing policies regarding health benefits, security procedures, and off-site training programs. The most significant change has been in our wellness program. In the past, employees with illnesses lasting more than four days were required to bring a note from their doctors. Now, no excuse is required, regardless of the length of illness."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L36",
+              "prompt": "Who is listening to this announcement?",
+              "options": [
+                "Company employees.",
+                "Doctors.",
+                "Parents of schoolchildren.",
+                "Police officers."
+              ],
+              "answer": 0,
+              "explanation": "เป็นประกาศนโยบายของบริษัทถึงพนักงาน (officers of the company, employees) ข้อ B หลอกด้วย doctors ข้อ D หลอกด้วย officers"
+            },
+            {
+              "id": "L37",
+              "prompt": "What has been revised?",
+              "options": [
+                "Doctors' excuses.",
+                "Insurance regulations.",
+                "Company policy.",
+                "Employees' records."
+              ],
+              "answer": 2,
+              "explanation": "revisions on long-standing policies = ปรับปรุงนโยบายบริษัท"
+            },
+            {
+              "id": "L38",
+              "prompt": "When is a note required?",
+              "options": [
+                "Within forty-eight hours.",
+                "After four days.",
+                "After a week.",
+                "Never."
+              ],
+              "answer": 3,
+              "explanation": "Now, no excuse is required, regardless of the length of illness = ไม่ต้องใช้ใบรับรองแพทย์อีกแล้ว ข้อ B คือกฎเดิม (In the past)"
+            }
+          ]
+        },
+        {
+          "id": "talk-25",
+          "label": "Talk · Track 25 (Advertisement)",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M",
+              "text": "Do you want to watch television but don't know what's on? You need the program guide, TV Day by Day. We'll give a one-year subscription to TV Day by Day to the first ten people who buy a new television set today. This offer applies to all models, from black and white ten-inch TVs to forty-two-inch flat screens. Just think, with TV Day by Day, you can cancel the local newspaper that you never get around to reading and save up to ten dollars a week."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L39",
+              "prompt": "What is being sold?",
+              "options": [
+                "A watch.",
+                "A television.",
+                "A calendar.",
+                "A guide."
+              ],
+              "answer": 1,
+              "explanation": "สิ่งที่ขายคือโทรทัศน์ (buy a new television set) ส่วน program guide เป็นของแถม ข้อ D จึงเป็นกับดัก ข้อ A หลอกเสียง watch"
+            },
+            {
+              "id": "L40",
+              "prompt": "How long does the subscription last?",
+              "options": [
+                "Ten days.",
+                "One month.",
+                "Ten months.",
+                "One year."
+              ],
+              "answer": 3,
+              "explanation": "a one-year subscription"
+            },
+            {
+              "id": "L41",
+              "prompt": "How many people can get the special offer?",
+              "options": [
+                "One.",
+                "The first ten.",
+                "The first one hundred.",
+                "There is no limit."
+              ],
+              "answer": 1,
+              "explanation": "to the first ten people who buy a new television set"
+            }
+          ]
+        },
+        {
+          "id": "talk-26",
+          "label": "Talk · Track 26 (Public announcement)",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "M2",
+              "text": "Stay away from the burning building. I repeat, stay away from the burning building. Firefighters need room to do their job properly. Please stay on the other side of the street so that emergency personnel can get through. Do not interfere with the emergency crew by asking questions or trying to help. Police will have no choice but to apprehend anyone who gets in the way. Keep your children and pets as far from the premises as possible to avoid smoke inhalation."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L42",
+              "prompt": "What is happening?",
+              "options": [
+                "Some people need a hotel room.",
+                "Some people are going home.",
+                "The personnel office is closing.",
+                "A building is on fire."
+              ],
+              "answer": 3,
+              "explanation": "the burning building และ Firefighters บอกว่ามีไฟไหม้ ข้อ A หลอกด้วย room ข้อ C หลอกด้วย personnel"
+            },
+            {
+              "id": "L43",
+              "prompt": "Who must get through?",
+              "options": [
+                "Office personnel.",
+                "Emergency personnel.",
+                "Clerical workers.",
+                "File clerks."
+              ],
+              "answer": 1,
+              "explanation": "so that emergency personnel can get through"
+            },
+            {
+              "id": "L44",
+              "prompt": "Where should people stay?",
+              "options": [
+                "Next to a room.",
+                "Across the street.",
+                "Beside the building.",
+                "In the emergency room."
+              ],
+              "answer": 1,
+              "explanation": "stay on the other side of the street = across the street (paraphrase)"
+            }
+          ]
+        },
+        {
+          "id": "talk-27",
+          "label": "Talk · Track 27 (Commentary)",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "W2",
+              "text": "The space administration has announced its plans to put a canine on Mars. It's more than a dog in space. It's a dog on Mars. What this animal will do there, we can't imagine. Is there even water on that planet? I imagine the space program will provide some tasty treats for the first pet on Mars. It seems like a waste of money to us, but what do we know? This is the first program of its kind, and let's hope it's the last."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L45",
+              "prompt": "What kind of program is mentioned?",
+              "options": [
+                "Race.",
+                "Space.",
+                "Tasting.",
+                "Waste."
+              ],
+              "answer": 1,
+              "explanation": "the space program ข้อ C หลอกด้วย tasty ข้อ D หลอกด้วย waste of money"
+            },
+            {
+              "id": "L46",
+              "prompt": "Which of the following animals is mentioned?",
+              "options": [
+                "A dog.",
+                "A cat.",
+                "A sheep.",
+                "A rat."
+              ],
+              "answer": 0,
+              "explanation": "canine = dog ผู้พูดใช้ทั้งสองคำ"
+            },
+            {
+              "id": "L47",
+              "prompt": "How many times has this program been done before?",
+              "options": [
+                "None.",
+                "Once.",
+                "Twice.",
+                "Several times."
+              ],
+              "answer": 0,
+              "explanation": "This is the first program of its kind = ยังไม่เคยมีมาก่อน ข้อ B หลอกด้วยคำว่า first"
+            }
+          ]
+        },
+        {
+          "id": "talk-28",
+          "label": "Talk · Track 28 (News report)",
+          "playLimit": 2,
+          "script": [
+            {
+              "speaker": "N",
+              "text": "After yesterday's run of bad news, there is finally some good news from the Presidential Palace. The President and his wife became parents for the second time today. The baby boy was born at General Hospital at five forty-three a.m., according to staff doctors. Only the mother will be able to rest. The President must leave immediately to fly to Belgium for a noon meeting. He hopes to return to his wife's side by early evening. When asked if he wanted more children, he said he would like three or four, but no more. Certainly not five."
+            }
+          ],
+          "questions": [
+            {
+              "id": "L48",
+              "prompt": "How is the president described in the news report?",
+              "options": [
+                "As a mother.",
+                "As a doctor.",
+                "As a father.",
+                "As a general."
+              ],
+              "answer": 2,
+              "explanation": "became parents = เป็นพ่อ (ของลูกคนที่สอง) ข้อ D หลอกด้วย General Hospital ข้อ B หลอกด้วย staff doctors"
+            },
+            {
+              "id": "L49",
+              "prompt": "How many children does the president have?",
+              "options": [
+                "Two.",
+                "Three.",
+                "Four.",
+                "Five."
+              ],
+              "answer": 0,
+              "explanation": "parents for the second time = ตอนนี้มีลูก 2 คน ข้อ B, C, D คือจำนวนที่ \"อยากมี\" ในอนาคต"
+            },
+            {
+              "id": "L50",
+              "prompt": "When did the event happen?",
+              "options": [
+                "Yesterday.",
+                "This morning.",
+                "At noon.",
+                "In the early evening."
+              ],
+              "answer": 1,
+              "explanation": "เด็กเกิดเวลา 5:43 a.m. = เช้านี้ ข้อ A คือข่าวร้ายเมื่อวาน ข้อ C คือเวลาประชุม ข้อ D คือเวลาที่จะกลับมา"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,273 @@
+{
+  "id": "practice-01",
+  "title": "Practice Test 1",
+  "description": "ข้อสอบฝึกแนว TOEIC ฉบับสั้น: Listening, Grammar และ Reading",
+  "level": "A2–B1",
+  "timeLimitMinutes": 30,
+  "voices": {
+    "M": "en-US-GuyNeural",
+    "W": "en-GB-SoniaNeural",
+    "M2": "en-AU-WilliamNeural",
+    "W2": "en-CA-ClaraNeural",
+    "N": "en-US-JennyNeural"
+  },
+  "sections": [
+    {
+      "id": "listening",
+      "title": "Listening",
+      "instructions": "ฟังเสียงแล้วเลือกคำตอบที่ถูกต้องที่สุด เสียงแต่ละชุดเล่นได้ 2 ครั้ง",
+      "groups": [
+        {
+          "id": "q-response-1",
+          "label": "Question–Response",
+          "playLimit": 2,
+          "script": [
+            { "speaker": "W", "text": "When does the training session start?" },
+            { "speaker": "N", "text": "A. In the main meeting room." },
+            { "speaker": "N", "text": "B. At nine thirty tomorrow." },
+            { "speaker": "N", "text": "C. Yes, I trained for an hour." }
+          ],
+          "questions": [
+            {
+              "id": "L1",
+              "prompt": "Choose the best response to the question.",
+              "options": ["A", "B", "C"],
+              "answer": 1,
+              "explanation": "คำถามขึ้นต้นด้วย When จึงต้องตอบเรื่องเวลา ข้อ B ถูก ข้อ A ตอบเรื่องสถานที่ (ตอบคำถาม Where) ข้อ C ตอบ Yes ซึ่งใช้ไม่ได้กับคำถาม Wh- และเป็นกับดักเสียงคล้าย training/trained"
+            }
+          ]
+        },
+        {
+          "id": "q-response-2",
+          "label": "Question–Response",
+          "playLimit": 2,
+          "script": [
+            { "speaker": "M", "text": "Why don't we order lunch for the whole team?" },
+            { "speaker": "N", "text": "A. That's a great idea." },
+            { "speaker": "N", "text": "B. Because the team is very large." },
+            { "speaker": "N", "text": "C. I ordered it last Monday." }
+          ],
+          "questions": [
+            {
+              "id": "L2",
+              "prompt": "Choose the best response to the question.",
+              "options": ["A", "B", "C"],
+              "answer": 0,
+              "explanation": "Why don't we...? เป็นการ \"เสนอแนะ\" ไม่ได้ถามเหตุผล จึงตอบรับคำเสนอได้ ข้อ A ถูก ข้อ B หลอกให้ตอบด้วย Because ข้อ C ใช้คำซ้ำ ordered แต่เป็นอดีต ไม่ตรงกับคำเสนอ"
+            }
+          ]
+        },
+        {
+          "id": "conversation-1",
+          "label": "Short Conversation",
+          "playLimit": 2,
+          "script": [
+            { "speaker": "W", "text": "Hi Kenji, have you finished the sales report for the regional meeting?" },
+            { "speaker": "M", "text": "Almost. I'm still waiting for the figures from the Chiang Mai branch. They said they'd send them this afternoon." },
+            { "speaker": "W", "text": "The meeting was moved to Thursday morning, so we need everything by Wednesday at five." },
+            { "speaker": "M", "text": "No problem. I'll call the branch now and ask them to send the numbers before lunch." }
+          ],
+          "questions": [
+            {
+              "id": "L3",
+              "prompt": "What are the speakers mainly discussing?",
+              "options": ["A new branch office", "A sales report", "A lunch order", "A training course"],
+              "answer": 1,
+              "explanation": "ประโยคแรกของผู้หญิงบอกหัวข้อหลัก: the sales report for the regional meeting ข้อ A ใช้คำว่า branch ที่ได้ยินในบทสนทนาแต่ไม่ใช่ประเด็นหลัก"
+            },
+            {
+              "id": "L4",
+              "prompt": "What is the man waiting for?",
+              "options": ["Approval from his manager", "A meeting room", "Figures from a branch", "A new computer"],
+              "answer": 2,
+              "explanation": "ผู้ชายพูดว่า I'm still waiting for the figures from the Chiang Mai branch ตรงกับข้อ C (figures = numbers = ตัวเลข)"
+            },
+            {
+              "id": "L5",
+              "prompt": "What will the man probably do next?",
+              "options": ["Call a branch office", "Reschedule the meeting", "Go to lunch", "Email a client"],
+              "answer": 0,
+              "explanation": "คำถาม do next ให้ฟังประโยคสุดท้าย: I'll call the branch now ข้อ B ผิดเพราะผู้หญิงเป็นคนบอกว่าประชุมถูกเลื่อนไปแล้ว ไม่ใช่สิ่งที่ผู้ชายจะทำ"
+            }
+          ]
+        },
+        {
+          "id": "talk-1",
+          "label": "Short Talk",
+          "playLimit": 2,
+          "script": [
+            { "speaker": "W2", "text": "Good morning, passengers. This is an announcement for travelers on the ten fifteen train to Bangkok. Because of maintenance work on the line, this train will depart from platform six instead of platform two. The train is expected to leave about twenty minutes late. Passengers with reserved seats may use the waiting lounge on the second floor. Free drinks are available there until the train arrives. We apologize for the inconvenience." }
+          ],
+          "questions": [
+            {
+              "id": "L6",
+              "prompt": "Where is this announcement most likely being made?",
+              "options": ["At an airport", "At a train station", "On a bus", "In a hotel lobby"],
+              "answer": 1,
+              "explanation": "คำว่า train และ platform บอกสถานที่ชัดเจนว่าเป็นสถานีรถไฟ"
+            },
+            {
+              "id": "L7",
+              "prompt": "What has changed?",
+              "options": ["The destination", "The ticket price", "The platform", "The train's arrival city"],
+              "answer": 2,
+              "explanation": "will depart from platform six instead of platform two แปลว่าชานชาลาเปลี่ยน ข้อ D หลอกด้วยคำว่า arrives ที่ได้ยินตอนท้าย"
+            },
+            {
+              "id": "L8",
+              "prompt": "What is offered to passengers with reserved seats?",
+              "options": ["A refund", "Free drinks", "A seat upgrade", "A meal voucher"],
+              "answer": 1,
+              "explanation": "ผู้โดยสารที่จองที่นั่งใช้ห้องรับรองได้ และ Free drinks are available there ข้อ A, C, D ไม่ได้กล่าวถึงเลย"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grammar",
+      "title": "Grammar",
+      "instructions": "เลือกคำหรือวลีที่เติมลงในช่องว่างแล้วได้ประโยคที่ถูกต้องที่สุด",
+      "groups": [
+        {
+          "id": "grammar-mc",
+          "questions": [
+            {
+              "id": "G1",
+              "prompt": "The manager _______ the meeting until next week.",
+              "options": ["postpone", "has postponed", "postponing", "to postpone"],
+              "answer": 1,
+              "explanation": "ประโยคต้องการกริยาแท้ที่ตรงกับประธานเอกพจน์ The manager จึงเลือก has postponed ข้อ A ต้องเป็น postpones ข้อ C และ D ไม่ใช่กริยาแท้"
+            },
+            {
+              "id": "G2",
+              "prompt": "นิภา decided _______ for the marketing position.",
+              "options": ["apply", "applying", "to apply", "applied"],
+              "answer": 2,
+              "explanation": "decide ตามด้วย to + V1 เสมอ (กลุ่มคำที่แสดงความตั้งใจ/อนาคต)"
+            },
+            {
+              "id": "G3",
+              "prompt": "Would you mind _______ the window? It's quite cold in here.",
+              "options": ["close", "to close", "closing", "closed"],
+              "answer": 2,
+              "explanation": "mind ตามด้วย V-ing เสมอ Would you mind closing...? = ช่วยปิด...ได้ไหม"
+            },
+            {
+              "id": "G4",
+              "prompt": "The number of applicants _______ increased significantly this year.",
+              "options": ["have", "has", "are", "were"],
+              "answer": 1,
+              "explanation": "The number of + N พหูพจน์ ใช้กริยาเอกพจน์ (ประธานคือ The number) จึงใช้ has ระวังสับสนกับ A number of ที่ใช้กริยาพหูพจน์"
+            },
+            {
+              "id": "G5",
+              "prompt": "If the weather _______ good tomorrow, we will have the staff party outdoors.",
+              "options": ["is", "will be", "would be", "was"],
+              "answer": 0,
+              "explanation": "Conditional Type 1: If + Present Simple, will + V1 ประโยค if ห้ามใช้ will ข้อ B จึงผิด"
+            },
+            {
+              "id": "G6",
+              "prompt": "The report _______ by the finance team last Friday.",
+              "options": ["completed", "was completed", "has completed", "is completing"],
+              "answer": 1,
+              "explanation": "รายงานถูกทำ (ผู้กระทำคือ the finance team ตามหลัง by) และมี last Friday บอกอดีต จึงต้องเป็น Past Passive: was + V3"
+            },
+            {
+              "id": "G7",
+              "prompt": "Carlos is the employee _______ proposal won the design award.",
+              "options": ["who", "whom", "which", "whose"],
+              "answer": 3,
+              "explanation": "ช่องว่างตามด้วยคำนาม proposal และแสดงความเป็นเจ้าของ (ข้อเสนอของ Carlos) จึงใช้ whose"
+            },
+            {
+              "id": "G8",
+              "prompt": "The new software is _______ than the old version.",
+              "options": ["more efficient", "efficienter", "most efficient", "as efficient"],
+              "answer": 0,
+              "explanation": "มี than จึงต้องใช้ขั้นกว่า efficient เป็นคำยาวหลายพยางค์ จึงใช้ more efficient ไม่เติม -er"
+            },
+            {
+              "id": "G9",
+              "prompt": "The company had to _______ the launch because of production delays.",
+              "options": ["put off", "put up with", "take over", "carry out"],
+              "answer": 0,
+              "explanation": "put off = เลื่อนออกไป ตรงกับบริบท production delays ข้อ B = อดทนต่อ ข้อ C = เข้าควบคุม ข้อ D = ดำเนินการ"
+            },
+            {
+              "id": "G10",
+              "prompt": "Our success depends _______ the support of our customers.",
+              "options": ["in", "of", "on", "from"],
+              "answer": 2,
+              "explanation": "depend on = ขึ้นอยู่กับ เป็นคู่ verb + preposition ที่ต้องจำ"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reading",
+      "title": "Reading",
+      "instructions": "อ่านข้อความแล้วตอบคำถาม",
+      "groups": [
+        {
+          "id": "passage-1",
+          "label": "Email",
+          "passage": "To: All Staff\nFrom: Prapa Srisuk, Human Resources\nSubject: New Flexible Working Policy\n\nDear Colleagues,\n\nStarting on November 1, employees who have worked at the company for at least six months may apply to work from home up to two days per week. To apply, please complete the online request form and get approval from your department head.\n\nPlease note that this option is not available to staff in customer service and warehouse positions, as these roles require employees to be on site. However, these employees will be able to choose between two shift times instead.\n\nIf you have any questions, please contact the HR office on extension 214.\n\nBest regards,\nPrapa Srisuk",
+          "questions": [
+            {
+              "id": "R1",
+              "prompt": "What is the main purpose of the email?",
+              "options": ["To announce a new policy", "To advertise a job opening", "To introduce a new manager", "To explain a change in salary"],
+              "answer": 0,
+              "explanation": "หัวเรื่อง (Subject) และย่อหน้าแรกบอกว่าเป็นการประกาศนโยบายทำงานยืดหยุ่นใหม่ ข้อ B, C, D ไม่มีในอีเมล"
+            },
+            {
+              "id": "R2",
+              "prompt": "Who can apply to work from home?",
+              "options": ["All new employees", "Staff who have worked there for six months or more", "Only department heads", "Customer service staff"],
+              "answer": 1,
+              "explanation": "อีเมลระบุว่า who have worked at the company for at least six months (at least = ไม่น้อยกว่า = six months or more) ข้อ D ผิด เพราะฝ่ายบริการลูกค้าถูกยกเว้น"
+            },
+            {
+              "id": "R3",
+              "prompt": "The word \"option\" in paragraph 2 is closest in meaning to",
+              "options": ["choice", "rule", "reward", "duty"],
+              "answer": 0,
+              "explanation": "option = ทางเลือก ในบริบทหมายถึงทางเลือกในการทำงานที่บ้าน จึงใกล้เคียงกับ choice ที่สุด"
+            },
+            {
+              "id": "R4",
+              "prompt": "What is suggested about warehouse employees?",
+              "options": ["They will receive higher pay.", "They can work from home on Fridays.", "They must be at the workplace to do their jobs.", "They will move to a new building."],
+              "answer": 2,
+              "explanation": "คำถาม Inference: อีเมลบอกว่างานเหล่านี้ require employees to be on site จึงอนุมานได้ว่าต้องอยู่ที่ทำงานจริง ข้อ B ขัดกับข้อความโดยตรง"
+            }
+          ]
+        },
+        {
+          "id": "passage-2",
+          "label": "Notice",
+          "passage": "CITY LIBRARY — NOTICE TO MEMBERS\n\nThe City Library will be closed from December 10 to December 14 for the installation of a new computer system. During this time, the book drop outside the main entrance will remain open, and no late fees will be charged for items due during the closure.\n\nWhen the library reopens on December 15, members will be able to renew books, reserve study rooms, and pay fees using our new mobile app. Staff will be available at the information desk to help members download and use the app.",
+          "questions": [
+            {
+              "id": "R5",
+              "prompt": "Why will the library close?",
+              "options": ["To repair the building", "To install a new computer system", "To hold a staff training", "To celebrate a holiday"],
+              "answer": 1,
+              "explanation": "ประโยคแรกบอกเหตุผลตรง ๆ: for the installation of a new computer system"
+            },
+            {
+              "id": "R6",
+              "prompt": "What is NOT mentioned as something members can do with the app?",
+              "options": ["Renew books", "Reserve study rooms", "Pay fees", "Buy new books"],
+              "answer": 3,
+              "explanation": "คำถาม NOT: ตัดข้อที่กล่าวถึงออก (renew books, reserve study rooms, pay fees) จะเหลือ Buy new books ที่ไม่ได้กล่าวถึง"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

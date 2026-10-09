@@ -1,0 +1,517 @@
+/* English Exam Practice — single-page app (no build step required) */
+(() => {
+  "use strict";
+
+  const CFG = Object.assign({
+    siteTitle: "ฝึกทำข้อสอบภาษาอังกฤษ",
+    siteSubtitle: "",
+    sheetsUrl: "",
+    requireStudentInfo: false,
+    showAnswersAfterSubmit: true
+  }, window.EXAM_CONFIG || {});
+
+  const LETTERS = "ABCDEFGH";
+  const app = document.getElementById("app");
+  const topbarExtra = document.getElementById("topbar-extra");
+
+  // ---------- small helpers ----------
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const el = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
+  const fmtTime = (sec) => {
+    sec = Math.max(0, Math.round(sec));
+    const m = Math.floor(sec / 60), s = sec % 60;
+    return `${m}:${String(s).padStart(2, "0")}`;
+  };
+  const store = {
+    get(key, fallback) {
+      try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+      catch { return fallback; }
+    },
+    set(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* storage unavailable */ }
+    }
+  };
+
+  const testCache = {};
+  async function loadJSON(url) {
+    const res = await fetch(url, { cache: "no-cache" });
+    if (!res.ok) throw new Error(`${url} (${res.status})`);
+    return res.json();
+  }
+  async function getTest(id) {
+    if (!testCache[id]) testCache[id] = await loadJSON(`data/tests/${encodeURIComponent(id)}.json`);
+    return testCache[id];
+  }
+  const allQuestions = (test) => test.sections.flatMap((s) =>
+    s.groups.flatMap((g) => g.questions.map((q) => ({ q, g, s }))));
+
+  // ---------- audio: MP3 file, falling back to browser speech ----------
+  class ListeningPlayer {
+    constructor(test, group, { limit, onChange }) {
+      this.src = `audio/${test.id}/${group.id}.mp3`;
+      this.script = group.script || [];
+      this.limit = limit;           // null = unlimited
+      this.plays = 0;
+      this.playing = false;
+      this.mode = "file";           // "file" | "speech"
+      this.onChange = onChange || (() => {});
+      this.audio = new Audio();
+      this.audio.preload = "metadata";
+      this.audio.addEventListener("error", () => { this.mode = "speech"; this.onChange(); }, { once: true });
+      this.audio.addEventListener("ended", () => { this.playing = false; this.onChange(); });
+      this.audio.addEventListener("timeupdate", () => this.onChange());
+      this.audio.addEventListener("loadedmetadata", () => this.onChange());
+      this.audio.src = this.src;
+    }
+    get remaining() { return this.limit == null ? Infinity : this.limit - this.plays; }
+    get progress() {
+      if (this.mode === "file" && this.audio.duration) return this.audio.currentTime / this.audio.duration;
+      return this.speechProgress || 0;
+    }
+    play() {
+      if (this.playing || this.remaining <= 0) return;
+      ListeningPlayer.stopAll();
+      this.plays++;
+      this.playing = true;
+      ListeningPlayer.current = this;
+      if (this.mode === "file") {
+        this.audio.currentTime = 0;
+        this.audio.play().catch(() => { this.mode = "speech"; this.playSpeech(); });
+      } else {
+        this.playSpeech();
+      }
+      this.onChange();
+    }
+    stop() {
+      this.audio.pause();
+      if (this.mode === "speech" && window.speechSynthesis) speechSynthesis.cancel();
+      this.playing = false;
+      this.onChange();
+    }
+    playSpeech() {
+      const synth = window.speechSynthesis;
+      if (!synth) { this.playing = false; this.onChange(); return; }
+      const voices = synth.getVoices().filter((v) => /^en[-_]/i.test(v.lang));
+      const speakers = [...new Set(this.script.map((l) => l.speaker))];
+      const pick = (sp) => voices.length ? voices[speakers.indexOf(sp) % voices.length] : null;
+      synth.cancel();
+      let i = 0;
+      const next = () => {
+        if (!this.playing) return;
+        if (i >= this.script.length) { this.playing = false; this.speechProgress = 1; this.onChange(); return; }
+        const line = this.script[i];
+        const u = new SpeechSynthesisUtterance(line.text);
+        const v = pick(line.speaker);
+        if (v) u.voice = v;
+        u.lang = v ? v.lang : "en-US";
+        u.rate = 0.92;
+        // vary pitch per speaker so dialogues stay distinguishable on single-voice devices
+        u.pitch = 0.85 + (speakers.indexOf(line.speaker) % 3) * 0.2;
+        u.onend = () => { i++; this.speechProgress = i / this.script.length; this.onChange(); setTimeout(next, 600); };
+        u.onerror = u.onend;
+        synth.speak(u);
+      };
+      this.speechProgress = 0;
+      setTimeout(next, 300);
+    }
+    static stopAll() { if (ListeningPlayer.current) ListeningPlayer.current.stop(); }
+  }
+  if (window.speechSynthesis) speechSynthesis.getVoices(); // warm up voice list
+
+  // ---------- timer ----------
+  let timerHandle = null;
+  function clearTimer() { clearInterval(timerHandle); timerHandle = null; topbarExtra.innerHTML = ""; }
+
+  // ---------- views ----------
+  async function viewHome() {
+    clearTimer();
+    ListeningPlayer.stopAll();
+    let ids;
+    try { ids = (await loadJSON("data/tests/index.json")).tests; }
+    catch (e) { return showError("โหลดรายการข้อสอบไม่สำเร็จ", e); }
+
+    const tests = await Promise.all(ids.map((id) => getTest(id).catch(() => null)));
+    const student = store.get("student", { name: "", sid: "" });
+    const history = store.get("history", {});
+
+    app.innerHTML = "";
+    app.append(el(`
+      <section class="hero">
+        <h1>${esc(CFG.siteTitle)}</h1>
+        ${CFG.siteSubtitle ? `<p class="hero-sub">${esc(CFG.siteSubtitle)}</p>` : ""}
+      </section>`));
+
+    const form = el(`
+      <section class="card student">
+        <h2>ข้อมูลผู้สอบ ${CFG.requireStudentInfo ? "" : '<span class="muted small">(ไม่บังคับ)</span>'}</h2>
+        <div class="fields">
+          <label>ชื่อ–นามสกุล<input id="st-name" autocomplete="name" value="${esc(student.name)}"></label>
+          <label>รหัสนักศึกษา<input id="st-sid" inputmode="numeric" value="${esc(student.sid)}"></label>
+        </div>
+      </section>`);
+    app.append(form);
+    form.addEventListener("input", () => store.set("student", {
+      name: form.querySelector("#st-name").value.trim(),
+      sid: form.querySelector("#st-sid").value.trim()
+    }));
+
+    const list = el(`<section class="test-list"></section>`);
+    tests.forEach((t, i) => {
+      if (!t) {
+        list.append(el(`<div class="card test-card broken"><strong>${esc(ids[i])}</strong><p class="muted">ไฟล์ข้อสอบนี้โหลดไม่ได้</p></div>`));
+        return;
+      }
+      const n = allQuestions(t).length;
+      const best = history[t.id]?.best;
+      const card = el(`
+        <article class="card test-card">
+          <div class="test-head">
+            <h3>${esc(t.title)}</h3>
+            ${t.level ? `<span class="pill">${esc(t.level)}</span>` : ""}
+          </div>
+          ${t.description ? `<p class="muted">${esc(t.description)}</p>` : ""}
+          <ul class="meta">
+            <li>${t.sections.map((s) => esc(s.title)).join(" · ")}</li>
+            <li>${n} ข้อ</li>
+            ${t.timeLimitMinutes ? `<li>${t.timeLimitMinutes} นาที</li>` : ""}
+            ${best != null ? `<li class="best">คะแนนสูงสุด ${best}/${n}</li>` : ""}
+          </ul>
+          <button class="btn primary">เริ่มทำข้อสอบ</button>
+        </article>`);
+      card.querySelector("button").addEventListener("click", () => {
+        const st = store.get("student", { name: "", sid: "" });
+        if (CFG.requireStudentInfo && (!st.name || !st.sid)) {
+          alert("กรุณากรอกชื่อและรหัสนักศึกษาก่อนเริ่มทำข้อสอบ");
+          form.querySelector(st.name ? "#st-sid" : "#st-name").focus();
+          return;
+        }
+        location.hash = `#/test/${encodeURIComponent(t.id)}`;
+      });
+      list.append(card);
+    });
+    app.append(list);
+  }
+
+  // live attempt state
+  let attempt = null;
+
+  async function viewTest(id) {
+    clearTimer();
+    ListeningPlayer.stopAll();
+    let test;
+    try { test = await getTest(id); } catch (e) { return showError("ไม่พบข้อสอบชุดนี้", e); }
+
+    attempt = { test, answers: {}, startedAt: Date.now(), sectionIdx: 0, players: {}, submitted: false };
+    const total = allQuestions(test).length;
+
+    // timer
+    if (test.timeLimitMinutes) {
+      const endAt = attempt.startedAt + test.timeLimitMinutes * 60000;
+      topbarExtra.innerHTML = `<span class="timer" id="timer"></span>`;
+      const tick = () => {
+        const left = (endAt - Date.now()) / 1000;
+        const t = document.getElementById("timer");
+        if (t) {
+          t.textContent = fmtTime(left);
+          t.classList.toggle("warn", left < 120);
+        }
+        if (left <= 0) { clearTimer(); submit(true); }
+      };
+      tick();
+      timerHandle = setInterval(tick, 1000);
+    }
+
+    app.innerHTML = "";
+    const shell = el(`
+      <div class="exam">
+        <div class="exam-head">
+          <h1>${esc(test.title)}</h1>
+          <div class="progress"><div class="bar"><span id="prog-bar"></span></div><span id="prog-text" class="small muted"></span></div>
+          <nav class="tabs" role="tablist"></nav>
+        </div>
+        <div id="section-body"></div>
+        <div class="exam-foot">
+          <button class="btn" id="prev-sec">← ส่วนก่อนหน้า</button>
+          <button class="btn" id="next-sec">ส่วนถัดไป →</button>
+          <button class="btn primary" id="submit">ส่งคำตอบ</button>
+        </div>
+      </div>`);
+    app.append(shell);
+
+    const tabs = shell.querySelector(".tabs");
+    test.sections.forEach((s, i) => {
+      const b = el(`<button role="tab" class="tab">${esc(s.title)} <span class="count" data-sec="${i}"></span></button>`);
+      b.addEventListener("click", () => showSection(i));
+      tabs.append(b);
+    });
+    shell.querySelector("#prev-sec").addEventListener("click", () => showSection(attempt.sectionIdx - 1));
+    shell.querySelector("#next-sec").addEventListener("click", () => showSection(attempt.sectionIdx + 1));
+    shell.querySelector("#submit").addEventListener("click", () => submit(false));
+
+    function updateProgress() {
+      const done = Object.keys(attempt.answers).length;
+      shell.querySelector("#prog-bar").style.width = `${(done / total) * 100}%`;
+      shell.querySelector("#prog-text").textContent = `ตอบแล้ว ${done}/${total} ข้อ`;
+      test.sections.forEach((s, i) => {
+        const qs = s.groups.flatMap((g) => g.questions);
+        const d = qs.filter((q) => q.id in attempt.answers).length;
+        shell.querySelector(`.count[data-sec="${i}"]`).textContent = `${d}/${qs.length}`;
+      });
+    }
+
+    function showSection(i) {
+      if (i < 0 || i >= test.sections.length) return;
+      ListeningPlayer.stopAll();
+      attempt.sectionIdx = i;
+      [...tabs.children].forEach((t, j) => {
+        t.classList.toggle("active", j === i);
+        t.setAttribute("aria-selected", j === i);
+      });
+      shell.querySelector("#prev-sec").disabled = i === 0;
+      shell.querySelector("#next-sec").disabled = i === test.sections.length - 1;
+      const body = shell.querySelector("#section-body");
+      body.innerHTML = "";
+      body.append(renderSection(test, test.sections[i], { mode: "exam", onAnswer: updateProgress }));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    showSection(0);
+    updateProgress();
+  }
+
+  function renderSection(test, section, { mode, onAnswer }) {
+    const review = mode === "review";
+    const wrap = el(`<section class="section"></section>`);
+    if (!review && section.instructions) wrap.append(el(`<p class="instructions">${esc(section.instructions)}</p>`));
+    if (review) wrap.append(el(`<h2 class="review-sec">${esc(section.title)}</h2>`));
+
+    let qNum = 0;
+    // global numbering
+    const order = allQuestions(test).map((x) => x.q.id);
+
+    section.groups.forEach((g) => {
+      const hasPassage = !!g.passage;
+      const block = el(`<div class="group ${hasPassage ? "with-passage" : ""}"></div>`);
+      if (g.label) block.append(el(`<div class="group-label">${esc(g.label)}</div>`));
+
+      const inner = el(`<div class="group-inner"></div>`);
+      if (g.script) inner.append(renderPlayer(test, g, review));
+      if (hasPassage) inner.append(el(`<div class="passage">${esc(g.passage).replace(/\n/g, "<br>")}</div>`));
+
+      const qs = el(`<div class="questions"></div>`);
+      g.questions.forEach((q) => {
+        qNum = order.indexOf(q.id) + 1;
+        qs.append(renderQuestion(q, qNum, { review, onAnswer }));
+      });
+      inner.append(qs);
+
+      if (review && g.script) {
+        const tr = el(`<details class="transcript"><summary>บทพูด (Transcript)</summary></details>`);
+        g.script.forEach((l) => tr.append(el(`<p><b>${esc(l.speaker)}:</b> ${esc(l.text)}</p>`)));
+        inner.append(tr);
+      }
+      block.append(inner);
+      wrap.append(block);
+    });
+    return wrap;
+  }
+
+  function renderPlayer(test, g, review) {
+    const key = g.id;
+    const limit = review ? null : (g.playLimit ?? null);
+    const box = el(`
+      <div class="player">
+        <button class="play" aria-label="เล่นเสียง"><span class="icon">▶</span></button>
+        <div class="player-main">
+          <div class="pbar"><span></span></div>
+          <div class="pinfo small muted"></div>
+        </div>
+      </div>`);
+    let player = attempt.players[key + (review ? ":r" : "")];
+    const render = () => {
+      const p = player;
+      box.querySelector(".pbar span").style.width = `${(p.progress || 0) * 100}%`;
+      const btn = box.querySelector(".play");
+      btn.querySelector(".icon").textContent = p.playing ? "■" : "▶";
+      btn.disabled = !p.playing && p.remaining <= 0;
+      const parts = [];
+      if (p.limit != null) parts.push(p.remaining > 0 ? `เล่นได้อีก ${p.remaining} ครั้ง` : "ครบจำนวนครั้งที่ฟังได้แล้ว");
+      if (p.mode === "speech") parts.push("ใช้เสียงสำรองจากเบราว์เซอร์");
+      box.querySelector(".pinfo").textContent = parts.join(" · ");
+    };
+    if (!player) {
+      player = new ListeningPlayer(test, g, { limit, onChange: () => render() });
+      attempt.players[key + (review ? ":r" : "")] = player;
+    } else {
+      player.onChange = render;
+    }
+    box.querySelector(".play").addEventListener("click", () => {
+      if (player.playing) {
+        // in exam mode, stopping still uses up the play — like a real test
+        player.stop();
+      } else player.play();
+    });
+    render();
+    return box;
+  }
+
+  function renderQuestion(q, num, { review, onAnswer }) {
+    const chosen = attempt.answers[q.id];
+    const card = el(`
+      <fieldset class="question ${review ? (chosen === q.answer ? "correct" : "wrong") : ""}">
+        <legend><span class="qnum">${num}</span><span class="qtext">${esc(q.prompt)}</span></legend>
+        <div class="options"></div>
+      </fieldset>`);
+    const opts = card.querySelector(".options");
+    q.options.forEach((o, i) => {
+      const letter = LETTERS[i];
+      const isLetterOnly = o.trim() === letter; // listening Q–R items
+      const lab = el(`
+        <label class="option">
+          <input type="radio" name="${esc(q.id)}" value="${i}" ${chosen === i ? "checked" : ""} ${review ? "disabled" : ""}>
+          <span class="letter">${letter}</span>
+          ${isLetterOnly ? "" : `<span class="otext">${esc(o)}</span>`}
+        </label>`);
+      if (review) {
+        if (i === q.answer) lab.classList.add("is-answer");
+        else if (i === chosen) lab.classList.add("is-wrong");
+      } else {
+        lab.querySelector("input").addEventListener("change", () => {
+          attempt.answers[q.id] = i;
+          onAnswer && onAnswer();
+        });
+      }
+      opts.append(lab);
+    });
+    if (review && CFG.showAnswersAfterSubmit) {
+      const verdict = chosen == null ? "ไม่ได้ตอบ" : chosen === q.answer ? "ถูกต้อง" : `คุณตอบ ${LETTERS[chosen]}`;
+      card.append(el(`
+        <div class="explain">
+          <div class="verdict"><b>${verdict}</b> · เฉลย ${LETTERS[q.answer]}</div>
+          ${q.explanation ? `<p>${esc(q.explanation)}</p>` : ""}
+        </div>`));
+    }
+    return card;
+  }
+
+  // ---------- submit & results ----------
+  function submit(timeUp) {
+    if (!attempt || attempt.submitted) return;
+    const { test } = attempt;
+    const total = allQuestions(test).length;
+    const answered = Object.keys(attempt.answers).length;
+    if (!timeUp && answered < total &&
+      !confirm(`ยังไม่ได้ตอบ ${total - answered} ข้อ ต้องการส่งคำตอบเลยหรือไม่?`)) return;
+
+    attempt.submitted = true;
+    attempt.finishedAt = Date.now();
+    clearTimer();
+    ListeningPlayer.stopAll();
+
+    const bySection = test.sections.map((s) => {
+      const qs = s.groups.flatMap((g) => g.questions);
+      const score = qs.filter((q) => attempt.answers[q.id] === q.answer).length;
+      return { id: s.id, title: s.title, score, total: qs.length };
+    });
+    const score = bySection.reduce((a, b) => a + b.score, 0);
+    attempt.result = { score, total, bySection, timeUp };
+
+    // local history
+    const history = store.get("history", {});
+    const h = history[test.id] || { attempts: [] };
+    h.attempts.push({ at: attempt.finishedAt, score, total });
+    h.attempts = h.attempts.slice(-20);
+    h.best = Math.max(h.best ?? 0, score);
+    history[test.id] = h;
+    store.set("history", history);
+
+    sendToSheets(test, attempt);
+    location.hash = `#/result/${encodeURIComponent(test.id)}`;
+  }
+
+  function sendToSheets(test, a) {
+    if (!CFG.sheetsUrl) return;
+    const st = store.get("student", { name: "", sid: "" });
+    const payload = {
+      timestamp: new Date(a.finishedAt).toISOString(),
+      name: st.name, studentId: st.sid,
+      testId: test.id, testTitle: test.title,
+      score: a.result.score, total: a.result.total,
+      sections: Object.fromEntries(a.result.bySection.map((s) => [s.title, `${s.score}/${s.total}`])),
+      minutes: Math.round((a.finishedAt - a.startedAt) / 6000) / 10,
+      answers: Object.fromEntries(allQuestions(test).map(({ q }) =>
+        [q.id, a.answers[q.id] == null ? "" : LETTERS[a.answers[q.id]]]))
+    };
+    a.sheetStatus = "sending";
+    fetch(CFG.sheetsUrl, {
+      method: "POST", mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    }).then(() => { a.sheetStatus = "sent"; updateSheetNote(); })
+      .catch(() => { a.sheetStatus = "failed"; updateSheetNote(); });
+  }
+  function updateSheetNote() {
+    const n = document.getElementById("sheet-note");
+    if (!n || !attempt) return;
+    n.textContent = { sending: "กำลังส่งคะแนนให้อาจารย์…", sent: "ส่งคะแนนให้อาจารย์แล้ว", failed: "ส่งคะแนนไม่สำเร็จ กรุณาแจ้งอาจารย์" }[attempt.sheetStatus] || "";
+  }
+
+  function viewResult(id) {
+    clearTimer();
+    if (!attempt || !attempt.submitted || attempt.test.id !== id) { location.hash = "#/"; return; }
+    const { test, result } = attempt;
+    const pct = Math.round((result.score / result.total) * 100);
+    const mins = Math.round((attempt.finishedAt - attempt.startedAt) / 60000);
+
+    app.innerHTML = "";
+    app.append(el(`
+      <section class="card result">
+        <p class="small muted">${esc(test.title)}${result.timeUp ? " · หมดเวลา ส่งคำตอบอัตโนมัติ" : ""}</p>
+        <div class="score"><span class="big">${result.score}</span><span class="of">/ ${result.total}</span><span class="pct">${pct}%</span></div>
+        <div class="sec-scores">
+          ${result.bySection.map((s) => `
+            <div class="sec-score">
+              <span>${esc(s.title)}</span>
+              <div class="bar"><span style="width:${(s.score / s.total) * 100}%"></span></div>
+              <b>${s.score}/${s.total}</b>
+            </div>`).join("")}
+        </div>
+        <p class="small muted">ใช้เวลา ${mins} นาที <span id="sheet-note"></span></p>
+        <div class="actions">
+          <a class="btn" href="#/">กลับหน้าแรก</a>
+          <a class="btn primary" href="#/test/${encodeURIComponent(test.id)}">ทำอีกครั้ง</a>
+        </div>
+      </section>`));
+    updateSheetNote();
+
+    if (CFG.showAnswersAfterSubmit) {
+      app.append(el(`<h2 class="review-title">เฉลยและคำอธิบาย</h2>`));
+      test.sections.forEach((s) => app.append(renderSection(test, s, { mode: "review" })));
+    }
+    window.scrollTo({ top: 0 });
+  }
+
+  function showError(msg, e) {
+    app.innerHTML = "";
+    app.append(el(`<div class="card error"><h2>${esc(msg)}</h2><p class="muted small">${esc(e && e.message)}</p><a class="btn" href="#/">กลับหน้าแรก</a></div>`));
+  }
+
+  // ---------- router ----------
+  function route() {
+    const [view, id] = location.hash.replace(/^#\/?/, "").split("/");
+    if (attempt && !attempt.submitted && view !== "test") {
+      // leaving an unfinished test
+      attempt = null;
+    }
+    if (view === "test" && id) return viewTest(decodeURIComponent(id));
+    if (view === "result" && id) return viewResult(decodeURIComponent(id));
+    return viewHome();
+  }
+
+  window.addEventListener("beforeunload", (e) => {
+    if (attempt && !attempt.submitted && Object.keys(attempt.answers).length) { e.preventDefault(); e.returnValue = ""; }
+  });
+  window.addEventListener("hashchange", route);
+  route();
+})();
