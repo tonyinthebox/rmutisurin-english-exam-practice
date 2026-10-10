@@ -260,3 +260,9 @@ input:focus-visible, .btn:focus-visible, .option:focus-within { outline: 2px sol
 .part-score small { font-size: .9rem; color: var(--muted); font-weight: 500; }
 .sec-score { grid-template-columns: 170px 1fr 50px; }
 @media (max-width: 600px) { .sec-score { grid-template-columns: 120px 1fr 44px; font-size: .9rem; } }
+
+/* ---------- link to speaking practice ---------- */
+.speaking-link { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; color: var(--ink); text-decoration: none; transition: border-color .15s; }
+.speaking-link:hover { border-color: var(--brand); }
+.speaking-icon { font-size: 1.8rem; }
+.speaking-go { margin-left: auto; color: var(--brand); font-size: 1.3rem; font-weight: 700; }

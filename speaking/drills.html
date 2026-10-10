@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drills · Speaking Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="speaking.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="../" class="brand"><span class="brand-mark" aria-hidden="true">E</span><span>English Exam Practice</span></a>
+    <a href="../" class="small">← ข้อสอบทั้งหมด</a>
+  </header>
+  <nav class="sp-nav" aria-label="แบบฝึก Speaking">
+    <a href="./">หน้ารวม</a><a href="exam.html">จำลองสอบ</a><a href="shadowing.html">Shadowing</a><a href="drills.html">Drills</a>
+  </nav>
+
+  <main class="app stack">
+    <!-- choose -->
+    <section id="choose" class="stack">
+      <section>
+        <p class="eyebrow">Drills</p>
+        <h1>ฝึกสั้น ๆ รอบละ 2–3 นาที</h1>
+        <p class="muted">ฟังโจทย์ → ได้ยินเสียงบี๊บ → พูดทันทีภายในเวลาที่กำหนด ฝึกให้พูดได้โดยไม่ต้องหยุดคิดนาน</p>
+      </section>
+      <section class="modes">
+        <button class="card mode-card" data-mode="sprint" style="text-align:left;font:inherit;cursor:pointer">
+          <span class="icon" aria-hidden="true">⚡</span>
+          <h3>Connector sprint</h3>
+          <p>6 รอบ × 15 วินาที พูด 1 ประโยคเกี่ยวกับภาพ โดยต้องใช้ connector ที่ได้รับ</p>
+          <span class="go">เริ่ม →</span>
+        </button>
+        <button class="card mode-card" data-mode="roles" style="text-align:left;font:inherit;cursor:pointer">
+          <span class="icon" aria-hidden="true">🧩</span>
+          <h3>เชื่อมภาพยาก</h3>
+          <p>5 รอบ × 20 วินาที ใช้ภาพเดียวกันใน 5 บทบาท: ฉาก อุปสรรค ทางออก ความทรงจำ ตอนจบ</p>
+          <span class="go">เริ่ม →</span>
+        </button>
+        <button class="card mode-card" data-mode="pattern" style="text-align:left;font:inherit;cursor:pointer">
+          <span class="icon" aria-hidden="true">🗣️</span>
+          <h3>Pattern 7 บรรทัด</h3>
+          <p>เสียงนำทีละบรรทัด พูดต่อให้จบภายใน 15 วินาที ได้เรื่องเต็มจาก 6 ภาพ</p>
+          <span class="go">เริ่ม →</span>
+        </button>
+      </section>
+      <div id="support"></div>
+      <p class="small muted">ใส่หูฟังจะดีที่สุด เพื่อไม่ให้เสียงโจทย์ถูกอัดปนกับเสียงของคุณ</p>
+    </section>
+
+    <!-- stage -->
+    <section id="stage" class="card stack" hidden>
+      <div>
+        <div class="phasebar">
+          <div>
+            <div class="phase-label" id="roundLabel">รอบ 1/6</div>
+            <div class="small muted" id="stageHint">ฟังโจทย์…</div>
+          </div>
+          <div class="timer-big" id="timer">0:15</div>
+        </div>
+        <div class="tbar"><span id="bar"></span></div>
+      </div>
+      <div class="pics" id="patternPics" hidden></div>
+      <div class="drill-stage" id="cueBox"></div>
+      <div id="liveWrap" class="stack">
+        <div class="small muted">ข้อความที่ระบบได้ยิน</div>
+        <div class="live" id="live"></div>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="nextBtn">พูดจบแล้ว ถัดไป →</button>
+        <button class="btn ghost" id="quitBtn">หยุดฝึก</button>
+      </div>
+    </section>
+
+    <!-- summary -->
+    <section id="summary" class="stack" hidden>
+      <section class="card stack">
+        <h2 id="sumTitle">สรุปผล</h2>
+        <div id="sumAudio"></div>
+        <div class="round-list" id="sumList"></div>
+        <p class="small muted" id="sumNote" style="margin:0"></p>
+      </section>
+      <div class="row">
+        <button class="btn" id="againBtn">↺ ฝึกโหมดนี้อีกรอบ</button>
+        <button class="btn primary" id="backBtn">เลือกโหมดอื่น</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><span>ฝึกพูด CU-TEP Speaking Part 1 · Drills</span></footer>
+
+  <script src="speaking.js"></script>
+  <script>
+  (async () => {
+    "use strict";
+    const { $, esc } = SP;
+    let data;
+    try { data = await SP.loadData(); }
+    catch (e) { $("#choose").innerHTML = '<p class="card">โหลดข้อมูลไม่สำเร็จ ลองรีเฟรชหน้าอีกครั้ง</p>'; return; }
+    await SP.initAudio();
+    $("#support").innerHTML = SP.supportChips();
+    $("#liveWrap").hidden = !SP.SR;
+
+    const CONN_ITEMS = data.connectors.groups.flatMap((g) => g.items);
+    const show = (id) => ["choose", "stage", "summary"].forEach((s) => ($("#" + s).hidden = s !== id));
+
+    function buildRounds(mode) {
+      if (mode === "sprint") {
+        const pics = SP.shuffle(data.pictures).slice(0, 6);
+        const conns = SP.shuffle(CONN_ITEMS).slice(0, 6);
+        return pics.map((p, i) => ({ secs: 15, cue: conns[i], pic: p, conn: conns[i].say,
+          show: `<div class="cue">${esc(conns[i].say)}</div><div class="cue-th">พูด 1 ประโยคเกี่ยวกับภาพนี้ โดยใช้คำนี้</div>` }));
+      }
+      if (mode === "roles") {
+        const p = SP.shuffle(data.pictures)[0];
+        return SP.shuffle(data.roles.items).map((r) => ({ secs: 20, cue: r, pic: p,
+          show: `<div class="cue" style="font-size:1.25rem">${esc(r.th)}</div><div class="cue-th">${esc(r.say)}</div>` }));
+      }
+      const pics = SP.shuffle(data.pictures).slice(0, 6);
+      return data.pattern.lines.map((l) => ({ secs: 15, cue: l, need: l.need, pics,
+        show: `<div class="cue-th">${esc(l.th)}</div><div class="pattern-line">${SP.highlight(l.show, l.need)}</div>` }));
+    }
+
+    function evaluate(r, heard) {
+      const checks = [];
+      if (r.pic) checks.push([r.pic.label, SP.picMentioned(heard, r.pic)]);
+      if (r.conn) checks.push([r.conn, SP.hasConn(heard, r.conn)]);
+      if (r.need) r.need.forEach((n) => checks.push([n, SP.hasConn(heard, n)]));
+      return checks;
+    }
+
+    const st = { mode: null, rounds: [], i: 0, results: [], token: 0, cancel: null, lis: null, rec: null, heard: "", audioUrl: null };
+
+    async function start(mode) {
+      SP.unlockAudio();
+      const my = ++st.token;
+      st.mode = mode; st.rounds = buildRounds(mode); st.i = 0; st.results = [];
+      if (st.audioUrl) { URL.revokeObjectURL(st.audioUrl); st.audioUrl = null; }
+      st.rec = null;
+      if (SP.canRecord) { try { st.rec = await SP.startRecording(); } catch (_) { st.rec = null; } }
+      if (my !== st.token) return;
+      const pp = $("#patternPics");
+      pp.hidden = mode !== "pattern";
+      if (mode === "pattern") pp.innerHTML = st.rounds[0].pics.map((p, i) => SP.picHTML(p, i)).join("");
+      show("stage");
+      runRound(my);
+    }
+
+    async function runRound(my) {
+      const r = st.rounds[st.i];
+      $("#roundLabel").textContent = `รอบ ${st.i + 1}/${st.rounds.length}`;
+      $("#stageHint").textContent = "ฟังโจทย์…";
+      $("#cueBox").innerHTML = (r.pic ? SP.picHTML(r.pic).replace('class="pic"', 'class="pic single"') : "") + r.show;
+      $("#live").textContent = "";
+      $("#timer").textContent = SP.fmt(r.secs); $("#bar").style.width = "0%";
+      $("#nextBtn").disabled = true;
+      await SP.say(r.cue);
+      if (my !== st.token) return;
+      await SP.beep(990);
+      if (my !== st.token) return;
+      $("#stageHint").textContent = "พูดเลย!";
+      $("#nextBtn").disabled = false;
+      st.heard = "";
+      st.lis = SP.listen((t) => { st.heard = t; $("#live").textContent = t; });
+      st.cancel = SP.countdown(r.secs, (left, total) => {
+        $("#timer").textContent = SP.fmt(left);
+        $("#bar").style.width = (100 * (total - left) / total) + "%";
+      }, () => endRound(my));
+    }
+
+    async function endRound(my) {
+      if (my !== st.token || !st.lis && !st.cancel) return;
+      if (st.cancel) { st.cancel(); st.cancel = null; }
+      $("#nextBtn").disabled = true;
+      const lis = st.lis; st.lis = null;
+      const heard = (lis ? await lis.stop() : "") || st.heard;
+      const r = st.rounds[st.i];
+      st.results.push({ r, heard, checks: evaluate(r, heard) });
+      if (my !== st.token) return;
+      st.i++;
+      if (st.i < st.rounds.length) runRound(my);
+      else finish(my);
+    }
+
+    async function finish(my) {
+      const res = st.rec ? await st.rec.stop() : null;
+      st.rec = null; SP.Mic.close();
+      if (my !== st.token) return;
+      if (res) st.audioUrl = res.url;
+      SP.logPractice("drill");
+      const names = { sprint: "Connector sprint", roles: "เชื่อมภาพยาก", pattern: "Pattern 7 บรรทัด" };
+      $("#sumTitle").textContent = "สรุปผล: " + names[st.mode];
+      $("#sumAudio").innerHTML = st.audioUrl
+        ? `<div class="small muted">ฟังเสียงทั้งรอบ</div><audio controls src="${st.audioUrl}"></audio>` : "";
+      let ok = 0, all = 0;
+      $("#sumList").innerHTML = st.results.map((x, i) => {
+        const chips = x.checks.map(([label, pass]) => { all++; if (pass) ok++; return `<span class="chip ${pass ? "ok" : "bad"}">${pass ? "✓" : "✗"} ${esc(label)}</span>`; }).join("");
+        const title = x.r.conn ? `${esc(x.r.pic.label)} + <b>${esc(x.r.conn)}</b>` : x.r.cue.th ? esc(x.r.cue.th) : esc(x.r.cue.say);
+        return `<div class="round-item"><div><b>${i + 1}.</b> ${title}</div>
+          ${SP.SR ? `<div class="heard">${x.heard ? "ได้ยิน: " + esc(x.heard) : "ไม่ได้ยินเสียงพูด"}</div><div class="chips">${chips}</div>` : ""}</div>`;
+      }).join("");
+      $("#sumNote").textContent = SP.SR
+        ? `ระบบตรวจพบตามเป้า ${ok}/${all} จุด · ถ้าพูดถึงภาพด้วยคำอื่นหรือระบบฟังไม่ชัด อาจขึ้น ✗ ได้ ให้ฟังเสียงของคุณประกอบ`
+        : "เบราว์เซอร์นี้ถอดเสียงไม่ได้ ฟังเสียงที่อัดไว้แล้วประเมินเองว่าใช้คำตามโจทย์ครบไหม";
+      show("summary");
+    }
+
+    function quit() {
+      st.token++;
+      SP.stopAudio();
+      if (st.cancel) { st.cancel(); st.cancel = null; }
+      if (st.lis) { st.lis.stop(); st.lis = null; }
+      if (st.rec) { st.rec.stop(); st.rec = null; }
+      SP.Mic.close();
+      show("choose");
+    }
+
+    document.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => start(b.dataset.mode)));
+    $("#nextBtn").addEventListener("click", () => endRound(st.token));
+    $("#quitBtn").addEventListener("click", quit);
+    $("#againBtn").addEventListener("click", () => start(st.mode));
+    $("#backBtn").addEventListener("click", () => show("choose"));
+  })();
+  </script>
+</body>
+</html>

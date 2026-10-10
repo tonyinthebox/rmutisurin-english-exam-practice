@@ -161,6 +161,14 @@
         ${CFG.siteSubtitle ? `<p class="hero-sub">${esc(CFG.siteSubtitle)}</p>` : ""}
       </section>`));
 
+    app.append(el(`
+      <a class="card speaking-link" href="speaking/">
+        <span class="speaking-icon" aria-hidden="true">🎙️</span>
+        <span><strong>ฝึก Speaking · CU-TEP Part 1</strong><br>
+        <span class="muted small">ฟังเสียงตัวอย่าง พูดตาม อัดเสียง และจำลองสอบ Picture Story</span></span>
+        <span class="speaking-go" aria-hidden="true">→</span>
+      </a>`));
+
     const form = el(`
       <section class="card student">
         <h2>ข้อมูลผู้สอบ ${CFG.requireStudentInfo ? "" : '<span class="muted small">(ไม่บังคับ)</span>'}</h2>

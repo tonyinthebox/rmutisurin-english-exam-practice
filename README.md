@@ -115,6 +115,34 @@ python scripts/validate.py
 
 ---
 
+## แบบฝึก Speaking (CU-TEP Part 1 Picture Story)
+
+เปิดที่ `https://<ชื่อผู้ใช้>.github.io/<ชื่อ-repo>/speaking/` หรือกดการ์ด **ฝึก Speaking** บนหน้าแรก
+
+| หน้า | ใช้ทำอะไร |
+|---|---|
+| `speaking/index.html` | หน้ารวม แสดงความก้าวหน้า (เก็บในเบราว์เซอร์ของผู้เรียน) |
+| `speaking/shadowing.html` | ฟังคำตอบตัวอย่างทีละประโยค พูดตาม อัดเสียง และเทียบกับต้นแบบ |
+| `speaking/drills.html` | Drill สั้น: Connector sprint, เชื่อมภาพยาก, Pattern 7 บรรทัด |
+| `speaking/exam.html` | จำลองสอบพร้อมเสียงกรรมการ จับเวลา ตรวจภาพครบ/connector และ rubric |
+
+**เนื้อหาทั้งหมดอยู่ใน `data/speaking/part1.json`** แก้ได้โดยไม่ต้องแตะโค้ด
+
+- `pictures` คลังภาพ: `id`, `emoji` (ใช้แทนภาพชั่วคราว), `label`, `kw` (คำที่ใช้ตรวจว่าผู้เรียนพูดถึงภาพนี้) และ `img` (ไม่บังคับ)
+- `sets` ชุด 6 ภาพพร้อมคำตอบตัวอย่าง แต่ละประโยคมี `id` และ `say`
+- `examiner`, `connectors`, `roles`, `pattern` คำสั่งกรรมการและโจทย์ของ Drills
+
+**เพิ่มภาพจริงแทน emoji:** อัปโหลดภาพไว้ที่ `speaking/images/` แล้วใส่ `"img": "images/ชื่อไฟล์.jpg"` ในภาพนั้น และบันทึกที่มาของภาพใน `speaking/images/CREDITS.md`
+
+**เสียง:** ทุกรายการที่มี `id` + `say` จะถูกสร้างเป็น `audio/speaking/<id>.mp3` อัตโนมัติด้วย edge-tts เมื่อ push ขึ้น `main` เปลี่ยนเสียงได้ด้วย `"voice"` (ใส่ที่ชุดหรือที่ประโยค) ระหว่างที่ยังไม่มีไฟล์ MP3 เว็บจะใช้เสียงอ่านของเบราว์เซอร์แทน
+
+- `id` ใช้ได้เฉพาะ a-z, 0-9 และ `-` และห้ามซ้ำกันทั้งไฟล์
+- ตรวจไฟล์ก่อน commit: `python scripts/build_speaking_audio.py --check`
+
+**ข้อจำกัด:** การถอดเสียงเป็นข้อความทำงานเต็มที่บน Chrome/Edge (Android, Windows, Mac) บน iPhone อัดเสียงและฟังได้ แต่การถอดเสียงอาจไม่ทำงาน ผู้เรียนพิมพ์คำตอบเองได้ในหน้าผลลัพธ์
+
+---
+
 ## เก็บคะแนนใน Google Sheets
 
 ดูขั้นตอนใน [docs/google-sheets-setup.md](docs/google-sheets-setup.md)

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shadowing · Speaking Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="speaking.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="../" class="brand"><span class="brand-mark" aria-hidden="true">E</span><span>English Exam Practice</span></a>
+    <a href="../" class="small">← ข้อสอบทั้งหมด</a>
+  </header>
+  <nav class="sp-nav" aria-label="แบบฝึก Speaking">
+    <a href="./">หน้ารวม</a><a href="exam.html">จำลองสอบ</a><a href="shadowing.html">Shadowing</a><a href="drills.html">Drills</a>
+  </nav>
+
+  <main class="app stack">
+    <section>
+      <p class="eyebrow">Shadowing</p>
+      <h1>ฟัง พูดตาม แล้วเทียบเสียง</h1>
+      <p class="muted">ฝึกจังหวะ การเน้นคำ และ connector จากคำตอบตัวอย่างทีละประโยค</p>
+    </section>
+
+    <section class="card stack">
+      <div class="row">
+        <label class="field grow">เรื่อง
+          <select id="setSel"></select>
+        </label>
+        <div class="field">ความเร็วเสียง
+          <div class="seg" role="group" aria-label="ความเร็วเสียง">
+            <button type="button" data-rate="0.75">0.75×</button><button type="button" data-rate="1">1×</button>
+          </div>
+        </div>
+      </div>
+      <div class="pics" id="pics"></div>
+      <div class="row">
+        <button class="btn primary" id="playAll">▶ ฟังทั้งเรื่อง</button>
+        <button class="btn" id="stopAll" hidden>■ หยุด</button>
+        <span class="small muted" id="audioNote"></span>
+      </div>
+      <p class="note info small" style="margin:0">ทำทีละประโยค: <b>▶ ฟัง</b> 2–3 รอบ → <b>● พูดตาม</b> เลียนจังหวะและเสียงขึ้นลง → <b>⇄ เทียบ</b> ฟังเสียงต้นแบบต่อด้วยเสียงคุณ · คำสีส้มคือ connector</p>
+    </section>
+
+    <section class="stack" id="list"></section>
+    <p class="small muted" id="srHint"></p>
+  </main>
+
+  <footer class="footer"><span>ฝึกพูด CU-TEP Speaking Part 1 · Shadowing</span></footer>
+
+  <script src="speaking.js"></script>
+  <script>
+  (async () => {
+    "use strict";
+    const { $, esc, el } = SP;
+    let data;
+    try { data = await SP.loadData(); }
+    catch (e) { $("#list").innerHTML = '<p class="card">โหลดข้อมูลไม่สำเร็จ ลองรีเฟรชหน้าอีกครั้ง</p>'; return; }
+    await SP.initAudio();
+
+    const pics = Object.fromEntries(data.pictures.map((p) => [p.id, p]));
+    const connLabels = Object.values(data.connectors.detect).flat();
+    let rate = SP.store.get("rate", 1);
+    let logged = false;
+    let rows = [];
+
+    // set selector
+    const sets = data.sets.filter((s) => s.model && s.model.length);
+    $("#setSel").innerHTML = sets.map((s) => `<option value="${esc(s.id)}">${esc(s.title)} (${esc(s.level || "")})</option>`).join("");
+    const want = new URLSearchParams(location.search).get("set");
+    if (want && sets.some((s) => s.id === want)) $("#setSel").value = want;
+    $("#setSel").addEventListener("change", () => { history.replaceState(null, "", "?set=" + $("#setSel").value); render(); });
+
+    // speed
+    const segBtns = document.querySelectorAll(".seg button");
+    const paintRate = () => segBtns.forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.rate === rate)));
+    segBtns.forEach((b) => b.addEventListener("click", () => { rate = +b.dataset.rate; SP.store.set("rate", rate); paintRate(); }));
+    paintRate();
+
+    $("#srHint").textContent = SP.SR
+      ? "ระบบจะบอกว่าคำไหนตรงกับต้นแบบ (สีเขียว) และคำไหนอาจออกเสียงไม่ชัด (ขีดเส้นใต้สีแดง) ใช้เป็นแนวทางเท่านั้น ไม่ใช่คะแนนการออกเสียง"
+      : "เบราว์เซอร์นี้ถอดเสียงไม่ได้ ใช้การฟังเทียบด้วยหูของคุณเอง (เปิดด้วย Chrome หรือ Edge เพื่อดูคำที่ตรงกับต้นแบบ)";
+
+    function render() {
+      SP.stopAudio();
+      rows.forEach((r) => r.url && URL.revokeObjectURL(r.url));
+      const set = sets.find((s) => s.id === $("#setSel").value) || sets[0];
+      $("#pics").innerHTML = set.pics.map((id, i) => SP.picHTML(pics[id], i)).join("");
+      const mp3 = set.model.filter((m) => SP.hasMp3(m.id)).length;
+      $("#audioNote").textContent = mp3 === set.model.length ? "" : "ตอนนี้ใช้เสียงอ่านของเบราว์เซอร์ชั่วคราว";
+      const list = $("#list");
+      list.innerHTML = "";
+      rows = set.model.map((m, i) => {
+        const card = el(`
+          <article class="card sent">
+            <div class="small muted">ประโยค ${i + 1}/${set.model.length}</div>
+            <div class="text">${SP.highlight(m.say, connLabels)}</div>
+            <div class="tools">
+              <button class="btn small" data-act="play">▶ ฟัง</button>
+              <button class="btn small" data-act="rec" ${SP.canRecord ? "" : "disabled"}>● พูดตาม</button>
+              <button class="btn small" data-act="mine" disabled>▶ เสียงฉัน</button>
+              <button class="btn small" data-act="cmp" disabled>⇄ เทียบ</button>
+              <span class="score" aria-live="polite"></span>
+            </div>
+          </article>`);
+        const row = { m, card, url: null, rec: null, lis: null };
+        card.addEventListener("click", (e) => { const b = e.target.closest("button[data-act]"); if (b) act(row, b.dataset.act, b); });
+        list.append(card);
+        return row;
+      });
+    }
+
+    const playUrl = (url) => new Promise((res) => { const a = new Audio(url); a.onended = () => res(true); a.onerror = () => res(false); a.play().catch(() => res(false)); });
+
+    async function act(row, what, btn) {
+      SP.unlockAudio();
+      if (what === "play") { mark(row); await SP.say(row.m, rate); mark(null); }
+      if (what === "mine" && row.url) { SP.stopAudio(); await playUrl(row.url); }
+      if (what === "cmp" && row.url) { mark(row); const ok = await SP.say(row.m, rate); mark(null); if (ok) await playUrl(row.url); }
+      if (what === "rec") { row.rec ? stopRec(row, btn) : startRec(row, btn); }
+    }
+    function mark(row) { rows.forEach((r) => r.card.classList.toggle("playing", r === row)); }
+
+    let autoStop = null;
+    async function startRec(row, btn) {
+      SP.stopAudio();
+      for (const r of rows) if (r.rec && r !== row) await stopRec(r, r.card.querySelector('[data-act="rec"]'));
+      try { row.rec = await SP.startRecording(); }
+      catch (e) { row.card.querySelector(".score").textContent = "ใช้ไมโครโฟนไม่ได้ กรุณาอนุญาตการใช้ไมโครโฟน"; return; }
+      row.lis = SP.listen((t) => { row.card.querySelector(".score").textContent = "ได้ยิน: " + t; });
+      btn.textContent = "■ หยุด"; btn.classList.add("rec");
+      const limit = Math.max(8, SP.wordCount(row.m.say) * 0.75 + 5) / Math.min(rate, 1);
+      clearTimeout(autoStop);
+      autoStop = setTimeout(() => { if (row.rec) stopRec(row, btn); }, limit * 1000);
+    }
+    async function stopRec(row, btn) {
+      clearTimeout(autoStop);
+      const rec = row.rec, lis = row.lis;
+      row.rec = null; row.lis = null;
+      btn.textContent = "● พูดอีกครั้ง"; btn.classList.remove("rec");
+      const [res, heard] = await Promise.all([rec.stop(), lis ? lis.stop() : Promise.resolve("")]);
+      if (res) {
+        if (row.url) URL.revokeObjectURL(row.url);
+        row.url = res.url;
+        row.card.querySelector('[data-act="mine"]').disabled = false;
+        row.card.querySelector('[data-act="cmp"]').disabled = false;
+      }
+      const score = row.card.querySelector(".score");
+      if (heard) {
+        const c = SP.compareWords(row.m.say, heard);
+        row.card.querySelector(".text").innerHTML = c.tokens.map((tok, i) =>
+          `<span class="w ${c.tokHit[i] === false ? "miss" : c.tokHit[i] ? "hit" : ""}">${esc(tok)}</span>`).join(" ");
+        score.textContent = `ตรงกับต้นแบบ ${c.pct}%` + (c.pct >= 85 ? " · ดีมาก" : c.pct >= 60 ? " · ลองอีกรอบ เน้นคำที่ขีดเส้นใต้" : " · ฟังต้นแบบอีกครั้งแล้วพูดช้าลง");
+      } else {
+        score.textContent = res ? "กด ⇄ เทียบ เพื่อฟังต้นแบบต่อด้วยเสียงคุณ" : "";
+      }
+      if (res && !logged) { SP.logPractice("shadow"); logged = true; }
+    }
+
+    $("#playAll").addEventListener("click", async () => {
+      SP.unlockAudio();
+      $("#playAll").hidden = true; $("#stopAll").hidden = false;
+      for (const r of rows) {
+        mark(r);
+        r.card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        const ok = await SP.say(r.m, rate);
+        if (!ok) break;
+        await new Promise((res) => setTimeout(res, 350));
+      }
+      mark(null);
+      $("#playAll").hidden = false; $("#stopAll").hidden = true;
+    });
+    $("#stopAll").addEventListener("click", () => SP.stopAudio());
+
+    render();
+  })();
+  </script>
+</body>
+</html>

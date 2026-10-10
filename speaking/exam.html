@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>จำลองสอบ Part 1 · Speaking Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="speaking.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="../" class="brand"><span class="brand-mark" aria-hidden="true">E</span><span>English Exam Practice</span></a>
+    <a href="../" class="small">← ข้อสอบทั้งหมด</a>
+  </header>
+  <nav class="sp-nav" aria-label="แบบฝึก Speaking">
+    <a href="./">หน้ารวม</a><a href="exam.html">จำลองสอบ</a><a href="shadowing.html">Shadowing</a><a href="drills.html">Drills</a>
+  </nav>
+
+  <main class="app stack">
+    <!-- ============ SETTINGS ============ -->
+    <section id="intro" class="stack">
+      <section>
+        <p class="eyebrow">จำลองสอบ</p>
+        <h1>Part 1: Picture Story</h1>
+        <p class="muted">ดู 6 ภาพ เตรียมตัว แล้วแต่งเป็นเรื่องเดียวที่เชื่อมทุกภาพ เป้าหมาย B2: ประมาณ 200–260 คำ ใช้ครบ 6 ภาพ และใช้ connector อย่างน้อย 6 แบบ</p>
+      </section>
+      <section class="card stack">
+        <div class="row">
+          <label class="field grow">ชุดภาพ
+            <select id="setMode"></select>
+          </label>
+          <label class="field">เวลาเตรียม
+            <select id="prepSec">
+              <option value="45" selected>45 วินาที (สอบจริง)</option>
+              <option value="90">90 วินาที</option>
+              <option value="180">3 นาที</option>
+            </select>
+          </label>
+          <label class="field">เวลาพูด
+            <select id="speakSec">
+              <option value="120" selected>2 นาที (สอบจริง)</option>
+              <option value="90">90 วินาที</option>
+              <option value="150">2 นาที 30 วินาที</option>
+            </select>
+          </label>
+        </div>
+        <label class="check"><input type="checkbox" id="voiceOn" checked> เปิดเสียงกรรมการอ่านคำสั่ง (แนะนำให้ใส่หูฟัง)</label>
+        <div><button class="btn primary big" id="startBtn">▶ เริ่มจำลองสอบ</button></div>
+        <p id="micMsg" class="small muted" style="margin:0"></p>
+        <div id="support"></div>
+      </section>
+    </section>
+
+    <!-- ============ TASK ============ -->
+    <section id="task" class="card stack" hidden>
+      <div>
+        <div class="phasebar">
+          <div>
+            <div class="phase-label" id="phaseLabel">Preparation</div>
+            <div class="small muted" id="phaseHint"></div>
+          </div>
+          <div class="timer-big" id="timer">0:45</div>
+        </div>
+        <div class="tbar"><span id="bar"></span></div>
+      </div>
+      <div class="pics" id="pics"></div>
+      <div id="prepArea" class="stack">
+        <label class="small muted" for="notes">กระดาษทด: ใช้สัญลักษณ์ → ✗ ✓ ∵ ∴ ★</label>
+        <textarea id="notes" rows="3" placeholder="Kitti ★job | letter → rain ✗ → bus ✗ → phone ✗ → old lady ✓ → coffee ★"></textarea>
+        <div><button class="btn" id="skipPrep">พร้อมแล้ว เริ่มพูดเลย →</button></div>
+      </div>
+      <div id="speakArea" class="stack" hidden>
+        <p style="margin:0"><span class="rec-dot"></span><b id="recState">กำลังอัดเสียง</b> <span class="small muted">พูดภาษาอังกฤษได้เลย</span></p>
+        <div class="small muted">ข้อความที่ระบบได้ยิน (อาจไม่ตรง 100%)</div>
+        <div class="live" id="live"></div>
+        <p id="srNote" class="note small" hidden></p>
+        <div><button class="btn rec big" id="stopBtn">■ พูดจบแล้ว</button></div>
+      </div>
+    </section>
+
+    <!-- ============ RESULTS ============ -->
+    <section id="results" class="stack" hidden>
+      <section class="card">
+        <h2>1. ฟังเสียงตัวเอง</h2>
+        <div id="audioWrap"></div>
+        <p class="small muted">ฟังแล้วสังเกต: ลังเลนานไหม ออกเสียงท้ายคำ -ed / -s ชัดไหม ลงท้ายประโยคเสียงต่ำไหม</p>
+      </section>
+      <section class="card stack">
+        <h2>2. ข้อความที่พูด</h2>
+        <p class="small muted" style="margin:0">แก้ให้ตรงกับที่พูดจริงได้ (ระบบมักตัด um/uh ทิ้งและเดาคำให้ดีกว่าที่พูด) แล้วกด วิเคราะห์ใหม่</p>
+        <textarea id="transcript" rows="7" placeholder="ถ้าระบบถอดเสียงไม่ได้ ให้ฟังไฟล์เสียงแล้วพิมพ์สิ่งที่พูดลงที่นี่"></textarea>
+        <div><button class="btn" id="reanalyze">↻ วิเคราะห์ใหม่</button></div>
+        <p id="notesShow" class="small muted" style="margin:0"></p>
+      </section>
+      <section class="card stack">
+        <h2>3. ผลวิเคราะห์อัตโนมัติ</h2>
+        <div class="stats" id="stats"></div>
+        <h3 style="margin:8px 0 0">ใช้ภาพครบไหม</h3>
+        <div class="pics" id="picsCheck"></div>
+        <h3 style="margin:8px 0 0">Connector ที่ใช้</h3>
+        <div id="conns"></div>
+        <h3 style="margin:8px 0 0">คำแนะนำ</h3>
+        <ul class="fb" id="feedback"></ul>
+      </section>
+      <section class="card">
+        <h2>4. ประเมินตัวเอง</h2>
+        <p class="small muted">1 = A2 · 2 = B1 · 3 = B1+ · 4 = B2 · 5 = C1</p>
+        <div id="rubric"></div>
+        <p id="rubricTotal" class="small"></p>
+      </section>
+      <section class="card">
+        <h2>5. ขอ feedback จาก AI</h2>
+        <p class="small muted">คัดลอกคำสั่งพร้อมคำตอบของคุณ แล้วนำไปวางใน Claude หรือแชตบอต AI อื่น เพื่อรับการแก้ grammar และฉบับปรับเป็น B2+</p>
+        <button class="btn" id="copyAI">📋 คัดลอกคำสั่งสำหรับ AI</button> <span id="copyMsg" class="small muted"></span>
+      </section>
+      <section class="card stack">
+        <h2>6. คำตอบตัวอย่าง</h2>
+        <div id="model"></div>
+      </section>
+      <div class="row">
+        <button class="btn" id="again">↺ ลองชุดเดิมอีกครั้ง</button>
+        <button class="btn primary" id="newSet">▶ สุ่มชุดใหม่</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><span>ฝึกพูด CU-TEP Speaking Part 1 · จำลองสอบ</span></footer>
+
+  <script src="speaking.js"></script>
+  <script>
+  (async () => {
+    "use strict";
+    const { $, esc } = SP;
+    let data;
+    try { data = await SP.loadData(); }
+    catch (e) { $("#intro").innerHTML = '<p class="card">โหลดข้อมูลไม่สำเร็จ ลองรีเฟรชหน้าอีกครั้ง</p>'; return; }
+    await SP.initAudio();
+    $("#support").innerHTML = SP.supportChips();
+
+    const PICS = data.pictures;
+    const byId = Object.fromEntries(PICS.map((p) => [p.id, p]));
+    const DETECT = data.connectors.detect;
+    const connLabels = Object.values(DETECT).flat();
+    const EX = data.examiner;
+    const RUBRIC = [
+      { k: "content", name: "Content", desc: "ใช้ครบทั้ง 6 ภาพอย่างมีความหมาย เรื่องสมเหตุสมผล ไม่ใช่แค่ไล่บอกชื่อภาพ" },
+      { k: "org", name: "Organization", desc: "มีต้นเรื่อง ปมปัญหา และตอนจบชัดเจน เชื่อมด้วย connector หลากหลาย ไม่พูดวน" },
+      { k: "vocab", name: "Vocabulary", desc: "ใช้คำเฉพาะเรื่องและสำนวนหลากหลาย (เช่น rush, relieved, soaking wet)" },
+      { k: "grammar", name: "Grammar", desc: "ใช้ Past tense สม่ำเสมอ มีประโยคซับซ้อน (which/who, not only…but also) และผิดน้อย" },
+      { k: "pron", name: "Pronunciation", desc: "ฟังไฟล์เสียง: ออกเสียงท้ายคำ (-ed, -s) ชัด เน้นคำถูก ผู้ฟังเข้าใจได้ไม่ต้องเดา" }
+    ];
+    const TEMPLATE = `<p><b>โครงเรื่อง 4 ช่วง (ใช้ได้กับทุกชุดภาพ)</b></p>
+      <p><b>1. เปิดเรื่อง (~15 วิ)</b> Last [Saturday], [name], <mark class="conn">who</mark> [was a student], wanted to…</p>
+      <p><b>2. ดำเนินเรื่อง (~80 วิ)</b> ภาพละ 1–2 ประโยค: <mark class="conn">As soon as</mark>… / <mark class="conn">While</mark> he was… / <mark class="conn">After that</mark>…</p>
+      <p><b>3. ปมปัญหา + ทางออก</b> <mark class="conn">Unfortunately</mark>… <mark class="conn">so</mark>… / <mark class="conn">Fortunately</mark>… / <mark class="conn">Not only</mark> did…, <mark class="conn">but</mark> … <mark class="conn">also</mark>…</p>
+      <p><b>4. ตอนจบ (~20 วิ)</b> <mark class="conn">In the end</mark>… / From that day on, [name] always…</p>
+      <p class="small muted">ภาพที่เชื่อมยาก ให้ใช้เป็น "ฉาก": <i>On the way, he walked past a shop where…</i></p>`;
+
+    // settings
+    $("#setMode").innerHTML = '<option value="random">สุ่มภาพใหม่</option>' +
+      data.sets.map((s) => `<option value="${esc(s.id)}">ชุด: ${esc(s.title)} (มีคำตอบตัวอย่าง)</option>`).join("");
+    $("#voiceOn").checked = SP.store.get("examVoice", true);
+    $("#voiceOn").addEventListener("change", () => SP.store.set("examVoice", $("#voiceOn").checked));
+
+    const st = { pics: [], set: null, prep: 45, speak: 120, voice: true, phase: "idle", sess: 0, cancel: null,
+                 rec: null, lis: null, audio: null, finalText: "", speakStart: 0, spokenSec: 0, stats: null };
+    const show = (id) => { ["intro", "task", "results"].forEach((s) => ($("#" + s).hidden = s !== id)); window.scrollTo({ top: 0, behavior: "smooth" }); };
+    const tick = (left, total) => {
+      $("#timer").textContent = SP.fmt(left);
+      $("#bar").style.width = (100 * (total - left) / total) + "%";
+      $("#timer").classList.toggle("warn", st.phase === "speaking" && left <= 30);
+    };
+
+    async function startSession(reuse) {
+      SP.unlockAudio();
+      const my = ++st.sess;
+      st.prep = +$("#prepSec").value; st.speak = +$("#speakSec").value; st.voice = $("#voiceOn").checked;
+      if (!reuse) {
+        const mode = $("#setMode").value;
+        st.set = data.sets.find((s) => s.id === mode) || null;
+        st.pics = st.set ? st.set.pics.map((id) => byId[id]) : SP.shuffle(PICS).slice(0, 6);
+      }
+      $("#notes").value = ""; st.finalText = "";
+      if (st.audio) { URL.revokeObjectURL(st.audio.url); st.audio = null; }
+
+      $("#micMsg").textContent = "กำลังขอสิทธิ์ใช้ไมโครโฟน…";
+      let micOk = false;
+      if (SP.canRecord) { try { await SP.Mic.open(); micOk = true; } catch (_) {} }
+      $("#micMsg").textContent = micOk ? "" : "ใช้ไมโครโฟนไม่ได้ จะฝึกต่อโดยไม่อัดเสียง (พิมพ์คำตอบเองหลังพูด)";
+      st.micOk = micOk;
+      if (my !== st.sess) return;
+
+      st.phase = "prep";
+      $("#pics").innerHTML = st.pics.map((p, i) => SP.picHTML(p, i)).join("");
+      $("#task").classList.remove("speaking");
+      $("#prepArea").hidden = false; $("#speakArea").hidden = true;
+      $("#phaseLabel").textContent = "Preparation";
+      tick(st.prep, st.prep);
+      show("task");
+
+      if (st.voice) {
+        $("#phaseHint").textContent = "ฟังคำสั่งจากกรรมการ…";
+        await SP.say(EX.intro);
+        if (my !== st.sess || st.phase !== "prep") return;
+        await SP.beep(660);
+      }
+      if (my !== st.sess || st.phase !== "prep") return;
+      $("#phaseHint").textContent = "วางโครงเรื่อง: ใครคือตัวละคร? เกิดอะไรขึ้น? จบอย่างไร?";
+      st.cancel = SP.countdown(st.prep, tick, startSpeaking);
+    }
+
+    async function startSpeaking() {
+      if (st.phase !== "prep") return;
+      st.phase = "speaking";
+      const my = st.sess;
+      st.speakStart = 0;
+      if (st.cancel) st.cancel();
+      SP.stopAudio();
+      $("#task").classList.add("speaking");
+      $("#prepArea").hidden = true; $("#speakArea").hidden = false;
+      $("#phaseLabel").textContent = "Speaking";
+      $("#phaseHint").textContent = "เล่าเรื่องให้เชื่อมทั้ง 6 ภาพ ใช้ Past tense";
+      $("#live").textContent = ""; $("#srNote").hidden = true;
+      tick(st.speak, st.speak);
+      if (st.voice) {
+        $("#recState").textContent = "ฟังกรรมการ…";
+        await SP.say(EX.begin);
+        await SP.beep(990);
+        if (my !== st.sess || st.phase !== "speaking") return;
+      }
+      $("#recState").textContent = st.micOk ? "กำลังอัดเสียง" : "กำลังจับเวลา (ไม่ได้อัดเสียง)";
+      st.rec = null;
+      if (st.micOk) { try { st.rec = await SP.startRecording(); } catch (_) { st.rec = null; } }
+      st.lis = SP.listen((t) => { st.finalText = t; const live = $("#live"); live.textContent = t; live.scrollTop = live.scrollHeight; });
+      if (!st.lis) { $("#srNote").hidden = false; $("#srNote").textContent = "เบราว์เซอร์นี้ถอดเสียงไม่ได้ พูดต่อได้เลย หลังจบให้พิมพ์สิ่งที่พูดเอง"; }
+      st.speakStart = Date.now();
+      st.cancel = SP.countdown(st.speak, tick, stopSpeaking);
+    }
+
+    async function stopSpeaking() {
+      if (st.phase !== "speaking") return;
+      st.phase = "done";
+      if (st.cancel) st.cancel();
+      $("#stopBtn").disabled = true;
+      st.spokenSec = st.speakStart ? (Date.now() - st.speakStart) / 1000 : 0;
+      const [audio, heard] = await Promise.all([st.rec ? st.rec.stop() : null, st.lis ? st.lis.stop() : ""]);
+      st.finalText = heard || st.finalText;
+      st.audio = audio; st.rec = null; st.lis = null;
+      SP.Mic.close();
+      $("#stopBtn").disabled = false;
+      SP.logPractice("exam");
+      showResults();
+      if (st.voice) SP.say(EX.end);
+    }
+
+    // ---------------- results ----------------
+    function showResults() {
+      if (st.audio) {
+        const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-");
+        $("#audioWrap").innerHTML = `<audio controls src="${st.audio.url}"></audio>
+          <div style="margin-top:8px"><a class="btn small" href="${st.audio.url}" download="cutep-part1-${stamp}.${st.audio.ext}">⬇ ดาวน์โหลดไฟล์เสียง</a></div>`;
+      } else {
+        $("#audioWrap").innerHTML = '<p class="muted">ครั้งนี้ไม่มีไฟล์เสียง (ไม่ได้อนุญาตไมโครโฟน หรือเบราว์เซอร์ไม่รองรับ)</p>';
+      }
+      $("#transcript").value = st.finalText.trim();
+      const n = $("#notes").value.trim();
+      $("#notesShow").textContent = n ? "โน้ตตอนเตรียม: " + n : "";
+      renderModel();
+      renderRubric();
+      analyze();
+      show("results");
+    }
+
+    function renderModel() {
+      const m = $("#model");
+      if (st.set && st.set.model) {
+        m.innerHTML = `<p class="small muted" style="margin:0">คำตอบตัวอย่าง "${esc(st.set.title)}" ระดับ ${esc(st.set.level || "B2")} · ตัวสีส้มคือ connector</p>
+          <div class="model">${st.set.model.map((s) => `<p>${SP.highlight(s.say, connLabels)}</p>`).join("")}</div>
+          <div class="row"><button class="btn" id="playModel">▶ ฟังคำตอบตัวอย่าง</button>
+          <a class="btn" href="shadowing.html?set=${encodeURIComponent(st.set.id)}">🎧 ฝึก Shadowing เรื่องนี้</a></div>`;
+        let playing = false;
+        $("#playModel").addEventListener("click", async () => {
+          if (playing) { SP.stopAudio(); return; }
+          SP.unlockAudio(); playing = true; $("#playModel").textContent = "■ หยุด";
+          for (const s of st.set.model) { if (!(await SP.say(s))) break; }
+          playing = false; $("#playModel").textContent = "▶ ฟังคำตอบตัวอย่าง";
+        });
+      } else {
+        m.innerHTML = `<div class="model">${TEMPLATE}</div><p class="small muted" style="margin:0">อยากดูคำตอบเต็มพร้อมเสียง ให้เลือกชุดที่มีคำตอบตัวอย่างในหน้าตั้งค่า</p>`;
+      }
+    }
+
+    function analyze() {
+      const text = $("#transcript").value;
+      const w = SP.wordCount(text);
+      const secs = Math.max(st.spokenSec, 1);
+      const wpm = Math.round(w / (secs / 60));
+      const check = st.pics.map((p) => SP.picMentioned(text, p));
+      const picHits = check.filter(Boolean).length;
+      let distinct = 0, catsUsed = 0;
+      $("#conns").innerHTML = Object.entries(DETECT).map(([cat, items]) => {
+        let used = 0;
+        const chips = items.map((lbl) => {
+          const m = text.match(SP.connRe(lbl)); const cnt = m ? m.length : 0;
+          if (cnt) { used++; distinct++; return `<span class="chip ok">${esc(lbl)}${cnt > 1 ? " ×" + cnt : ""}</span>`; }
+          return `<span class="chip off">${esc(lbl)}</span>`;
+        }).join("");
+        if (used) catsUsed++;
+        return `<div class="conn-cat"><div class="t">${esc(cat)} · ใช้ ${used} แบบ</div><div class="chips">${chips}</div></div>`;
+      }).join("");
+      $("#stats").innerHTML = [
+        ["จำนวนคำ", w, "เป้า 200–260"], ["เวลาที่พูด", SP.fmt(st.spokenSec), "จาก " + SP.fmt(st.speak)],
+        ["ความเร็ว", w && st.spokenSec >= 20 ? wpm : "–", "คำ/นาที"], ["ใช้ภาพ", picHits + "/6", ""], ["Connector", distinct, "แบบ · " + catsUsed + "/5 กลุ่ม"]
+      ].map(([k, v, s]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="k">${s}</div></div>`).join("");
+      $("#picsCheck").innerHTML = st.pics.map((p, i) => SP.picHTML(p, i, check[i])).join("");
+
+      const fb = [];
+      const missed = st.pics.filter((p, i) => !check[i]).map((p) => p.label);
+      if (!w) fb.push(["bad", "ยังไม่มีข้อความให้วิเคราะห์ ฟังไฟล์เสียงแล้วพิมพ์สิ่งที่พูดลงในช่องข้อ 2 จากนั้นกด วิเคราะห์ใหม่"]);
+      else {
+        if (w < 150) fb.push(["bad", `พูดได้ ${w} คำ สั้นกว่าเป้ามาก ลองขยายแต่ละภาพเป็น 2 ประโยค: เหตุการณ์ + ความรู้สึก/ผลที่ตามมา`]);
+        else if (w < 200) fb.push(["", `พูดได้ ${w} คำ ใกล้เป้าแล้ว เพิ่มรายละเอียดด้วย adjective หรือ relative clause (…, which…)`]);
+        else if (w <= 280) fb.push(["ok", `ความยาว ${w} คำ อยู่ในช่วงเหมาะสมสำหรับ 2 นาที`]);
+        else fb.push(["", `พูดได้ ${w} คำ ยาวดี ตรวจว่าไม่ได้พูดเร็วจนออกเสียงไม่ชัด`]);
+        if (st.spokenSec > 20) {
+          if (wpm < 90) fb.push(["", `ความเร็ว ${wpm} คำ/นาที ค่อนข้างช้า อาจหยุดคิดนาน ลองฝึก pattern 7 บรรทัดในหน้า Drills ให้คล่อง`]);
+          else if (wpm <= 160) fb.push(["ok", `ความเร็ว ${wpm} คำ/นาที เป็นธรรมชาติ`]);
+          else fb.push(["", `ความเร็ว ${wpm} คำ/นาที ค่อนข้างเร็ว ระวังเสียงท้ายคำหาย`]);
+        }
+        if (st.spokenSec < st.speak * 0.7) fb.push(["", `พูดเพียง ${SP.fmt(st.spokenSec)} จาก ${SP.fmt(st.speak)} ในการสอบจริงควรใช้เวลาให้เกือบเต็ม`]);
+        if (missed.length) fb.push(["bad", `ยังไม่พบภาพ: ${missed.join(", ")} — ลืมภาพเดียวก็เสียคะแนน Content (ถ้าพูดถึงด้วยคำอื่น ระบบอาจตรวจไม่พบ)`]);
+        else fb.push(["ok", "ใช้ครบทั้ง 6 ภาพ"]);
+        if (distinct < 4) fb.push(["bad", `ใช้ connector เพียง ${distinct} แบบ ระดับ B2 ควรใช้อย่างน้อย 6 แบบ ลองเพิ่ม as soon as, while, unfortunately, eventually`]);
+        else if (distinct < 6) fb.push(["", `ใช้ connector ${distinct} แบบ ดีขึ้นแล้ว เพิ่มอีกนิดจากกลุ่มที่ยังไม่ได้ใช้`]);
+        else fb.push(["ok", `ใช้ connector ${distinct} แบบ หลากหลายดี`]);
+        if (catsUsed < 3) fb.push(["", "connector ส่วนใหญ่มาจากกลุ่มเดียว ลองเพิ่มกลุ่มพลิกเรื่อง (unfortunately/however) และขยายความ (which/who)"]);
+        const andThen = (text.match(/(?<![a-z])and then(?![a-z])/gi) || []).length;
+        if (andThen >= 3) fb.push(["", `ใช้ "and then" ${andThen} ครั้ง ลองเปลี่ยนเป็น after that / as soon as / later`]);
+      }
+      fb.push(["", "ระบบตรวจ grammar และ tense ไม่ได้ ใช้ rubric ข้อ 4 หรือขอ feedback จาก AI ในข้อ 5"]);
+      $("#feedback").innerHTML = fb.map(([c, t]) => `<li class="${c}">${esc(t)}</li>`).join("");
+      st.stats = { w, wpm, picHits, distinct, missed };
+    }
+
+    function renderRubric() {
+      const labels = ["A2", "B1", "B1+", "B2", "C1"];
+      $("#rubric").innerHTML = RUBRIC.map((r) => `<div class="rubric-row"><b>${r.name}</b> <span class="small muted">— ${r.desc}</span>
+        <div class="scale">${labels.map((l, i) => `<label><input type="radio" name="r_${r.k}" value="${i + 1}"> ${i + 1} ${l}</label>`).join("")}</div></div>`).join("");
+      $("#rubricTotal").textContent = "";
+      $("#rubric").onchange = () => {
+        const vals = RUBRIC.map((r) => { const c = document.querySelector(`input[name="r_${r.k}"]:checked`); return c ? +c.value : null; });
+        if (vals.includes(null)) { $("#rubricTotal").textContent = `ให้คะแนนแล้ว ${vals.filter((v) => v !== null).length}/5 ด้าน`; return; }
+        const sum = vals.reduce((a, b) => a + b, 0), avg = sum / 5;
+        const lvl = avg >= 4.5 ? "C1" : avg >= 3.5 ? "B2" : avg >= 2.5 ? "B1+" : avg >= 1.5 ? "B1" : "A2";
+        const low = RUBRIC.filter((r, i) => vals[i] === Math.min(...vals)).map((r) => r.name).join(", ");
+        $("#rubricTotal").innerHTML = `รวม <b>${sum}/25</b> · ประมาณระดับ <b>${lvl}</b> · ด้านที่ควรฝึกก่อน: <b>${esc(low)}</b>`;
+      };
+    }
+
+    function buildPrompt() {
+      const s = st.stats || {};
+      return `You are an experienced CU-TEP Speaking examiner. Evaluate this Part 1 Picture Story response (${st.prep} s preparation, ${SP.fmt(st.speak)} speaking) against CEFR B2.
+
+TASK: Tell one connected story that uses all six pictures:
+${st.pics.map((p, i) => `${i + 1}. ${p.label}`).join("\n")}
+
+CANDIDATE RESPONSE (speech-to-text transcript; punctuation was added automatically or is missing, so do not penalise punctuation):
+"""
+${$("#transcript").value.trim()}
+"""
+
+AUTO STATS: ${s.w || 0} words in ${SP.fmt(st.spokenSec)} (${s.wpm || 0} wpm); pictures detected ${s.picHits || 0}/6${s.missed && s.missed.length ? " (missing: " + s.missed.join(", ") + ")" : ""}; ${s.distinct || 0} different connectors.
+
+Please respond with explanations in Thai and examples in English:
+1. A CEFR level (A2/B1/B2/C1) for each criterion: Content, Organization, Vocabulary, Grammar, with one sentence of evidence for each.
+2. The 3–5 most important grammar or word-choice errors: quote the original, give the correction, and explain briefly.
+3. An improved B2+ version of my story that keeps my ideas and characters (about 220–250 words), with connectors in bold.
+4. Two specific things to practise before my next attempt.`;
+    }
+
+    // ---------------- events ----------------
+    $("#startBtn").addEventListener("click", () => startSession(false));
+    $("#skipPrep").addEventListener("click", startSpeaking);
+    $("#stopBtn").addEventListener("click", stopSpeaking);
+    $("#reanalyze").addEventListener("click", analyze);
+    $("#again").addEventListener("click", () => { SP.stopAudio(); startSession(true); });
+    $("#newSet").addEventListener("click", () => { SP.stopAudio(); $("#setMode").value = "random"; startSession(false); });
+    $("#copyAI").addEventListener("click", async () => {
+      const ok = await SP.copyText(buildPrompt());
+      $("#copyMsg").textContent = ok ? "คัดลอกแล้ว นำไปวางในแชต AI ได้เลย" : "คัดลอกไม่สำเร็จ";
+      setTimeout(() => ($("#copyMsg").textContent = ""), 4000);
+    });
+  })();
+  </script>
+</body>
+</html>
