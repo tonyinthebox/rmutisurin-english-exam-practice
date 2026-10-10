@@ -1,0 +1,182 @@
+{
+  "id": "cutep-part1",
+  "title": "CU-TEP Speaking Part 1: Picture Story",
+  "rate": "-5%",
+  "voice": "en-US-JennyNeural",
+
+  "pictures": [
+    { "id": "umbrella", "emoji": "☂️", "label": "a broken umbrella", "kw": ["umbrella"] },
+    { "id": "bus", "emoji": "🚌", "label": "a crowded bus", "kw": ["bus"] },
+    { "id": "phone", "emoji": "🪫", "label": "a phone with a dead battery", "kw": ["phone", "battery", "batteries", "smartphone", "mobile"] },
+    { "id": "elderly", "emoji": "👵", "label": "an elderly woman", "kw": ["elderly", "old woman", "old lady", "grandmother", "grandma", "lady", "woman", "women"] },
+    { "id": "coffee", "emoji": "☕", "label": "a small coffee shop", "kw": ["coffee", "cafe", "café"] },
+    { "id": "letter", "emoji": "✉️", "label": "a job interview letter", "kw": ["letter", "interview", "envelope"] },
+    { "id": "dog", "emoji": "🐕", "label": "a dog", "kw": ["dog", "puppy", "puppies"] },
+    { "id": "wallet", "emoji": "👛", "label": "a wallet on the ground", "kw": ["wallet", "purse"] },
+    { "id": "train", "emoji": "🚆", "label": "a train station", "kw": ["train", "station", "platform"] },
+    { "id": "camera", "emoji": "📷", "label": "an old camera", "kw": ["camera", "photo", "photograph", "picture"] },
+    { "id": "key", "emoji": "🔑", "label": "a set of keys", "kw": ["key"] },
+    { "id": "map", "emoji": "🗺️", "label": "a paper map", "kw": ["map"] },
+    { "id": "bicycle", "emoji": "🚲", "label": "a bicycle with a flat tyre", "kw": ["bicycle", "bike", "tyre", "tire"] },
+    { "id": "cake", "emoji": "🎂", "label": "a birthday cake", "kw": ["cake", "birthday"] },
+    { "id": "laptop", "emoji": "💻", "label": "a laptop", "kw": ["laptop", "computer"] },
+    { "id": "hospital", "emoji": "🏥", "label": "a hospital", "kw": ["hospital", "doctor", "clinic", "nurse"] },
+    { "id": "rain", "emoji": "🌧️", "label": "heavy rain", "kw": ["rain", "rained", "raining", "rainy", "storm"] },
+    { "id": "books", "emoji": "📚", "label": "a pile of books", "kw": ["book", "library", "textbook"] },
+    { "id": "plane", "emoji": "✈️", "label": "an airplane", "kw": ["plane", "airplane", "aeroplane", "flight", "airport"] },
+    { "id": "clock", "emoji": "⏰", "label": "an alarm clock", "kw": ["clock", "alarm"] },
+    { "id": "gift", "emoji": "🎁", "label": "a wrapped gift", "kw": ["gift", "present"] },
+    { "id": "guitar", "emoji": "🎸", "label": "a guitar", "kw": ["guitar"] },
+    { "id": "traffic", "emoji": "🚗", "label": "a traffic jam", "kw": ["traffic", "car", "jam"] },
+    { "id": "ticket", "emoji": "🎫", "label": "a concert ticket", "kw": ["ticket", "concert"] }
+  ],
+
+  "sets": [
+    {
+      "id": "interview",
+      "title": "วันสัมภาษณ์งาน",
+      "level": "B2",
+      "pics": ["letter", "umbrella", "bus", "phone", "elderly", "coffee"],
+      "voice": "en-US-JennyNeural",
+      "model": [
+        { "id": "interview-01", "say": "Last Monday was supposed to be the most important day of Kitti's life, because he had finally received a letter inviting him to a job interview at a large bank in the city." },
+        { "id": "interview-02", "say": "Unfortunately, as soon as he stepped out of his apartment, it started to pour with rain, and his old umbrella, which he had used for years, broke in the strong wind." },
+        { "id": "interview-03", "say": "Since he did not want to arrive soaking wet, he decided to take the bus instead of walking." },
+        { "id": "interview-04", "say": "However, the bus was so crowded that he could hardly breathe." },
+        { "id": "interview-05", "say": "While he was standing there, he tried to call the company to say he might be late, but his phone had a dead battery because he had forgotten to charge it the night before." },
+        { "id": "interview-06", "say": "When he finally got off the bus, he was completely lost." },
+        { "id": "interview-07", "say": "Fortunately, an elderly woman who noticed that he looked worried offered to help him." },
+        { "id": "interview-08", "say": "Not only did she show him the way, but she also lent him her umbrella." },
+        { "id": "interview-09", "say": "To thank her, Kitti promised to buy her a drink after the interview." },
+        { "id": "interview-10", "say": "Eventually, he arrived just in time, and the interview went surprisingly well." },
+        { "id": "interview-11", "say": "Later that afternoon, he met the woman at a small coffee shop near the bank, where he told her the good news: he had got the job." },
+        { "id": "interview-12", "say": "In the end, a terrible morning turned into one of the best days of his life." }
+      ]
+    },
+    {
+      "id": "birthday",
+      "title": "เค้กวันเกิดของแม่",
+      "level": "B1+",
+      "pics": ["cake", "rain", "train", "wallet", "camera", "dog"],
+      "voice": "en-US-AriaNeural",
+      "model": [
+        { "id": "birthday-01", "say": "Last Saturday, Nipa, who was a second-year student, wanted to buy a birthday cake for her mother." },
+        { "id": "birthday-02", "say": "As soon as she stepped out of the house, it started to rain heavily, so she ran to the train station to stay dry." },
+        { "id": "birthday-03", "say": "While she was waiting for the train, she noticed a wallet on the ground." },
+        { "id": "birthday-04", "say": "Although she was in a hurry, she took it to the station office." },
+        { "id": "birthday-05", "say": "Fortunately, the owner, an elderly man, arrived at that moment." },
+        { "id": "birthday-06", "say": "Not only did he thank her, but he also took a photo of her with his old camera." },
+        { "id": "birthday-07", "say": "As a result, she arrived at the bakery late." },
+        { "id": "birthday-08", "say": "However, the last cake, which had chocolate on top, was still there." },
+        { "id": "birthday-09", "say": "When she got home, her dog was so excited that it almost knocked the cake over." },
+        { "id": "birthday-10", "say": "In the end, her mother laughed and said it was the best birthday ever." }
+      ]
+    },
+    {
+      "id": "examday",
+      "title": "เช้าวันสอบปลายภาค",
+      "level": "B1+",
+      "pics": ["clock", "bicycle", "map", "hospital", "books", "gift"],
+      "voice": "en-US-ChristopherNeural",
+      "model": [
+        { "id": "examday-01", "say": "Last Friday, Wichai, who was studying for his final exam, woke up late because his alarm clock did not ring." },
+        { "id": "examday-02", "say": "As soon as he jumped out of bed, he grabbed his books and rode his bicycle to the university." },
+        { "id": "examday-03", "say": "Unfortunately, the front tyre went flat halfway there, so he had to push his bike." },
+        { "id": "examday-04", "say": "While he was walking, he got lost and had to check a paper map." },
+        { "id": "examday-05", "say": "Suddenly, he saw an old man who had fallen off his motorbike." },
+        { "id": "examday-06", "say": "Although he was already late, Wichai stopped and took the man to a hospital nearby." },
+        { "id": "examday-07", "say": "As a result, he missed the first hour of the exam." },
+        { "id": "examday-08", "say": "Fortunately, his teacher understood the situation and let him take the exam the next day." },
+        { "id": "examday-09", "say": "In the end, the old man's family visited Wichai with a wrapped gift to thank him." }
+      ]
+    },
+    {
+      "id": "concert",
+      "title": "คอนเสิร์ตที่เกือบพลาด",
+      "level": "B2",
+      "pics": ["ticket", "traffic", "guitar", "laptop", "coffee", "key"],
+      "voice": "en-US-GuyNeural",
+      "model": [
+        { "id": "concert-01", "say": "Last month, Kitti, who played the guitar in a student band, wanted to see his favourite band in concert." },
+        { "id": "concert-02", "say": "As soon as he bought a concert ticket online, he saved it on his laptop." },
+        { "id": "concert-03", "say": "While he was driving to the concert hall, he got stuck in a terrible traffic jam." },
+        { "id": "concert-04", "say": "Unfortunately, he arrived after the gates had closed, so he waited outside feeling disappointed." },
+        { "id": "concert-05", "say": "Fortunately, a staff member who knew him from the coffee shop near campus let him in." },
+        { "id": "concert-06", "say": "Not only did he enjoy the show, but he also got to play the guitar on stage for one song." },
+        { "id": "concert-07", "say": "In the end, he was so excited that he almost lost his keys on the way home." }
+      ]
+    }
+  ],
+
+  "examiner": {
+    "voice": "en-GB-RyanNeural",
+    "intro": { "id": "examiner-intro", "say": "Part one. Picture story. Look at the six pictures. Tell one story that connects all six pictures. Your preparation time starts now." },
+    "begin": { "id": "examiner-begin", "say": "Your preparation time is over. Please begin speaking now." },
+    "end": { "id": "examiner-end", "say": "Thank you. That is the end of part one." }
+  },
+
+  "connectors": {
+    "voice": "en-US-GuyNeural",
+    "groups": [
+      { "name": "ลำดับเวลา (Sequence)", "items": [
+        { "id": "conn-as-soon-as", "say": "as soon as" },
+        { "id": "conn-while", "say": "while" },
+        { "id": "conn-after-that", "say": "after that" },
+        { "id": "conn-eventually", "say": "eventually" },
+        { "id": "conn-in-the-end", "say": "in the end" }
+      ]},
+      { "name": "พลิกเรื่อง/ขัดแย้ง (Contrast)", "items": [
+        { "id": "conn-however", "say": "however" },
+        { "id": "conn-although", "say": "although" },
+        { "id": "conn-unfortunately", "say": "unfortunately" },
+        { "id": "conn-fortunately", "say": "fortunately" },
+        { "id": "conn-despite", "say": "despite" }
+      ]},
+      { "name": "เหตุ-ผล (Cause & Result)", "items": [
+        { "id": "conn-because", "say": "because" },
+        { "id": "conn-so", "say": "so" },
+        { "id": "conn-as-a-result", "say": "as a result" }
+      ]},
+      { "name": "เพิ่มเติม (Addition)", "items": [
+        { "id": "conn-not-only", "say": "not only … but also" },
+        { "id": "conn-moreover", "say": "moreover" }
+      ]},
+      { "name": "ขยายความ (Relative clauses)", "items": [
+        { "id": "conn-who", "say": "who" },
+        { "id": "conn-which", "say": "which" },
+        { "id": "conn-where", "say": "where" }
+      ]}
+    ],
+    "detect": {
+      "ลำดับเวลา (Sequence)": ["first", "then", "after that", "afterwards", "later", "meanwhile", "as soon as", "while", "when", "before", "after", "by the time", "eventually", "finally", "in the end", "suddenly"],
+      "พลิกเรื่อง/ขัดแย้ง (Contrast)": ["however", "although", "even though", "but", "unfortunately", "fortunately", "luckily", "despite", "in spite of", "instead"],
+      "เหตุ-ผล (Cause & Result)": ["because", "since", "so", "therefore", "as a result", "so that", "that is why"],
+      "เพิ่มเติม (Addition)": ["not only … but also", "moreover", "in addition", "also", "besides", "as well as"],
+      "ขยายความ (Relative clauses)": ["which", "who", "where", "whose"]
+    }
+  },
+
+  "roles": {
+    "voice": "en-US-GuyNeural",
+    "items": [
+      { "id": "role-setting", "th": "ฉาก: ตัวละครเห็นสิ่งนี้ระหว่างทาง", "say": "Use the picture as the setting. Your character sees it on the way." },
+      { "id": "role-problem", "th": "อุปสรรค: สิ่งนี้ทำให้เกิดปัญหา", "say": "Use the picture as a problem." },
+      { "id": "role-solution", "th": "ทางออก: สิ่งนี้ช่วยแก้ปัญหา", "say": "Use the picture as a solution." },
+      { "id": "role-memory", "th": "ความทรงจำ: สิ่งนี้ทำให้นึกถึงใครบางคน", "say": "Use the picture as a memory. It reminds your character of someone." },
+      { "id": "role-ending", "th": "ตอนจบ: สิ่งนี้เป็นรางวัลหรือบทสรุป", "say": "Use the picture as the ending or a reward." }
+    ]
+  },
+
+  "pattern": {
+    "voice": "en-US-GuyNeural",
+    "lines": [
+      { "id": "pattern-1", "say": "Start your story. Last weekend, someone who…", "show": "Last ___, ___, who ___, wanted to ___.", "need": ["who"], "th": "เปิดเรื่อง" },
+      { "id": "pattern-2", "say": "As soon as…", "show": "As soon as ___, ___.", "need": ["as soon as"], "th": "ภาพแรก" },
+      { "id": "pattern-3", "say": "While…", "show": "While ___ was ___, ___.", "need": ["while"], "th": "ภาพถัดไป" },
+      { "id": "pattern-4", "say": "Unfortunately… so…", "show": "Unfortunately, ___, so ___.", "need": ["unfortunately", "so"], "th": "ปัญหา" },
+      { "id": "pattern-5", "say": "Fortunately… who…", "show": "Fortunately, ___ who ___ ___.", "need": ["fortunately", "who"], "th": "ทางออก" },
+      { "id": "pattern-6", "say": "Not only… but also…", "show": "Not only did ___, but ___ also ___.", "need": ["not only … but also"], "th": "สองภาพในประโยคเดียว" },
+      { "id": "pattern-7", "say": "In the end…", "show": "In the end, ___.", "need": ["in the end"], "th": "ปิดเรื่อง" }
+    ]
+  }
+}

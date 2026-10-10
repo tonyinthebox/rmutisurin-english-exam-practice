@@ -34,6 +34,9 @@ jobs:
       - name: ตรวจไฟล์ข้อสอบ
         run: python scripts/validate.py
 
+      - name: ตรวจไฟล์แบบฝึก Speaking
+        run: python scripts/build_speaking_audio.py --check
+
       - name: ติดตั้งเครื่องมือสร้างเสียง
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
@@ -41,6 +44,9 @@ jobs:
 
       - name: สร้างไฟล์เสียงที่เพิ่ม/แก้ไข
         run: python scripts/build_audio.py ${{ inputs.force && '--force' || '' }}
+
+      - name: สร้างไฟล์เสียงแบบฝึก Speaking ที่เพิ่ม/แก้ไข
+        run: python scripts/build_speaking_audio.py ${{ inputs.force && '--force' || '' }}
 
       - name: บันทึกไฟล์เสียงกลับเข้า repository
         run: |

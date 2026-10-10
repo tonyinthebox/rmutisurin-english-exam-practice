@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speaking Practice · CU-TEP Part 1</title>
+  <meta name="description" content="ฝึกพูดภาษาอังกฤษ CU-TEP Speaking Part 1 Picture Story: จำลองสอบ, Shadowing และ Drills">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="speaking.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="../" class="brand"><span class="brand-mark" aria-hidden="true">E</span><span>English Exam Practice</span></a>
+    <a href="../" class="small">← ข้อสอบทั้งหมด</a>
+  </header>
+  <nav class="sp-nav" aria-label="แบบฝึก Speaking">
+    <a href="./">หน้ารวม</a><a href="exam.html">จำลองสอบ</a><a href="shadowing.html">Shadowing</a><a href="drills.html">Drills</a>
+  </nav>
+
+  <main class="app stack">
+    <section class="hero">
+      <p class="eyebrow">CU-TEP Speaking · Part 1</p>
+      <h1>ฝึกพูดแต่งเรื่องจาก 6 ภาพ</h1>
+      <p class="hero-sub">ฟังเสียงตัวอย่าง พูดตาม อัดเสียงตัวเอง แล้วลองจำลองสอบจริง เตรียม 45 วินาที พูด 2 นาที</p>
+    </section>
+
+    <section class="card">
+      <h2>ความก้าวหน้าของคุณ</h2>
+      <div class="stats" id="stats"></div>
+      <p class="small muted" style="margin-top:10px">ข้อมูลนี้เก็บในเบราว์เซอร์เครื่องนี้เท่านั้น</p>
+    </section>
+
+    <section class="modes">
+      <a class="card mode-card" href="shadowing.html">
+        <span class="icon" aria-hidden="true">🎧</span>
+        <h3>1. Shadowing</h3>
+        <p>ฟังคำตอบตัวอย่างระดับ B2 ทีละประโยค พูดตาม แล้วฟังเทียบกับเสียงต้นแบบ</p>
+        <span class="go">เริ่มฝึก →</span>
+      </a>
+      <a class="card mode-card" href="drills.html">
+        <span class="icon" aria-hidden="true">⚡</span>
+        <h3>2. Drills สั้น</h3>
+        <p>รอบละ 2–3 นาที ฝึกใช้ connector, ฝึกเชื่อมภาพ และพูดตาม pattern 7 บรรทัด เหมาะกับฝึกบนมือถือ</p>
+        <span class="go">เริ่มฝึก →</span>
+      </a>
+      <a class="card mode-card" href="exam.html">
+        <span class="icon" aria-hidden="true">⏱️</span>
+        <h3>3. จำลองสอบ</h3>
+        <p>เสียงกรรมการ จับเวลาจริง อัดเสียง ตรวจว่าใช้ภาพครบและใช้ connector กี่แบบ พร้อม rubric ประเมินตนเอง</p>
+        <span class="go">เริ่มฝึก →</span>
+      </a>
+    </section>
+
+    <section class="card">
+      <h2>ลำดับที่แนะนำ</h2>
+      <ol>
+        <li><b>วันแรก ๆ:</b> Shadowing ให้ครบ 1 เรื่อง เพื่อจำจังหวะและ connector ของคำตอบที่ดี</li>
+        <li><b>ทุกวัน 5 นาที:</b> Drills อย่างน้อย 1 รอบ</li>
+        <li><b>สัปดาห์ละ 2–3 ครั้ง:</b> จำลองสอบ แล้วฟังเสียงตัวเองย้อนหลัง จด 3 จุดที่จะแก้</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>ก่อนเริ่ม</h2>
+      <div id="support"></div>
+      <p class="note info" style="margin-top:12px">เสียงที่อัดเก็บอยู่ในเครื่องของคุณเท่านั้น ไม่ถูกส่งขึ้นเว็บไซต์ ส่วนการถอดเสียงเป็นข้อความใน Chrome/Edge ประมวลผลผ่านบริการของผู้ผลิตเบราว์เซอร์</p>
+      <p class="small muted">ใช้หูฟังจะได้ยินเสียงตัวอย่างชัดขึ้น และเสียงตัวอย่างจะไม่ถูกอัดปนกับเสียงของคุณ</p>
+    </section>
+  </main>
+
+  <footer class="footer"><span>ฝึกพูด CU-TEP Speaking Part 1 · Picture Story</span></footer>
+
+  <script src="speaking.js"></script>
+  <script>
+    (async () => {
+      await SP.initAudio();
+      SP.$("#support").innerHTML = SP.supportChips();
+      const p = SP.progress();
+      SP.$("#stats").innerHTML = [
+        ["ฝึกต่อเนื่อง", p.streak + " วัน"],
+        ["ฝึกทั้งหมด", p.total + " ครั้ง"],
+        ["Shadowing", (p.counts.shadow || 0) + " ครั้ง"],
+        ["จำลองสอบ", (p.counts.exam || 0) + " ครั้ง"]
+      ].map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+    })();
+  </script>
+</body>
+</html>
