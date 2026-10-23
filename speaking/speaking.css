@@ -125,3 +125,5 @@ audio { width: 100%; }
 .speaking .pic .emo { font-size: 36px; }
 .speaking .pic .lbl { font-size: .8rem; line-height: 1.35; }
 [hidden] { display: none !important; }
+
+.footer .credit { display: block; margin-top: 8px; font-size: .8rem; line-height: 1.6; color: var(--muted); }

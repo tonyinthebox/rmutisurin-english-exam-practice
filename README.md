@@ -154,3 +154,10 @@ python scripts/validate.py
 - เฉลยอยู่ในไฟล์ข้อสอบที่เบราว์เซอร์โหลด ผู้ที่เปิดดูโค้ดได้จะเห็นเฉลย ระบบนี้จึงเหมาะกับ **การฝึก** ไม่ใช่การสอบที่นับคะแนนจริง
 - เสียงสร้างด้วย `edge-tts` ซึ่งเรียกใช้บริการอ่านออกเสียงของ Microsoft Edge แบบไม่เป็นทางการ หากวันหนึ่งใช้ไม่ได้ สามารถเปลี่ยนไปใช้ Google Cloud TTS หรืออัดเสียงเองแล้ววางไฟล์ MP3 ที่ `audio/<test-id>/<group-id>.mp3` ได้
 - ถ้าขั้นตอน "บันทึกไฟล์เสียงกลับเข้า repository" ล้มเหลว ให้ไปที่ **Settings → Actions → General → Workflow permissions** เลือก **Read and write permissions**
+
+
+---
+
+**Designed by** Suparat Walakanon and Thitiwan Mingpruek  
+The International Studies Center, Rajamangala University of Technology Isan (RMUTI), Surin Campus  
+© 2026
