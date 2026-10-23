@@ -24,6 +24,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -38,8 +39,12 @@ jobs:
         run: python scripts/build_speaking_audio.py --check
 
       - name: ติดตั้งเครื่องมือสร้างเสียง
+        timeout-minutes: 5
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          # ffmpeg is usually preinstalled on GitHub runners; only install if missing
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          fi
           pip install edge-tts
 
       - name: สร้างไฟล์เสียงที่เพิ่ม/แก้ไข
