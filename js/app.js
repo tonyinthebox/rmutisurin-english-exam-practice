@@ -60,10 +60,23 @@
     s.groups.flatMap((g) => g.questions.map((q) => ({ q, g, s }))));
 
   // ---------- audio: MP3 file, falling back to browser speech ----------
+  // Conversations/talks have printed options in practice mode. In exam mode nothing is
+  // printed, so a separate "-exam" audio reads the questions and options aloud.
+  const hasSpokenQuestions = (g) => !!g.script &&
+    g.questions.some((q) => q.options.some((o, i) => o.trim() !== LETTERS[i]));
+
   class ListeningPlayer {
-    constructor(test, group, { limit, onChange }) {
-      this.src = `audio/${group.audioTest || test.id}/${group.id}.mp3`;
+    constructor(test, group, { limit, onChange, exam = false, numbers = {} }) {
+      const variant = exam && hasSpokenQuestions(group) ? "-exam" : "";
+      this.src = `audio/${group.audioTest || test.id}/${group.id}${variant}.mp3`;
       this.script = group.script || [];
+      if (variant) {
+        // browser-speech fallback must read the questions too
+        this.script = this.script.concat(group.questions.flatMap((q) => [
+          { speaker: "N", text: `Question ${numbers[q.id]}. ${q.prompt}` },
+          ...q.options.map((o, i) => ({ speaker: "N", text: `${LETTERS[i]}. ${o}` }))
+        ]));
+      }
       this.limit = limit;           // null = unlimited
       this.plays = 0;
       this.playing = false;
@@ -190,6 +203,7 @@
         return;
       }
       const n = allQuestions(t).length;
+      const hasListening = t.sections.some((s) => s.groups.some((g) => g.script));
       const best = history[t.id]?.best;
       const card = el(`
         <article class="card test-card">
@@ -208,7 +222,7 @@
             <button class="btn" data-mode="practice" title="ฟังได้ไม่จำกัด เห็นตัวเลือก เฉลยทันที">โหมดฝึก</button>
             <button class="btn primary" data-mode="test" title="จับเวลา ฟังได้จำกัด เหมือนสอบจริง">โหมดสอบ</button>
           </div>
-          <p class="mode-hint small muted">โหมดฝึก: ฟังซ้ำได้ เห็นตัวเลือก เฉลยทันที · โหมดสอบ: จับเวลาเหมือนจริง</p>
+          <p class="mode-hint small muted">โหมดฝึก: ฟังซ้ำได้ เห็นตัวเลือก เฉลยทันที · โหมดสอบ: จับเวลา${hasListening ? " ภาค Listening ฟังอย่างเดียว ไม่มีคำถามและตัวเลือกบนจอ" : ""} เหมือนข้อสอบจริง</p>
         </article>`);
       card.querySelectorAll("[data-mode]").forEach((btn) => btn.addEventListener("click", () => {
         const st = store.get("student", { name: "", sid: "" });
@@ -217,6 +231,8 @@
           form.querySelector(st.name ? "#st-sid" : "#st-name").focus();
           return;
         }
+        if (btn.dataset.mode === "test" && hasListening && !confirm(
+          "โหมดสอบจะจับเวลา และภาค Listening จะไม่แสดงคำถามและตัวเลือกบนจอ ต้องฟังจากเสียงเท่านั้น เหมือนข้อสอบจริง\n\nเตรียมหูฟังให้พร้อม แล้วกด OK เพื่อเริ่มสอบ")) return;
         location.hash = `#/${btn.dataset.mode}/${encodeURIComponent(t.id)}`;
       }));
       list.append(card);
@@ -319,9 +335,13 @@
     const wrap = el(`<section class="section"></section>`);
     if (!review && section.instructions) {
       // in practice mode, the "listen only / N plays" exam rules don't apply
-      const text = practice && section.groups.some((g) => g.script)
+      const listening = section.groups.some((g) => g.script);
+      const plays = (section.groups.find((g) => g.script) || {}).playLimit;
+      const text = practice && listening
         ? "ฟังซ้ำได้ไม่จำกัด ปรับความเร็วเสียงได้ เปิดดูบทพูดได้ เลือกคำตอบแล้วจะเห็นเฉลยทันที"
-        : section.instructions;
+        : listening
+          ? `โหมดสอบ (เหมือนข้อสอบจริง): คำถามและตัวเลือกจะไม่แสดงบนจอ ต้องฟังจากเสียงเท่านั้น กดเล่นแล้วฟังให้จบ จากนั้นเลือกคำตอบ A–D${plays ? ` · แต่ละชุดฟังได้ ${plays} ครั้ง` : ""}`
+          : section.instructions;
       wrap.append(el(`<p class="instructions">${esc(text)}</p>`));
     }
     if (review) wrap.append(el(`<h2 class="review-sec">${esc(section.title)}</h2>`));
@@ -386,7 +406,9 @@
       box.querySelectorAll("[data-rate]").forEach((b) => b.classList.toggle("on", Number(b.dataset.rate) === p.rate));
     };
     if (!player) {
-      player = new ListeningPlayer(test, g, { limit, onChange: () => render() });
+      const order = allQuestions(test).map((x) => x.q.id);
+      const numbers = Object.fromEntries(order.map((id, i) => [id, i + 1 + (test.numberOffset || 0)]));
+      player = new ListeningPlayer(test, g, { limit, onChange: () => render(), exam: mode === "exam", numbers });
       attempt.players[key] = player;
     } else {
       player.onChange = render;
@@ -414,16 +436,19 @@
     const practice = mode === "practice";
     // practice: reveal right after answering; review: always revealed
     const revealed = mode === "review" || (practice && chosen != null);
+    const showSpoken = mode !== "exam";
+    const audioOnly = mode === "exam" && !!g.script;   // real-test style: listen only
     const card = el(`
       <fieldset class="question ${revealed ? (chosen === q.answer ? "correct" : "wrong") : ""}">
-        <legend><span class="qnum">${num}</span><span class="qtext">${esc(q.prompt)}</span></legend>
+        <legend><span class="qnum">${num}</span>${audioOnly
+          ? '<span class="qtext muted listen-only">ฟังคำถามและตัวเลือกจากเสียง</span>'
+          : `<span class="qtext">${esc(q.prompt)}</span>`}</legend>
         <div class="options"></div>
       </fieldset>`);
     const opts = card.querySelector(".options");
-    const showSpoken = mode !== "exam";
     q.options.forEach((o, i) => {
       const letter = LETTERS[i];
-      let text = o.trim() === letter ? "" : o;          // letter-only = listening Q–R item
+      let text = o.trim() === letter || audioOnly ? "" : o;   // letter-only = listening Q–R item
       if (!text && showSpoken) text = spokenOption(g, letter);
       const lab = el(`
         <label class="option">

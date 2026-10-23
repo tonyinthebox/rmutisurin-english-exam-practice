@@ -30,6 +30,8 @@ MANIFEST = AUDIO_DIR / "manifest.json"
 DEFAULT_VOICE = "en-US-JennyNeural"
 PAUSE_BETWEEN_LINES = 0.8   # วินาที ระหว่างบรรทัด
 PAUSE_LEAD_IN = 0.5         # วินาที ก่อนเริ่มพูด
+PAUSE_BEFORE_QUESTIONS = 1.5  # วินาที ก่อนเริ่มอ่านคำถาม (เสียงโหมดสอบ)
+PAUSE_ANSWER = 4.0           # วินาที ให้เวลาตอบหลังอ่านตัวเลือกครบ
 RATE = "-5%"                # ช้าลงเล็กน้อยสำหรับผู้เรียน A2–B1
 
 
@@ -56,21 +58,19 @@ async def synth(text, voice, path):
     await communicate.save(str(path))
 
 
-async def build_group(test_id, group, voices, out_path):
+async def build_segments(segments, out_path):
+    """segments: list of (text, voice, pause_after_seconds) → one MP3 file"""
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         lead = tmp / "lead.mp3"
-        gap = tmp / "gap.mp3"
         silence(lead, PAUSE_LEAD_IN)
-        silence(gap, PAUSE_BETWEEN_LINES)
-
+        gaps = {}
         parts = [lead]
-        for i, line in enumerate(group["script"]):
-            voice = voices.get(line.get("speaker", ""), DEFAULT_VOICE)
+        for i, (text, voice, pause) in enumerate(segments):
             clip = tmp / f"line{i:03d}.mp3"
             for attempt in range(3):
                 try:
-                    await synth(line["text"], voice, clip)
+                    await synth(text, voice, clip)
                     break
                 except Exception as exc:  # network hiccup → retry
                     if attempt == 2:
@@ -78,7 +78,10 @@ async def build_group(test_id, group, voices, out_path):
                     print(f"  retry {attempt + 1}: {exc}")
                     await asyncio.sleep(2)
             parts.append(clip)
-            parts.append(gap)
+            if pause not in gaps:
+                gaps[pause] = tmp / f"gap{len(gaps)}.mp3"
+                silence(gaps[pause], pause)
+            parts.append(gaps[pause])
 
         listfile = tmp / "list.txt"
         listfile.write_text(
@@ -94,6 +97,30 @@ async def build_group(test_id, group, voices, out_path):
         )
 
 
+def script_segments(group, voices):
+    return [(l["text"], voices.get(l.get("speaker", ""), DEFAULT_VOICE), PAUSE_BETWEEN_LINES)
+            for l in group["script"]]
+
+
+def needs_exam_audio(group):
+    """Conversations/talks whose options are printed in practice mode.
+    In exam mode nothing is printed, so questions + options must be spoken."""
+    return any(not all(o.strip() == "ABCD"[i] for i, o in enumerate(q["options"]))
+               for q in group["questions"])
+
+
+def exam_segments(group, voices, numbers):
+    narrator = voices.get("N", DEFAULT_VOICE)
+    segs = script_segments(group, voices)
+    segs[-1] = (segs[-1][0], segs[-1][1], PAUSE_BEFORE_QUESTIONS)
+    for q in group["questions"]:
+        segs.append((f"Question {numbers[q['id']]}. {q['prompt']}", narrator, 0.7))
+        for i, o in enumerate(q["options"]):
+            last = i == len(q["options"]) - 1
+            segs.append((f"{'ABCD'[i]}. {o}", narrator, PAUSE_ANSWER if last else 0.5))
+    return segs
+
+
 async def main(force=False):
     manifest = json.loads(MANIFEST.read_text("utf-8")) if MANIFEST.exists() else {}
     built = skipped = 0
@@ -102,26 +129,32 @@ async def main(force=False):
         if test_file.name == "index.json":
             continue
         test = json.loads(test_file.read_text("utf-8"))
+        if "includes" in test:      # combined test — audio comes from its parts
+            continue
         voices = test.get("voices", {})
+        # question numbers as shown on screen (spoken in exam audio)
+        all_q = [q for s in test.get("sections", []) for g in s.get("groups", []) for q in g["questions"]]
+        numbers = {q["id"]: i + 1 + test.get("numberOffset", 0) for i, q in enumerate(all_q)}
         for section in test.get("sections", []):
             for group in section.get("groups", []):
                 if not group.get("script"):
                     continue
-                key = f"{test['id']}/{group['id']}"
-                rel = f"audio/{test['id']}/{group['id']}.mp3"
-                out_path = ROOT / rel
-                used_voices = {
-                    l.get("speaker", ""): voices.get(l.get("speaker", ""), DEFAULT_VOICE)
-                    for l in group["script"]
-                }
-                h = group_hash(group["script"], used_voices)
-                if not force and manifest.get(key) == h and out_path.exists():
-                    skipped += 1
-                    continue
-                print(f"▶ building {rel}")
-                await build_group(test["id"], group, voices, out_path)
-                manifest[key] = h
-                built += 1
+                jobs = [("", script_segments(group, voices))]
+                if needs_exam_audio(group):
+                    jobs.append(("-exam", exam_segments(group, voices, numbers)))
+                for suffix, segs in jobs:
+                    key = f"{test['id']}/{group['id']}{suffix}"
+                    rel = f"audio/{test['id']}/{group['id']}{suffix}.mp3"
+                    out_path = ROOT / rel
+                    h = (group_hash(group["script"], {l.get("speaker", ""): voices.get(l.get("speaker", ""), DEFAULT_VOICE) for l in group["script"]})
+                         if not suffix else group_hash(segs, {"exam": 1}))
+                    if not force and manifest.get(key) == h and out_path.exists():
+                        skipped += 1
+                        continue
+                    print(f"▶ building {rel}")
+                    await build_segments(segs, out_path)
+                    manifest[key] = h
+                    built += 1
 
     AUDIO_DIR.mkdir(exist_ok=True)
     MANIFEST.write_text(json.dumps(manifest, indent=2, sort_keys=True), "utf-8")
